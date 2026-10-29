@@ -34,15 +34,30 @@ test('populated join stays continuous; the actual Twitch test is a separately la
   expect(join.from + join.seconds).toBeGreaterThan(crowd().playAt! + 4);
 });
 
-test('all five game explanations accompany gameplay; no explanation block follows the champion', () => {
+test('all five games use their actual names and rules; the whole-project credit appears once', () => {
   const plan = submissionVideoPlan(cup(), live, crowd());
-  const explanations = plan.filter(row => row.credit);
-  expect(explanations).toHaveLength(5);
-  expect(explanations.every(row => row.source === 'cup' && row.body && row.credit?.includes('Codex'))).toBe(true);
+  const games = plan.filter(row => row.source === 'cup' && row.title !== 'TOP EIGHT' && row.body);
+  expect(games.map(row => row.title)).toEqual([
+    'MULTIPLIER CASCADE', 'HOT POTATO', 'PEG FEVER', 'MARBLE RACE', 'BLADE BRAWL'
+  ]);
+  const credits = plan.filter(row => row.credit);
+  expect(credits).toHaveLength(1);
+  expect(credits[0].credit).toBe('Codex implemented the entire project.\nI directed and reviewed it.');
   expect(plan.slice(-2).map(row => row.source)).toEqual(['cup', 'outro']);
   expect(plan.at(-2)?.title).toBe('');
   expect(plan.filter(row => row.source === 'cup').every(row => row.from >= 0
     && row.from + row.seconds <= cup().media.duration)).toBe(true);
+});
+
+test('Hot Potato includes the reviewed fuse expiries and aftermath instead of only two quiet survivors', () => {
+  const plan = submissionVideoPlan(cup(), live, crowd());
+  const potato = plan.find(row => row.title === 'HOT POTATO')!;
+  const play = cup().transitions.find(row => row.game === 'hot-potato' && row.phase === 'PLAY')!.wall;
+  const firstBlast = play + 11.83;
+  const secondBlast = play + 22.13;
+  expect(potato.from).toBeLessThan(firstBlast - 1);
+  expect(potato.from + potato.seconds).toBeGreaterThan(secondBlast + 3);
+  expect(potato.seconds).toBeGreaterThanOrEqual(20);
 });
 
 test('sparse joins and mock chat cannot be passed off as real Twitch evidence', () => {

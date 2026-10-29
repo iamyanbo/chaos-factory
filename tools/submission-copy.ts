@@ -26,10 +26,11 @@ The channel was offline during that test. Simulated viewers are labeled. No publ
 This is a standard channel: native Predictions require Affiliate/Partner status.
 
 ${time(0)} Chaos Factory and real Twitch chat
-${time(first(row => row.title === 'MULTIPLY'))} Physics games and the Cup
+${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the Cup
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
-Short rule and Codex-build notes accompany each game instead of a separate explainer.
+Each game uses its actual name and short rules over gameplay.
+Codex implemented the entire project; I directed the design and reviewed the work.
 
 Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
@@ -61,8 +62,9 @@ with a no-wager fallback when they are unavailable. The mock demo runs with dela
 simulated viewers and needs no Twitch account.
 
 ## How I built it with Codex
-I directed the design and used Codex to implement the TypeScript engine, isolated
-game plugins, Twitch connector, dashboard, Cup layer, tests and recording tools.
+Codex implemented the entire project: engine, games, presentation, Twitch connector,
+dashboard, Cup layer, tests and recording/editing tools. I directed the design,
+played and reviewed builds, and gave feedback throughout.
 PixiJS renders the Toy theme; deterministic Rapier runs at 60 Hz. Fastify,
 WebSockets and Twurple connect the show to Twitch. Credentials remain on the server.
 
@@ -117,6 +119,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v4.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v5.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

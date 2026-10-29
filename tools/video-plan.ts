@@ -66,28 +66,31 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     if (!play || !result || result.wall <= play.wall) throw new Error(`Missing completed ${game} footage`);
     return { play: play.wall, result: result.wall };
   }
-  function shot(game: string, offset: number, seconds: number, title: string, body: string, credit: string) {
+  function shot(game: string, offset: number, seconds: number, title: string, body: string, credit?: string) {
     const timing = round(game);
     const latest = Math.min(timing.result + 2, cup.media.duration) - seconds;
     if (latest < timing.play) throw new Error(`Insufficient real ${game} footage`);
     segments.push({ source: 'cup', from: Math.max(timing.play, Math.min(timing.play + offset, latest)),
       seconds, title, body, credit, evidence: 'mock' });
   }
-  shot('multiplier-cascade', 35.2, 24, 'MULTIPLY',
-    'Grow your team.\nFirst to five finishers wins.', 'Codex built the splitters + Cup flow.');
-  shot('hot-potato', 59.4, 8, 'PASS THE FUSE',
-    'Pass it on contact.\nLast marble standing wins.', 'Codex built collisions + fuse logic.');
-  shot('peg-fever', 4.8, 9, 'SCORE THE DROP',
-    'Three balls each.\nEvery landing multiplies its score.', 'Codex built seeded peg layouts.');
-  shot('marble-race', 69.5, 10, 'BREAK THROUGH',
-    'Leaders break gates.\nFollowers get an open lane.', 'Codex built courses + leader tracking.');
+  shot('multiplier-cascade', 35.2, 24, 'MULTIPLIER CASCADE',
+    'Grow your team.\nFirst to five finishers wins.',
+    'Codex implemented the entire project.\nI directed and reviewed it.');
+  // Reviewed source: first fuse expiry at +11.83s; another blast at about +22.13s.
+  // Keep both in a continuous crowded-field shot, with room for the shockwaves.
+  shot('hot-potato', 10.5, 20, 'HOT POTATO',
+    'Pass the bomb on contact.\nLast marble standing wins.');
+  shot('peg-fever', 9, 9, 'PEG FEVER',
+    'Three balls each.\nEvery landing multiplies its score.');
+  shot('marble-race', 69.5, 12, 'MARBLE RACE',
+    'Leaders break gates.\nFollowers get an open lane.');
   const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
   if (!standings || standings.wall + 5.7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
   segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 4.5,
     title: 'TOP EIGHT', body: 'Four rounds earn points.\nEight finalists. One Cup.', evidence: 'mock' });
   const final = round('blade-brawl');
-  shot('blade-brawl', final.result - final.play - 14.5, 15, 'ONE CUP WINNER',
-    'The arena closes.\nLast fighter takes the Cup.', 'Codex built combat; I reviewed + revised.');
+  shot('blade-brawl', final.result - final.play - 14.5, 15, 'BLADE BRAWL',
+    'The arena closes.\nLast fighter takes the Cup.');
   const champion = cup.transitions.find(row => row.phase === 'CUP_RESULTS');
   if (!champion || champion.wall + 4.2 > cup.media.duration) throw new Error('The actual Cup champion screen is missing');
   segments.push({ source: 'cup', from: champion.wall + .2, seconds: 4,

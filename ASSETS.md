@@ -53,7 +53,7 @@ from this submission repository. Dependency licenses remain with their packages.
 The submission video uses captures of our own game canvas and original motion
 graphics describing the game rules and Codex implementation work. Its Toy title
 animation, animated arrival feed, plate wipes and gameplay overlays are original
-canvas and HTML/CSS work using the bundled fonts. The v4 film uses only Chiptune
+canvas and HTML/CSS work using the bundled fonts. The v5 film uses only Chiptune
 Adventures Stage 2 as one continuous CC0 bed over original game effects. No microphone,
 desktop footage, external artwork or additional audio is used. Generated media
 stays outside Git under qa/submission-video/.

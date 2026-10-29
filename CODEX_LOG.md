@@ -1310,3 +1310,10 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Moved short rules and Codex-build notes into animated overlays for all five Cup games. Removed the explanation tail; champion leads directly to the brief logo/source ending. Positioned standings copy above its table after frame review.
 - Rendered v4 at 95.430 s, 1080p/30 H.264/AAC. One continuous CC0 music bed remains; source music guards, full decoding and -18.11 LUFS/-4.12 dBTP checks pass. Gameplay/physics unchanged.
 - Reviewed the 16-frame film sheet, transition strip and full-resolution join, game and standings frames. Typecheck and 358 tests/73 files pass, plus the five final focused plan/audio checks. No computer use; external upload/submission remain owner actions.
+
+## 2026-10-29 - Show physical payoffs and credit the whole implementation
+- Replaced Hot Potato's quiet eight-second final pair with a twenty-second crowded-field sequence showing actual fuse expiries, shockwaves, rim breaks and ring-outs; reviewed the source and rendered payoff strip.
+- Used the actual five game names in every game overlay. Shifted Peg Fever to multiplied landings and extended Race through the first two finishes; kept the approved intro, crowded mock joins, wipes and direct champion ending.
+- Replaced selective feature credits with one fitted whole-project credit: Codex implemented the entire project; the user directed and reviewed it. Updated project and upload copy accordingly.
+- Rendered v5 at 109.415 s, 1080p/30 H.264/AAC. Reviewed the final sixteen-frame sheet and full-resolution credit, landing and finish frames. Full decoding and one-bed audio checks pass (-18.08 LUFS/-4.82 dBTP); no fabricated explosions, gameplay changes or computer use.
+- Typecheck and all 359 tests/73 files pass, including six focused plan/audio tests protecting Hot Potato's reviewed blast window, canonical names and single full-project attribution. Account upload/submission remain owner actions.

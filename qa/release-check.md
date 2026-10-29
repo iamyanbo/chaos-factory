@@ -66,3 +66,14 @@ labeled real Twitch-test inset. Rules/Codex notes accompany the five game clips;
 there is no separate explanation ending. Typecheck and all 358 tests/73 files
 pass; the five focused film-plan/audio checks also pass after the final overlay
 fixes. Final H.264/AAC decoding and audio-level checks pass. Gameplay was unchanged.
+
+
+## Gameplay payoff and attribution revision - October 29
+
+The latest film is v5, 109.415 seconds. Hot Potato now retains twenty seconds
+through actual fuse expiries, shockwaves and rim damage. Peg Fever shows multiplied
+landings and Marble Race holds through two finishes. All five overlays use their
+actual game names; one credit states Codex implemented the entire project, with
+user direction/review. Typecheck and all 359 tests/73 files pass, including six
+focused film-plan/audio tests. Final decoding and audio checks pass; gameplay
+code and timings are unchanged. See qa/submission-video-review.md.

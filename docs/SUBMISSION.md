@@ -38,8 +38,9 @@ The submission video labels this real API-connected chat separately from the
 simulated Cup audience. No public broadcast or native point payout is claimed.
 Prediction payout remains untested because this channel is not Affiliate/Partner.
 
-Codex helped implement the engine, games, connector, dashboard, Cup structure,
-replay checks, tests and frame-capture workflow. The project was shaped through
+Codex implemented the entire project: engine, games, visuals, connector, dashboard,
+Cup structure, replay checks, tests and recording/editing tools. I directed the
+design, played and reviewed builds, and gave feedback. The project was shaped through
 repeated user feedback: several technically functioning games were rejected,
 the lineup was reduced, the Toy theme replaced the original neon presentation,
 and real screenshots were reviewed against references. Recent changes include
@@ -62,7 +63,7 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 1 minute 35 seconds
+## Current edit - about 1 minute 49 seconds
 
 The film opens with the animated Chaos Factory intro. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
@@ -71,14 +72,17 @@ was offline. The main audience is simulated; no real crowd is implied.
 
 Five continuous gameplay excerpts lead through the Cup standings, final duel and
 actual champion. Animated Toy plate wipes cover changes between source scenes.
-Short rules and Codex-build notes enter beside each game, then clear away. The
-standings note stays above the table. There is no separate explanation section
-at the end: the champion leads directly to a brief logo/source link.
+Each game is named consistently with its selector title, with short rules beside
+the arena. One credit says Codex implemented the entire project; I directed and
+reviewed the work. The standings note stays above the table. Hot Potato now shows twenty seconds of a
+crowded field through fuse expiries, shockwaves and rim breaks. Peg Fever includes
+actual multiplied landings; Marble Race holds through the first two finishes.
+There is no separate explanation section at the end: the champion leads directly to a brief logo/source link.
 
 One continuous music bed accompanies effects-only footage; the old real-chat
 mix is muted. Gameplay stays at its captured speed. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v4.mp4. Previous cuts
+Latest local MP4: qa/submission-video/chaos-factory-demo-v5.mp4. Previous cuts
 remain for comparison. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.

@@ -122,8 +122,9 @@ The recorder captures the game canvas and sound effects with in-game music disab
 The edit adds one continuous music bed and mutes the older mixed-audio live clip.
 A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
-and overlays short rules and Codex-build notes during gameplay. The animated
-lobby feed uses actual recorded mock arrivals; a separate inset labels the real Twitch test. It does not start a public
-broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
+and overlays each game's actual name and short rules during gameplay. A single
+whole-project credit identifies Codex as the implementer and the user as design
+director/reviewer. The animated lobby feed uses actual recorded mock arrivals; a
+separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
 local under `qa/submission-video/`; they are excluded from Git. Account uploads
 and final Devpost submission are not automated.

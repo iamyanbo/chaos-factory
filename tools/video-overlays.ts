@@ -102,8 +102,8 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.globalAlpha = alpha;
         const x = 1480 + (1 - ease(age)) * 460;
         box(x, 720, 400, 245);
-        lines('BUILT WITH CODEX', x + 24, 744, 350, 25, true, PINK);
-        lines(segment.credit, x + 24, 788, 350, 31);
+        lines('IMPLEMENTED BY CODEX', x + 24, 744, 350, 25, true, PINK);
+        lines(segment.credit, x + 24, 788, 350, 28);
         ctx.restore();
       }
       function crowdFeed(time: number) {
