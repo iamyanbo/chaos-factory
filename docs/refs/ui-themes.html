@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Chaos Factory theme mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@500;700&family=Bungee&family=Chakra+Petch:wght@600;700&family=Anton&family=Barlow+Condensed:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #000; }
+  .frame { width: 1920px; height: 1080px; position: relative; overflow: hidden; }
+  svg { position: absolute; inset: 0; }
+  .hud { position: absolute; top: 40px; bottom: 40px; width: 380px; display: flex; flex-direction: column; gap: 22px; }
+  .hud.left { left: 40px; }
+  .hud.right { right: 40px; }
+  .card { padding: 22px 26px; }
+  .title { font-size: 54px; line-height: 1; }
+  .sub { font-size: 24px; margin-top: 8px; letter-spacing: 1px; }
+  .label { font-size: 20px; letter-spacing: 2px; opacity: .8; margin-bottom: 10px; }
+  .big { font-size: 44px; line-height: 1; }
+  .bar { height: 26px; border-radius: 13px; overflow: hidden; display: flex; margin: 12px 0 8px; }
+  .row { display: flex; align-items: center; gap: 12px; font-size: 26px; padding: 5px 0; }
+  .dot { width: 26px; height: 26px; border-radius: 50%; flex: none; }
+  .pts { margin-left: auto; }
+  .split { display: flex; justify-content: space-between; font-size: 24px; }
+  .toast { position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%); font-size: 26px; padding: 12px 28px; }
+  .callout { position: absolute; font-size: 110px; transform: rotate(-6deg); }
+</style>
+</head>
+<body>
+<div class="frame" id="frame">
+  <svg id="scene" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+  <div class="hud left">
+    <div class="card"><div class="title">BLADE BRAWL</div><div class="sub">STREAMER vs CHAT</div></div>
+    <div class="card"><div class="label">BOSS HP</div><div class="big" id="bossHp">842 / 1920</div>
+      <div class="bar"><div id="hpFill" style="width:44%"></div><div style="flex:1" class="hpEmpty"></div></div>
+      <div class="split"><span>16 chatters left</span><span>Stage 2</span></div></div>
+    <div class="card"><div class="label">CLOSING IN</div><div class="big">ARENA 72%</div></div>
+  </div>
+  <div class="hud right">
+    <div class="card"><div class="label">PREDICTION · LOCKED</div>
+      <div class="split big"><span>CHAT</span><span>BOSS</span></div>
+      <div class="bar"><div class="betA" style="width:62%"></div><div class="betB" style="flex:1"></div></div>
+      <div class="split"><span>62% · 48.2K</span><span>29.5K · 38%</span></div></div>
+    <div class="card"><div class="label">TOP FIGHTERS</div><div id="board"></div></div>
+  </div>
+  <div class="callout" id="callout" style="left:1150px;top:300px">DOUBLE KILL!</div>
+  <div class="toast" id="toast">@pixel_moth joined the brawl</div>
+</div>
+<script>
+const THEMES = {
+  toy: {
+    font: "'Lilita One'", body: "'Fredoka'",
+    bg: ['#ffd56b', '#ff8f6b'], bgPattern: 'dots',
+    floor: ['#5fc9f8', '#3a8ee6'], rim: '#ffffff', rimShadow: '#1d4f9c', rimWidth: 26,
+    ball: 'glossy', outline: '#1b1b3a', nameFill: '#ffffff', nameStroke: '#1b1b3a',
+    card: 'background:#fff;color:#1b1b3a;border-radius:26px;box-shadow:0 8px 0 #1b1b3a33, 0 0 0 5px #1b1b3a;',
+    accentA: '#3a8ee6', accentB: '#ff4f7b', hp: '#ff4f7b', hpEmpty: '#ffe1ea',
+    callout: 'color:#ffde3b;-webkit-text-stroke:8px #1b1b3a;paint-order:stroke fill;text-shadow:0 10px 0 #1b1b3a;',
+    toast: 'background:#1b1b3a;color:#fff;border-radius:40px;',
+    blade: '#e8eef7', bladeEdge: '#1b1b3a', colors: ['#ff4f7b','#ffb000','#2ecc71','#8e5cff','#00c2d1','#ff7a1a','#e84393','#4b7bec'],
+  },
+  neon: {
+    font: "'Bungee'", body: "'Chakra Petch'",
+    bg: ['#1a0b3d', '#06021a'], bgPattern: 'grid',
+    floor: ['#2a1260', '#12063a'], rim: '#ff3df2', rimShadow: '#ff3df2', rimWidth: 14,
+    ball: 'neon', outline: '#ffffff', nameFill: '#ffffff', nameStroke: '#12063a',
+    card: 'background:rgba(20,8,52,.82);color:#fff;border-radius:14px;border:3px solid #00e5ff;box-shadow:0 0 24px #00e5ff88, inset 0 0 18px #00e5ff33;',
+    accentA: '#00e5ff', accentB: '#ff3df2', hp: '#ff3df2', hpEmpty: '#3a1a5c',
+    callout: 'color:#fff;-webkit-text-stroke:3px #ff3df2;text-shadow:0 0 18px #ff3df2,0 0 40px #ff3df2;',
+    toast: 'background:rgba(20,8,52,.9);color:#00e5ff;border:2px solid #00e5ff;border-radius:10px;',
+    blade: '#ffffff', bladeEdge: '#00e5ff', colors: ['#ff3df2','#00e5ff','#b6ff3b','#ffe23b','#ff8a3b','#8f7bff','#3bffb1','#ff3b6e'],
+  },
+  gameshow: {
+    font: "'Anton'", body: "'Barlow Condensed'",
+    bg: ['#0e1a4a', '#050a24'], bgPattern: 'rays',
+    floor: ['#1e3a8a', '#0d1f5c'], rim: '#f7c948', rimShadow: '#8a5a00', rimWidth: 22,
+    ball: 'glossy', outline: '#0a0f2c', nameFill: '#ffffff', nameStroke: '#0a0f2c',
+    card: 'background:linear-gradient(180deg,#14275f,#0a1640);color:#fff;border-radius:6px;border-top:5px solid #f7c948;box-shadow:0 12px 30px #0008;',
+    accentA: '#2f9bff', accentB: '#ff3d6e', hp: '#ff3d6e', hpEmpty: '#2a335c',
+    callout: 'color:#f7c948;-webkit-text-stroke:6px #0a0f2c;paint-order:stroke fill;text-shadow:0 8px 24px #000a;',
+    toast: 'background:#f7c948;color:#0a0f2c;border-radius:4px;font-weight:800;',
+    blade: '#dfe6f2', bladeEdge: '#0a0f2c', colors: ['#ff3d6e','#2f9bff','#2ee59d','#ffb72f','#a66bff','#ff7b39','#21d4fd','#f15bb5'],
+  },
+};
+const theme = THEMES[new URLSearchParams(location.search).get('theme') || 'toy'];
+
+// Seeded RNG so every theme shows the same scene.
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+
+const NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('scene');
+const el = (tag, attrs, parent = svg) => {
+  const node = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+  parent.appendChild(node);
+  return node;
+};
+
+const defs = el('defs', {});
+const grad = (id, stops, radial, attrs = {}) => {
+  const g = el(radial ? 'radialGradient' : 'linearGradient', { id, ...attrs }, defs);
+  stops.forEach(([offset, color]) => el('stop', { offset, 'stop-color': color }, g));
+};
+grad('bg', [['0', theme.bg[0]], ['1', theme.bg[1]]], false, { x1: 0, y1: 0, x2: 0, y2: 1 });
+grad('floor', [['0', theme.floor[0]], ['1', theme.floor[1]]], true, { cx: .5, cy: .4, r: .6 });
+const shadow = el('filter', { id: 'shadow', x: '-50%', y: '-50%', width: '200%', height: '200%' }, defs);
+el('feDropShadow', { dx: 0, dy: 6, stdDeviation: 4, 'flood-color': '#000', 'flood-opacity': .35 }, shadow);
+const glow = el('filter', { id: 'glow', x: '-100%', y: '-100%', width: '300%', height: '300%' }, defs);
+el('feGaussianBlur', { stdDeviation: 8, result: 'b' }, glow);
+const merge = el('feMerge', {}, glow);
+el('feMergeNode', { in: 'b' }, merge);
+el('feMergeNode', { in: 'SourceGraphic' }, merge);
+
+// Background
+el('rect', { width: 1920, height: 1080, fill: 'url(#bg)' });
+if (theme.bgPattern === 'dots') {
+  for (let x = 0; x < 1920; x += 48) for (let y = 0; y < 1080; y += 48)
+    el('circle', { cx: x + (y / 48 % 2) * 24, cy: y, r: 5, fill: '#ffffff', opacity: .22 });
+} else if (theme.bgPattern === 'grid') {
+  for (let x = 0; x <= 1920; x += 60) el('line', { x1: x, y1: 0, x2: x, y2: 1080, stroke: '#ff3df2', opacity: .12, 'stroke-width': 2 });
+  for (let y = 0; y <= 1080; y += 60) el('line', { x1: 0, y1: y, x2: 1920, y2: y, stroke: '#00e5ff', opacity: .1, 'stroke-width': 2 });
+} else {
+  for (let i = 0; i < 24; i++) {
+    const a = i / 24 * Math.PI * 2;
+    el('polygon', { points: `960,540 ${960 + Math.cos(a) * 1600},${540 + Math.sin(a) * 1600} ${960 + Math.cos(a + .13) * 1600},${540 + Math.sin(a + .13) * 1600}`, fill: '#ffffff', opacity: .045 });
+  }
+}
+
+// Arena
+const CX = 960, CY = 540, R = 470;
+el('circle', { cx: CX, cy: CY + 10, r: R + theme.rimWidth / 2, fill: theme.rimShadow, opacity: theme.ball === 'neon' ? 0 : 1 });
+el('circle', { cx: CX, cy: CY, r: R, fill: 'url(#floor)' });
+for (let r = 80; r < R; r += 80) el('circle', { cx: CX, cy: CY, r, fill: 'none', stroke: '#ffffff', opacity: .08, 'stroke-width': 3 });
+el('circle', { cx: CX, cy: CY, r: R * .72, fill: 'none', stroke: theme.accentB, 'stroke-width': 6, 'stroke-dasharray': '18 14', opacity: .7 });
+el('circle', { cx: CX, cy: CY, r: R, fill: 'none', stroke: theme.rim, 'stroke-width': theme.rimWidth, filter: theme.ball === 'neon' ? 'url(#glow)' : '' });
+
+// Balls
+let gradientId = 0;
+function ball(x, y, r, color, label, opts = {}) {
+  const g = el('g', { filter: theme.ball === 'neon' ? 'url(#glow)' : 'url(#shadow)' });
+  // weapon
+  const a = rand() * Math.PI * 2, len = opts.blade || r * 2.6;
+  el('line', { x1: x + Math.cos(a) * r * .7, y1: y + Math.sin(a) * r * .7, x2: x + Math.cos(a) * (r + len), y2: y + Math.sin(a) * (r + len), stroke: theme.bladeEdge, 'stroke-width': opts.boss ? 22 : 12, 'stroke-linecap': 'round' }, g);
+  el('line', { x1: x + Math.cos(a) * r * .7, y1: y + Math.sin(a) * r * .7, x2: x + Math.cos(a) * (r + len), y2: y + Math.sin(a) * (r + len), stroke: theme.blade, 'stroke-width': opts.boss ? 14 : 6, 'stroke-linecap': 'round' }, g);
+  if (theme.ball === 'glossy') {
+    const id = 'b' + gradientId++;
+    grad(id, [['0', '#ffffff'], ['.25', color], ['1', shade(color, -.45)]], true, { cx: .35, cy: .3, r: .8 });
+    el('circle', { cx: x, cy: y, r, fill: `url(#${id})`, stroke: theme.outline, 'stroke-width': opts.boss ? 6 : 4 }, g);
+  } else {
+    el('circle', { cx: x, cy: y, r, fill: color, opacity: .9, stroke: theme.outline, 'stroke-width': 3 }, g);
+    el('circle', { cx: x, cy: y, r: r * .55, fill: '#ffffff', opacity: .35 }, g);
+  }
+  if (opts.hp) {
+    el('text', { x, y: y + r * .22, 'text-anchor': 'middle', 'font-family': theme.font, 'font-size': r * .62, fill: '#fff', stroke: theme.outline, 'stroke-width': 6, 'paint-order': 'stroke' }, g).textContent = opts.hp;
+  }
+  if (opts.crown) {
+    el('polygon', { points: `${x - 18},${y - r - 4} ${x - 22},${y - r - 30} ${x - 8},${y - r - 18} ${x},${y - r - 36} ${x + 8},${y - r - 18} ${x + 22},${y - r - 30} ${x + 18},${y - r - 4}`, fill: '#ffd23b', stroke: theme.outline, 'stroke-width': 3 }, g);
+  }
+  if (label) {
+    el('text', { x, y: y + r + 30, 'text-anchor': 'middle', 'font-family': theme.font, 'font-size': 24, fill: theme.nameFill, stroke: theme.nameStroke, 'stroke-width': 6, 'paint-order': 'stroke' }).textContent = label;
+  }
+}
+function shade(hex, f) {
+  const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.round(Math.max(0, Math.min(255, v + v * f))));
+  return '#' + c.map(v => v.toString(16).padStart(2, '0')).join('');
+}
+
+const names = ['neon_otter', 'cosmic_fox', 'tiny_moth', 'pixel_moth', 'sleepy_fox', 'lucky_otter', 'spicy_moth', 'minty_fox', 'chaos_otter', 'moon_moth', 'cosmic_otter', 'tiny_fox', 'neon_moth', 'pixel_fox', 'sleepy_otter', 'lucky_moth'];
+ball(CX + 40, CY + 20, 78, theme.accentB, 'STREAMER', { boss: true, hp: 842, blade: 150 });
+const spots = [];
+names.forEach((name, i) => {
+  let x, y, tries = 0;
+  do {
+    const a = rand() * Math.PI * 2, d = 150 + rand() * (R * .72 - 190);
+    x = CX + Math.cos(a) * d; y = CY + Math.sin(a) * d; tries++;
+  } while (spots.some(s => Math.hypot(s.x - x, s.y - y) < 95) && tries < 60);
+  spots.push({ x, y });
+  ball(x, y, 24, theme.colors[i % theme.colors.length], i < 8 ? name : '', { hp: 40 + Math.floor(rand() * 60), crown: i === 0 });
+});
+// hit sparks near the boss
+for (let i = 0; i < 14; i++) {
+  const a = rand() * Math.PI * 2, d = 20 + rand() * 50;
+  el('line', { x1: 1130, y1: 470, x2: 1130 + Math.cos(a) * d, y2: 470 + Math.sin(a) * d, stroke: '#ffe066', 'stroke-width': 5, 'stroke-linecap': 'round' });
+}
+
+// HUD styling
+const boardRows = [['neon_otter', 1840, true], ['cosmic_fox', 1310], ['tiny_moth', 990], ['pixel_moth', 760], ['sleepy_fox', 540]];
+document.getElementById('board').innerHTML = boardRows.map(([n, p, crown], i) =>
+  `<div class="row"><div class="dot" style="background:${theme.colors[i]};border:3px solid ${theme.outline}"></div>${crown ? '👑 ' : ''}${n}<span class="pts">${p}</span></div>`).join('');
+document.querySelectorAll('.card').forEach(c => c.style.cssText += theme.card);
+document.querySelectorAll('.title,.big,.callout,.label').forEach(e => e.style.fontFamily = theme.font);
+document.querySelectorAll('.hud,.toast').forEach(e => e.style.fontFamily = theme.body);
+document.getElementById('callout').style.cssText += theme.callout;
+document.getElementById('toast').style.cssText += theme.toast;
+document.getElementById('hpFill').style.background = theme.hp;
+document.querySelector('.hpEmpty').style.background = theme.hpEmpty;
+document.querySelector('.betA').style.background = theme.accentA;
+document.querySelector('.betB').style.background = theme.accentB;
+document.querySelectorAll('.bar').forEach(b => b.style.background = theme.hpEmpty);
+</script>
+</body>
+</html>

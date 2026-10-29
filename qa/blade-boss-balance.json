@@ -1,0 +1,4278 @@
+{
+  "generatedAt": "2026-10-28T20:07:20.661Z",
+  "bossHpPerChatter": 55,
+  "configuredCoefficient": 55,
+  "thresholdProbe": false,
+  "runs": 200,
+  "source": [
+    [
+      "apps/show/src/games/blade-brawl/config.ts",
+      "5d48c341becf4d5bb1078f99b7e42f986db2774e6ab0663de9c14baeee522d3d"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/index.ts",
+      "ec2ae20fdb86f3dfc355d0f2cb3e99f8cbe158570caa6f50aa3fdfa5e48b5728"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/combat.ts",
+      "bac1b29ab26947ce324573ab16fb9ca80429a02f38daafe38301cce77b023c9d"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/weapons.ts",
+      "6f56a640bf0929c27b723c010222fa21f41d05175e38428bc34f076c6f4a8cf6"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/fighters.ts",
+      "076e7ad3b05a32c4efa3620850aaf3c193c3f9ba48e3cd049e5c226376848690"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/state.ts",
+      "69c252975937f71c30a87f6b2310d514f0964706b182b8d6ed4063742129bd9e"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/motion.ts",
+      "98a537d9babd035deaa048f44694694c9c8461c8f54279c67876e5a2cce7c1d2"
+    ],
+    [
+      "apps/show/src/games/blade-brawl/rage.ts",
+      "aa99bbd742d630bff70e3f1dbc0694452d35fdfdc639f3763e82a50c234706fe"
+    ]
+  ],
+  "unchanged": false,
+  "pass": false,
+  "results": [
+    {
+      "chat": 8,
+      "wins": 157,
+      "bossShare": 0.785,
+      "voids": 0,
+      "escapes": 0,
+      "median": 85.88333333332974,
+      "pass": false,
+      "rows": [
+        {
+          "seed": 1,
+          "outcome": "chat",
+          "duration": 76.21666666666363,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 2,
+          "outcome": "streamer",
+          "duration": 96.6499999999958,
+          "bossHp": 42,
+          "escapes": 0
+        },
+        {
+          "seed": 3,
+          "outcome": "streamer",
+          "duration": 92.33333333332938,
+          "bossHp": 172,
+          "escapes": 0
+        },
+        {
+          "seed": 4,
+          "outcome": "streamer",
+          "duration": 80.28333333333006,
+          "bossHp": 96,
+          "escapes": 0
+        },
+        {
+          "seed": 5,
+          "outcome": "streamer",
+          "duration": 86.61666666666304,
+          "bossHp": 106,
+          "escapes": 0
+        },
+        {
+          "seed": 6,
+          "outcome": "streamer",
+          "duration": 86.94999999999635,
+          "bossHp": 86,
+          "escapes": 0
+        },
+        {
+          "seed": 7,
+          "outcome": "streamer",
+          "duration": 80.93333333333003,
+          "bossHp": 154,
+          "escapes": 0
+        },
+        {
+          "seed": 8,
+          "outcome": "streamer",
+          "duration": 86.1499999999964,
+          "bossHp": 68,
+          "escapes": 0
+        },
+        {
+          "seed": 9,
+          "outcome": "streamer",
+          "duration": 85.18333333332978,
+          "bossHp": 162,
+          "escapes": 0
+        },
+        {
+          "seed": 10,
+          "outcome": "streamer",
+          "duration": 84.8833333333298,
+          "bossHp": 26,
+          "escapes": 0
+        },
+        {
+          "seed": 11,
+          "outcome": "streamer",
+          "duration": 86.18333333332973,
+          "bossHp": 158,
+          "escapes": 0
+        },
+        {
+          "seed": 12,
+          "outcome": "streamer",
+          "duration": 132.7333333333311,
+          "bossHp": 122,
+          "escapes": 0
+        },
+        {
+          "seed": 13,
+          "outcome": "streamer",
+          "duration": 91.76666666666274,
+          "bossHp": 274,
+          "escapes": 0
+        },
+        {
+          "seed": 14,
+          "outcome": "streamer",
+          "duration": 100.56666666666224,
+          "bossHp": 84,
+          "escapes": 0
+        },
+        {
+          "seed": 15,
+          "outcome": "streamer",
+          "duration": 85.91666666666308,
+          "bossHp": 84,
+          "escapes": 0
+        },
+        {
+          "seed": 16,
+          "outcome": "streamer",
+          "duration": 90.59999999999614,
+          "bossHp": 114,
+          "escapes": 0
+        },
+        {
+          "seed": 17,
+          "outcome": "streamer",
+          "duration": 92.88333333332935,
+          "bossHp": 16,
+          "escapes": 0
+        },
+        {
+          "seed": 18,
+          "outcome": "streamer",
+          "duration": 89.94999999999618,
+          "bossHp": 110,
+          "escapes": 0
+        },
+        {
+          "seed": 19,
+          "outcome": "chat",
+          "duration": 77.51666666666355,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 20,
+          "outcome": "streamer",
+          "duration": 82.91666666666325,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 21,
+          "outcome": "streamer",
+          "duration": 84.46666666666316,
+          "bossHp": 46,
+          "escapes": 0
+        },
+        {
+          "seed": 22,
+          "outcome": "streamer",
+          "duration": 79.36666666666345,
+          "bossHp": 66,
+          "escapes": 0
+        },
+        {
+          "seed": 23,
+          "outcome": "streamer",
+          "duration": 73.68333333333044,
+          "bossHp": 76,
+          "escapes": 0
+        },
+        {
+          "seed": 24,
+          "outcome": "chat",
+          "duration": 73.0666666666638,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 25,
+          "outcome": "streamer",
+          "duration": 88.01666666666296,
+          "bossHp": 30,
+          "escapes": 0
+        },
+        {
+          "seed": 26,
+          "outcome": "streamer",
+          "duration": 94.54999999999592,
+          "bossHp": 24,
+          "escapes": 0
+        },
+        {
+          "seed": 27,
+          "outcome": "streamer",
+          "duration": 84.89999999999647,
+          "bossHp": 88,
+          "escapes": 0
+        },
+        {
+          "seed": 28,
+          "outcome": "chat",
+          "duration": 65.79999999999755,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 29,
+          "outcome": "streamer",
+          "duration": 96.78333333332913,
+          "bossHp": 242,
+          "escapes": 0
+        },
+        {
+          "seed": 30,
+          "outcome": "streamer",
+          "duration": 76.73333333333026,
+          "bossHp": 106,
+          "escapes": 0
+        },
+        {
+          "seed": 31,
+          "outcome": "chat",
+          "duration": 60.316666666664524,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 32,
+          "outcome": "chat",
+          "duration": 90.14999999999617,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 33,
+          "outcome": "streamer",
+          "duration": 95.83333333332918,
+          "bossHp": 182,
+          "escapes": 0
+        },
+        {
+          "seed": 34,
+          "outcome": "streamer",
+          "duration": 76.53333333333028,
+          "bossHp": 162,
+          "escapes": 0
+        },
+        {
+          "seed": 35,
+          "outcome": "streamer",
+          "duration": 103.34999999999542,
+          "bossHp": 82,
+          "escapes": 0
+        },
+        {
+          "seed": 36,
+          "outcome": "streamer",
+          "duration": 89.39999999999621,
+          "bossHp": 22,
+          "escapes": 0
+        },
+        {
+          "seed": 37,
+          "outcome": "streamer",
+          "duration": 70.09999999999731,
+          "bossHp": 102,
+          "escapes": 0
+        },
+        {
+          "seed": 38,
+          "outcome": "streamer",
+          "duration": 107.54999999999518,
+          "bossHp": 102,
+          "escapes": 0
+        },
+        {
+          "seed": 39,
+          "outcome": "streamer",
+          "duration": 77.18333333333024,
+          "bossHp": 186,
+          "escapes": 0
+        },
+        {
+          "seed": 40,
+          "outcome": "chat",
+          "duration": 77.86666666666353,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 41,
+          "outcome": "chat",
+          "duration": 79.96666666666341,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 42,
+          "outcome": "streamer",
+          "duration": 95.01666666666256,
+          "bossHp": 42,
+          "escapes": 0
+        },
+        {
+          "seed": 43,
+          "outcome": "chat",
+          "duration": 64.96666666666427,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 44,
+          "outcome": "streamer",
+          "duration": 91.59999999999609,
+          "bossHp": 106,
+          "escapes": 0
+        },
+        {
+          "seed": 45,
+          "outcome": "streamer",
+          "duration": 82.76666666666326,
+          "bossHp": 150,
+          "escapes": 0
+        },
+        {
+          "seed": 46,
+          "outcome": "streamer",
+          "duration": 79.23333333333012,
+          "bossHp": 36,
+          "escapes": 0
+        },
+        {
+          "seed": 47,
+          "outcome": "streamer",
+          "duration": 69.44999999999735,
+          "bossHp": 182,
+          "escapes": 0
+        },
+        {
+          "seed": 48,
+          "outcome": "chat",
+          "duration": 61.21666666666447,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 49,
+          "outcome": "streamer",
+          "duration": 68.09999999999742,
+          "bossHp": 200,
+          "escapes": 0
+        },
+        {
+          "seed": 50,
+          "outcome": "streamer",
+          "duration": 86.23333333332972,
+          "bossHp": 116,
+          "escapes": 0
+        },
+        {
+          "seed": 51,
+          "outcome": "streamer",
+          "duration": 110.749999999995,
+          "bossHp": 42,
+          "escapes": 0
+        },
+        {
+          "seed": 52,
+          "outcome": "chat",
+          "duration": 68.09999999999742,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 53,
+          "outcome": "streamer",
+          "duration": 84.96666666666313,
+          "bossHp": 6,
+          "escapes": 0
+        },
+        {
+          "seed": 54,
+          "outcome": "chat",
+          "duration": 50.7999999999984,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 55,
+          "outcome": "chat",
+          "duration": 72.6333333333305,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 56,
+          "outcome": "streamer",
+          "duration": 73.04999999999714,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 57,
+          "outcome": "streamer",
+          "duration": 83.0333333333299,
+          "bossHp": 46,
+          "escapes": 0
+        },
+        {
+          "seed": 58,
+          "outcome": "streamer",
+          "duration": 77.48333333333022,
+          "bossHp": 176,
+          "escapes": 0
+        },
+        {
+          "seed": 59,
+          "outcome": "streamer",
+          "duration": 81.06666666666335,
+          "bossHp": 164,
+          "escapes": 0
+        },
+        {
+          "seed": 60,
+          "outcome": "streamer",
+          "duration": 126.96666666666074,
+          "bossHp": 86,
+          "escapes": 0
+        },
+        {
+          "seed": 61,
+          "outcome": "streamer",
+          "duration": 74.49999999999706,
+          "bossHp": 192,
+          "escapes": 0
+        },
+        {
+          "seed": 62,
+          "outcome": "chat",
+          "duration": 62.26666666666441,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 63,
+          "outcome": "streamer",
+          "duration": 93.41666666666265,
+          "bossHp": 94,
+          "escapes": 0
+        },
+        {
+          "seed": 64,
+          "outcome": "streamer",
+          "duration": 69.79999999999733,
+          "bossHp": 196,
+          "escapes": 0
+        },
+        {
+          "seed": 65,
+          "outcome": "streamer",
+          "duration": 86.93333333332968,
+          "bossHp": 94,
+          "escapes": 0
+        },
+        {
+          "seed": 66,
+          "outcome": "streamer",
+          "duration": 94.74999999999591,
+          "bossHp": 56,
+          "escapes": 0
+        },
+        {
+          "seed": 67,
+          "outcome": "streamer",
+          "duration": 104.58333333332868,
+          "bossHp": 158,
+          "escapes": 0
+        },
+        {
+          "seed": 68,
+          "outcome": "chat",
+          "duration": 90.26666666666283,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 69,
+          "outcome": "streamer",
+          "duration": 86.0499999999964,
+          "bossHp": 228,
+          "escapes": 0
+        },
+        {
+          "seed": 70,
+          "outcome": "streamer",
+          "duration": 79.1499999999968,
+          "bossHp": 86,
+          "escapes": 0
+        },
+        {
+          "seed": 71,
+          "outcome": "streamer",
+          "duration": 85.93333333332974,
+          "bossHp": 122,
+          "escapes": 0
+        },
+        {
+          "seed": 72,
+          "outcome": "streamer",
+          "duration": 77.79999999999687,
+          "bossHp": 126,
+          "escapes": 0
+        },
+        {
+          "seed": 73,
+          "outcome": "streamer",
+          "duration": 74.69999999999705,
+          "bossHp": 186,
+          "escapes": 0
+        },
+        {
+          "seed": 74,
+          "outcome": "streamer",
+          "duration": 75.69999999999699,
+          "bossHp": 218,
+          "escapes": 0
+        },
+        {
+          "seed": 75,
+          "outcome": "chat",
+          "duration": 69.74999999999733,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 76,
+          "outcome": "streamer",
+          "duration": 69.63333333333067,
+          "bossHp": 94,
+          "escapes": 0
+        },
+        {
+          "seed": 77,
+          "outcome": "streamer",
+          "duration": 91.89999999999607,
+          "bossHp": 10,
+          "escapes": 0
+        },
+        {
+          "seed": 78,
+          "outcome": "chat",
+          "duration": 81.03333333333002,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 79,
+          "outcome": "chat",
+          "duration": 77.33333333333023,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 80,
+          "outcome": "streamer",
+          "duration": 82.21666666666329,
+          "bossHp": 126,
+          "escapes": 0
+        },
+        {
+          "seed": 81,
+          "outcome": "streamer",
+          "duration": 109.6333333333284,
+          "bossHp": 2,
+          "escapes": 0
+        },
+        {
+          "seed": 82,
+          "outcome": "streamer",
+          "duration": 86.28333333332972,
+          "bossHp": 134,
+          "escapes": 0
+        },
+        {
+          "seed": 83,
+          "outcome": "streamer",
+          "duration": 81.79999999999664,
+          "bossHp": 58,
+          "escapes": 0
+        },
+        {
+          "seed": 84,
+          "outcome": "streamer",
+          "duration": 86.08333333332973,
+          "bossHp": 134,
+          "escapes": 0
+        },
+        {
+          "seed": 85,
+          "outcome": "chat",
+          "duration": 67.93333333333076,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 86,
+          "outcome": "chat",
+          "duration": 61.3499999999978,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 87,
+          "outcome": "streamer",
+          "duration": 120.1833333333278,
+          "bossHp": 108,
+          "escapes": 0
+        },
+        {
+          "seed": 88,
+          "outcome": "streamer",
+          "duration": 114.11666666666147,
+          "bossHp": 118,
+          "escapes": 0
+        },
+        {
+          "seed": 89,
+          "outcome": "streamer",
+          "duration": 97.46666666666242,
+          "bossHp": 90,
+          "escapes": 0
+        },
+        {
+          "seed": 90,
+          "outcome": "chat",
+          "duration": 64.81666666666428,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 91,
+          "outcome": "streamer",
+          "duration": 76.59999999999694,
+          "bossHp": 60,
+          "escapes": 0
+        },
+        {
+          "seed": 92,
+          "outcome": "streamer",
+          "duration": 89.5499999999962,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 93,
+          "outcome": "streamer",
+          "duration": 93.59999999999597,
+          "bossHp": 150,
+          "escapes": 0
+        },
+        {
+          "seed": 94,
+          "outcome": "streamer",
+          "duration": 92.91666666666268,
+          "bossHp": 106,
+          "escapes": 0
+        },
+        {
+          "seed": 95,
+          "outcome": "streamer",
+          "duration": 93.64999999999597,
+          "bossHp": 78,
+          "escapes": 0
+        },
+        {
+          "seed": 96,
+          "outcome": "streamer",
+          "duration": 80.71666666666337,
+          "bossHp": 162,
+          "escapes": 0
+        },
+        {
+          "seed": 97,
+          "outcome": "streamer",
+          "duration": 104.69999999999534,
+          "bossHp": 158,
+          "escapes": 0
+        },
+        {
+          "seed": 98,
+          "outcome": "chat",
+          "duration": 98.66666666666235,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 99,
+          "outcome": "streamer",
+          "duration": 114.2499999999948,
+          "bossHp": 128,
+          "escapes": 0
+        },
+        {
+          "seed": 100,
+          "outcome": "streamer",
+          "duration": 104.68333333332868,
+          "bossHp": 160,
+          "escapes": 0
+        },
+        {
+          "seed": 101,
+          "outcome": "streamer",
+          "duration": 95.79999999999585,
+          "bossHp": 230,
+          "escapes": 0
+        },
+        {
+          "seed": 102,
+          "outcome": "streamer",
+          "duration": 90.78333333332947,
+          "bossHp": 92,
+          "escapes": 0
+        },
+        {
+          "seed": 103,
+          "outcome": "chat",
+          "duration": 91.74999999999608,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 104,
+          "outcome": "streamer",
+          "duration": 74.11666666666375,
+          "bossHp": 116,
+          "escapes": 0
+        },
+        {
+          "seed": 105,
+          "outcome": "streamer",
+          "duration": 90.44999999999615,
+          "bossHp": 204,
+          "escapes": 0
+        },
+        {
+          "seed": 106,
+          "outcome": "chat",
+          "duration": 76.56666666666361,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 107,
+          "outcome": "streamer",
+          "duration": 89.91666666666285,
+          "bossHp": 80,
+          "escapes": 0
+        },
+        {
+          "seed": 108,
+          "outcome": "streamer",
+          "duration": 80.18333333333007,
+          "bossHp": 12,
+          "escapes": 0
+        },
+        {
+          "seed": 109,
+          "outcome": "streamer",
+          "duration": 81.43333333333,
+          "bossHp": 70,
+          "escapes": 0
+        },
+        {
+          "seed": 110,
+          "outcome": "streamer",
+          "duration": 82.5999999999966,
+          "bossHp": 74,
+          "escapes": 0
+        },
+        {
+          "seed": 111,
+          "outcome": "chat",
+          "duration": 104.98333333332866,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 112,
+          "outcome": "streamer",
+          "duration": 98.19999999999571,
+          "bossHp": 96,
+          "escapes": 0
+        },
+        {
+          "seed": 113,
+          "outcome": "streamer",
+          "duration": 85.38333333332977,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 114,
+          "outcome": "streamer",
+          "duration": 78.18333333333018,
+          "bossHp": 58,
+          "escapes": 0
+        },
+        {
+          "seed": 115,
+          "outcome": "streamer",
+          "duration": 84.79999999999647,
+          "bossHp": 134,
+          "escapes": 0
+        },
+        {
+          "seed": 116,
+          "outcome": "streamer",
+          "duration": 105.01666666666199,
+          "bossHp": 240,
+          "escapes": 0
+        },
+        {
+          "seed": 117,
+          "outcome": "streamer",
+          "duration": 81.23333333333001,
+          "bossHp": 28,
+          "escapes": 0
+        },
+        {
+          "seed": 118,
+          "outcome": "chat",
+          "duration": 70.23333333333063,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 119,
+          "outcome": "streamer",
+          "duration": 93.5833333333293,
+          "bossHp": 150,
+          "escapes": 0
+        },
+        {
+          "seed": 120,
+          "outcome": "streamer",
+          "duration": 89.18333333332956,
+          "bossHp": 50,
+          "escapes": 0
+        },
+        {
+          "seed": 121,
+          "outcome": "streamer",
+          "duration": 107.53333333332851,
+          "bossHp": 24,
+          "escapes": 0
+        },
+        {
+          "seed": 122,
+          "outcome": "streamer",
+          "duration": 76.88333333333026,
+          "bossHp": 96,
+          "escapes": 0
+        },
+        {
+          "seed": 123,
+          "outcome": "streamer",
+          "duration": 108.71666666666178,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 124,
+          "outcome": "streamer",
+          "duration": 71.8999999999972,
+          "bossHp": 154,
+          "escapes": 0
+        },
+        {
+          "seed": 125,
+          "outcome": "streamer",
+          "duration": 90.6666666666628,
+          "bossHp": 144,
+          "escapes": 0
+        },
+        {
+          "seed": 126,
+          "outcome": "streamer",
+          "duration": 84.54999999999649,
+          "bossHp": 156,
+          "escapes": 0
+        },
+        {
+          "seed": 127,
+          "outcome": "chat",
+          "duration": 92.19999999999605,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 128,
+          "outcome": "streamer",
+          "duration": 95.91666666666251,
+          "bossHp": 118,
+          "escapes": 0
+        },
+        {
+          "seed": 129,
+          "outcome": "streamer",
+          "duration": 103.34999999999542,
+          "bossHp": 78,
+          "escapes": 0
+        },
+        {
+          "seed": 130,
+          "outcome": "chat",
+          "duration": 82.41666666666328,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 131,
+          "outcome": "streamer",
+          "duration": 79.28333333333012,
+          "bossHp": 204,
+          "escapes": 0
+        },
+        {
+          "seed": 132,
+          "outcome": "streamer",
+          "duration": 81.51666666666333,
+          "bossHp": 124,
+          "escapes": 0
+        },
+        {
+          "seed": 133,
+          "outcome": "streamer",
+          "duration": 88.23333333332961,
+          "bossHp": 4,
+          "escapes": 0
+        },
+        {
+          "seed": 134,
+          "outcome": "streamer",
+          "duration": 85.88333333332974,
+          "bossHp": 60,
+          "escapes": 0
+        },
+        {
+          "seed": 135,
+          "outcome": "streamer",
+          "duration": 73.09999999999714,
+          "bossHp": 130,
+          "escapes": 0
+        },
+        {
+          "seed": 136,
+          "outcome": "streamer",
+          "duration": 82.14999999999662,
+          "bossHp": 194,
+          "escapes": 0
+        },
+        {
+          "seed": 137,
+          "outcome": "streamer",
+          "duration": 95.19999999999588,
+          "bossHp": 64,
+          "escapes": 0
+        },
+        {
+          "seed": 138,
+          "outcome": "streamer",
+          "duration": 89.43333333332954,
+          "bossHp": 144,
+          "escapes": 0
+        },
+        {
+          "seed": 139,
+          "outcome": "chat",
+          "duration": 70.76666666666394,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 140,
+          "outcome": "streamer",
+          "duration": 76.89999999999692,
+          "bossHp": 150,
+          "escapes": 0
+        },
+        {
+          "seed": 141,
+          "outcome": "streamer",
+          "duration": 128.11666666666076,
+          "bossHp": 186,
+          "escapes": 0
+        },
+        {
+          "seed": 142,
+          "outcome": "streamer",
+          "duration": 82.14999999999662,
+          "bossHp": 270,
+          "escapes": 0
+        },
+        {
+          "seed": 143,
+          "outcome": "chat",
+          "duration": 76.6666666666636,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 144,
+          "outcome": "streamer",
+          "duration": 95.88333333332918,
+          "bossHp": 144,
+          "escapes": 0
+        },
+        {
+          "seed": 145,
+          "outcome": "chat",
+          "duration": 117.54999999999461,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 146,
+          "outcome": "streamer",
+          "duration": 98.01666666666239,
+          "bossHp": 176,
+          "escapes": 0
+        },
+        {
+          "seed": 147,
+          "outcome": "chat",
+          "duration": 69.96666666666398,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 148,
+          "outcome": "streamer",
+          "duration": 96.7499999999958,
+          "bossHp": 202,
+          "escapes": 0
+        },
+        {
+          "seed": 149,
+          "outcome": "streamer",
+          "duration": 80.61666666666338,
+          "bossHp": 92,
+          "escapes": 0
+        },
+        {
+          "seed": 150,
+          "outcome": "streamer",
+          "duration": 86.64999999999637,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 151,
+          "outcome": "streamer",
+          "duration": 88.14999999999628,
+          "bossHp": 130,
+          "escapes": 0
+        },
+        {
+          "seed": 152,
+          "outcome": "chat",
+          "duration": 100.91666666666222,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 153,
+          "outcome": "chat",
+          "duration": 69.58333333333067,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 154,
+          "outcome": "streamer",
+          "duration": 85.23333333332978,
+          "bossHp": 256,
+          "escapes": 0
+        },
+        {
+          "seed": 155,
+          "outcome": "streamer",
+          "duration": 87.51666666666299,
+          "bossHp": 50,
+          "escapes": 0
+        },
+        {
+          "seed": 156,
+          "outcome": "streamer",
+          "duration": 88.49999999999626,
+          "bossHp": 66,
+          "escapes": 0
+        },
+        {
+          "seed": 157,
+          "outcome": "chat",
+          "duration": 101.03333333332888,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 158,
+          "outcome": "streamer",
+          "duration": 82.43333333332994,
+          "bossHp": 280,
+          "escapes": 0
+        },
+        {
+          "seed": 159,
+          "outcome": "streamer",
+          "duration": 79.1499999999968,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 160,
+          "outcome": "streamer",
+          "duration": 95.21666666666255,
+          "bossHp": 110,
+          "escapes": 0
+        },
+        {
+          "seed": 161,
+          "outcome": "streamer",
+          "duration": 80.98333333333002,
+          "bossHp": 124,
+          "escapes": 0
+        },
+        {
+          "seed": 162,
+          "outcome": "chat",
+          "duration": 79.49999999999677,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 163,
+          "outcome": "streamer",
+          "duration": 74.44999999999706,
+          "bossHp": 92,
+          "escapes": 0
+        },
+        {
+          "seed": 164,
+          "outcome": "chat",
+          "duration": 84.69999999999648,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 165,
+          "outcome": "streamer",
+          "duration": 86.0999999999964,
+          "bossHp": 120,
+          "escapes": 0
+        },
+        {
+          "seed": 166,
+          "outcome": "streamer",
+          "duration": 105.09999999999532,
+          "bossHp": 114,
+          "escapes": 0
+        },
+        {
+          "seed": 167,
+          "outcome": "streamer",
+          "duration": 85.98333333332974,
+          "bossHp": 20,
+          "escapes": 0
+        },
+        {
+          "seed": 168,
+          "outcome": "streamer",
+          "duration": 83.14999999999657,
+          "bossHp": 174,
+          "escapes": 0
+        },
+        {
+          "seed": 169,
+          "outcome": "streamer",
+          "duration": 76.93333333333025,
+          "bossHp": 56,
+          "escapes": 0
+        },
+        {
+          "seed": 170,
+          "outcome": "chat",
+          "duration": 103.1166666666621,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 171,
+          "outcome": "chat",
+          "duration": 74.01666666666375,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 172,
+          "outcome": "streamer",
+          "duration": 77.09999999999691,
+          "bossHp": 124,
+          "escapes": 0
+        },
+        {
+          "seed": 173,
+          "outcome": "streamer",
+          "duration": 106.49999999999524,
+          "bossHp": 176,
+          "escapes": 0
+        },
+        {
+          "seed": 174,
+          "outcome": "streamer",
+          "duration": 84.9833333333298,
+          "bossHp": 206,
+          "escapes": 0
+        },
+        {
+          "seed": 175,
+          "outcome": "streamer",
+          "duration": 75.31666666666368,
+          "bossHp": 234,
+          "escapes": 0
+        },
+        {
+          "seed": 176,
+          "outcome": "streamer",
+          "duration": 89.79999999999619,
+          "bossHp": 68,
+          "escapes": 0
+        },
+        {
+          "seed": 177,
+          "outcome": "streamer",
+          "duration": 98.71666666666235,
+          "bossHp": 228,
+          "escapes": 0
+        },
+        {
+          "seed": 178,
+          "outcome": "streamer",
+          "duration": 85.29999999999644,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 179,
+          "outcome": "streamer",
+          "duration": 78.68333333333015,
+          "bossHp": 298,
+          "escapes": 0
+        },
+        {
+          "seed": 180,
+          "outcome": "streamer",
+          "duration": 85.53333333332976,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 181,
+          "outcome": "chat",
+          "duration": 104.01666666666205,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 182,
+          "outcome": "streamer",
+          "duration": 98.883333333329,
+          "bossHp": 74,
+          "escapes": 0
+        },
+        {
+          "seed": 183,
+          "outcome": "streamer",
+          "duration": 85.93333333332974,
+          "bossHp": 210,
+          "escapes": 0
+        },
+        {
+          "seed": 184,
+          "outcome": "streamer",
+          "duration": 91.54999999999609,
+          "bossHp": 68,
+          "escapes": 0
+        },
+        {
+          "seed": 185,
+          "outcome": "chat",
+          "duration": 93.49999999999598,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 186,
+          "outcome": "streamer",
+          "duration": 120.36666666666112,
+          "bossHp": 18,
+          "escapes": 0
+        },
+        {
+          "seed": 187,
+          "outcome": "chat",
+          "duration": 72.94999999999715,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 188,
+          "outcome": "streamer",
+          "duration": 90.74999999999613,
+          "bossHp": 72,
+          "escapes": 0
+        },
+        {
+          "seed": 189,
+          "outcome": "streamer",
+          "duration": 113.34999999999485,
+          "bossHp": 38,
+          "escapes": 0
+        },
+        {
+          "seed": 190,
+          "outcome": "streamer",
+          "duration": 84.89999999999647,
+          "bossHp": 154,
+          "escapes": 0
+        },
+        {
+          "seed": 191,
+          "outcome": "streamer",
+          "duration": 77.9333333333302,
+          "bossHp": 30,
+          "escapes": 0
+        },
+        {
+          "seed": 192,
+          "outcome": "streamer",
+          "duration": 88.29999999999627,
+          "bossHp": 68,
+          "escapes": 0
+        },
+        {
+          "seed": 193,
+          "outcome": "streamer",
+          "duration": 107.2499999999952,
+          "bossHp": 6,
+          "escapes": 0
+        },
+        {
+          "seed": 194,
+          "outcome": "streamer",
+          "duration": 98.78333333332901,
+          "bossHp": 136,
+          "escapes": 0
+        },
+        {
+          "seed": 195,
+          "outcome": "streamer",
+          "duration": 76.36666666666362,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 196,
+          "outcome": "streamer",
+          "duration": 94.71666666666258,
+          "bossHp": 118,
+          "escapes": 0
+        },
+        {
+          "seed": 197,
+          "outcome": "streamer",
+          "duration": 84.61666666666315,
+          "bossHp": 106,
+          "escapes": 0
+        },
+        {
+          "seed": 198,
+          "outcome": "chat",
+          "duration": 82.33333333332995,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 199,
+          "outcome": "streamer",
+          "duration": 76.31666666666362,
+          "bossHp": 76,
+          "escapes": 0
+        },
+        {
+          "seed": 200,
+          "outcome": "streamer",
+          "duration": 98.73333333332901,
+          "bossHp": 118,
+          "escapes": 0
+        }
+      ]
+    },
+    {
+      "chat": 16,
+      "wins": 178,
+      "bossShare": 0.89,
+      "voids": 0,
+      "escapes": 0,
+      "median": 91.49999999999609,
+      "pass": false,
+      "rows": [
+        {
+          "seed": 1,
+          "outcome": "streamer",
+          "duration": 87.18333333332967,
+          "bossHp": 292,
+          "escapes": 0
+        },
+        {
+          "seed": 2,
+          "outcome": "streamer",
+          "duration": 83.58333333332988,
+          "bossHp": 440,
+          "escapes": 0
+        },
+        {
+          "seed": 3,
+          "outcome": "chat",
+          "duration": 87.166666666663,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 4,
+          "outcome": "streamer",
+          "duration": 92.73333333332936,
+          "bossHp": 294,
+          "escapes": 0
+        },
+        {
+          "seed": 5,
+          "outcome": "streamer",
+          "duration": 99.68333333332896,
+          "bossHp": 266,
+          "escapes": 0
+        },
+        {
+          "seed": 6,
+          "outcome": "streamer",
+          "duration": 91.59999999999609,
+          "bossHp": 310,
+          "escapes": 0
+        },
+        {
+          "seed": 7,
+          "outcome": "chat",
+          "duration": 78.76666666666348,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 8,
+          "outcome": "streamer",
+          "duration": 97.09999999999577,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 9,
+          "outcome": "chat",
+          "duration": 76.33333333333029,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 10,
+          "outcome": "streamer",
+          "duration": 94.08333333332928,
+          "bossHp": 112,
+          "escapes": 0
+        },
+        {
+          "seed": 11,
+          "outcome": "streamer",
+          "duration": 109.46666666666174,
+          "bossHp": 90,
+          "escapes": 0
+        },
+        {
+          "seed": 12,
+          "outcome": "streamer",
+          "duration": 106.89999999999522,
+          "bossHp": 58,
+          "escapes": 0
+        },
+        {
+          "seed": 13,
+          "outcome": "chat",
+          "duration": 81.64999999999665,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 14,
+          "outcome": "streamer",
+          "duration": 112.38333333332824,
+          "bossHp": 332,
+          "escapes": 0
+        },
+        {
+          "seed": 15,
+          "outcome": "streamer",
+          "duration": 77.16666666666357,
+          "bossHp": 226,
+          "escapes": 0
+        },
+        {
+          "seed": 16,
+          "outcome": "streamer",
+          "duration": 98.28333333332904,
+          "bossHp": 4,
+          "escapes": 0
+        },
+        {
+          "seed": 17,
+          "outcome": "chat",
+          "duration": 77.63333333333021,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 18,
+          "outcome": "chat",
+          "duration": 80.6999999999967,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 19,
+          "outcome": "streamer",
+          "duration": 98.96666666666233,
+          "bossHp": 52,
+          "escapes": 0
+        },
+        {
+          "seed": 20,
+          "outcome": "streamer",
+          "duration": 87.8499999999963,
+          "bossHp": 190,
+          "escapes": 0
+        },
+        {
+          "seed": 21,
+          "outcome": "streamer",
+          "duration": 88.61666666666292,
+          "bossHp": 84,
+          "escapes": 0
+        },
+        {
+          "seed": 22,
+          "outcome": "chat",
+          "duration": 79.29999999999679,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 23,
+          "outcome": "streamer",
+          "duration": 84.3999999999965,
+          "bossHp": 336,
+          "escapes": 0
+        },
+        {
+          "seed": 24,
+          "outcome": "streamer",
+          "duration": 82.73333333332992,
+          "bossHp": 118,
+          "escapes": 0
+        },
+        {
+          "seed": 25,
+          "outcome": "streamer",
+          "duration": 90.34999999999616,
+          "bossHp": 162,
+          "escapes": 0
+        },
+        {
+          "seed": 26,
+          "outcome": "streamer",
+          "duration": 100.7333333333289,
+          "bossHp": 138,
+          "escapes": 0
+        },
+        {
+          "seed": 27,
+          "outcome": "streamer",
+          "duration": 106.86666666666189,
+          "bossHp": 136,
+          "escapes": 0
+        },
+        {
+          "seed": 28,
+          "outcome": "streamer",
+          "duration": 84.46666666666316,
+          "bossHp": 176,
+          "escapes": 0
+        },
+        {
+          "seed": 29,
+          "outcome": "streamer",
+          "duration": 97.83333333332907,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 30,
+          "outcome": "streamer",
+          "duration": 117.89999999999459,
+          "bossHp": 362,
+          "escapes": 0
+        },
+        {
+          "seed": 31,
+          "outcome": "streamer",
+          "duration": 98.04999999999572,
+          "bossHp": 56,
+          "escapes": 0
+        },
+        {
+          "seed": 32,
+          "outcome": "streamer",
+          "duration": 80.06666666666341,
+          "bossHp": 374,
+          "escapes": 0
+        },
+        {
+          "seed": 33,
+          "outcome": "streamer",
+          "duration": 93.06666666666267,
+          "bossHp": 44,
+          "escapes": 0
+        },
+        {
+          "seed": 34,
+          "outcome": "streamer",
+          "duration": 89.29999999999622,
+          "bossHp": 198,
+          "escapes": 0
+        },
+        {
+          "seed": 35,
+          "outcome": "streamer",
+          "duration": 99.84999999999562,
+          "bossHp": 148,
+          "escapes": 0
+        },
+        {
+          "seed": 36,
+          "outcome": "streamer",
+          "duration": 92.34999999999604,
+          "bossHp": 54,
+          "escapes": 0
+        },
+        {
+          "seed": 37,
+          "outcome": "streamer",
+          "duration": 83.63333333332987,
+          "bossHp": 180,
+          "escapes": 0
+        },
+        {
+          "seed": 38,
+          "outcome": "streamer",
+          "duration": 91.31666666666277,
+          "bossHp": 262,
+          "escapes": 0
+        },
+        {
+          "seed": 39,
+          "outcome": "streamer",
+          "duration": 96.98333333332911,
+          "bossHp": 116,
+          "escapes": 0
+        },
+        {
+          "seed": 40,
+          "outcome": "streamer",
+          "duration": 110.0166666666617,
+          "bossHp": 114,
+          "escapes": 0
+        },
+        {
+          "seed": 41,
+          "outcome": "streamer",
+          "duration": 90.56666666666281,
+          "bossHp": 158,
+          "escapes": 0
+        },
+        {
+          "seed": 42,
+          "outcome": "streamer",
+          "duration": 86.1499999999964,
+          "bossHp": 230,
+          "escapes": 0
+        },
+        {
+          "seed": 43,
+          "outcome": "streamer",
+          "duration": 99.33333333332898,
+          "bossHp": 242,
+          "escapes": 0
+        },
+        {
+          "seed": 44,
+          "outcome": "streamer",
+          "duration": 86.53333333332971,
+          "bossHp": 210,
+          "escapes": 0
+        },
+        {
+          "seed": 45,
+          "outcome": "streamer",
+          "duration": 120.09999999999447,
+          "bossHp": 214,
+          "escapes": 0
+        },
+        {
+          "seed": 46,
+          "outcome": "streamer",
+          "duration": 96.43333333332914,
+          "bossHp": 118,
+          "escapes": 0
+        },
+        {
+          "seed": 47,
+          "outcome": "streamer",
+          "duration": 106.18333333332859,
+          "bossHp": 212,
+          "escapes": 0
+        },
+        {
+          "seed": 48,
+          "outcome": "streamer",
+          "duration": 95.11666666666255,
+          "bossHp": 324,
+          "escapes": 0
+        },
+        {
+          "seed": 49,
+          "outcome": "streamer",
+          "duration": 93.5833333333293,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 50,
+          "outcome": "streamer",
+          "duration": 92.76666666666269,
+          "bossHp": 172,
+          "escapes": 0
+        },
+        {
+          "seed": 51,
+          "outcome": "streamer",
+          "duration": 97.7166666666624,
+          "bossHp": 234,
+          "escapes": 0
+        },
+        {
+          "seed": 52,
+          "outcome": "streamer",
+          "duration": 84.16666666666318,
+          "bossHp": 182,
+          "escapes": 0
+        },
+        {
+          "seed": 53,
+          "outcome": "streamer",
+          "duration": 86.99999999999635,
+          "bossHp": 162,
+          "escapes": 0
+        },
+        {
+          "seed": 54,
+          "outcome": "streamer",
+          "duration": 91.71666666666275,
+          "bossHp": 36,
+          "escapes": 0
+        },
+        {
+          "seed": 55,
+          "outcome": "streamer",
+          "duration": 92.76666666666269,
+          "bossHp": 160,
+          "escapes": 0
+        },
+        {
+          "seed": 56,
+          "outcome": "streamer",
+          "duration": 123.29999999999428,
+          "bossHp": 56,
+          "escapes": 0
+        },
+        {
+          "seed": 57,
+          "outcome": "chat",
+          "duration": 87.64999999999631,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 58,
+          "outcome": "streamer",
+          "duration": 89.23333333332955,
+          "bossHp": 306,
+          "escapes": 0
+        },
+        {
+          "seed": 59,
+          "outcome": "streamer",
+          "duration": 83.38333333332989,
+          "bossHp": 328,
+          "escapes": 0
+        },
+        {
+          "seed": 60,
+          "outcome": "streamer",
+          "duration": 104.78333333332867,
+          "bossHp": 144,
+          "escapes": 0
+        },
+        {
+          "seed": 61,
+          "outcome": "streamer",
+          "duration": 82.19999999999662,
+          "bossHp": 292,
+          "escapes": 0
+        },
+        {
+          "seed": 62,
+          "outcome": "streamer",
+          "duration": 88.23333333332961,
+          "bossHp": 246,
+          "escapes": 0
+        },
+        {
+          "seed": 63,
+          "outcome": "streamer",
+          "duration": 90.99999999999612,
+          "bossHp": 268,
+          "escapes": 0
+        },
+        {
+          "seed": 64,
+          "outcome": "streamer",
+          "duration": 91.68333333332941,
+          "bossHp": 146,
+          "escapes": 0
+        },
+        {
+          "seed": 65,
+          "outcome": "streamer",
+          "duration": 108.98333333332843,
+          "bossHp": 12,
+          "escapes": 0
+        },
+        {
+          "seed": 66,
+          "outcome": "streamer",
+          "duration": 96.31666666666248,
+          "bossHp": 292,
+          "escapes": 0
+        },
+        {
+          "seed": 67,
+          "outcome": "streamer",
+          "duration": 90.88333333332946,
+          "bossHp": 182,
+          "escapes": 0
+        },
+        {
+          "seed": 68,
+          "outcome": "streamer",
+          "duration": 97.53333333332908,
+          "bossHp": 200,
+          "escapes": 0
+        },
+        {
+          "seed": 69,
+          "outcome": "streamer",
+          "duration": 86.08333333332973,
+          "bossHp": 6,
+          "escapes": 0
+        },
+        {
+          "seed": 70,
+          "outcome": "streamer",
+          "duration": 96.53333333332914,
+          "bossHp": 316,
+          "escapes": 0
+        },
+        {
+          "seed": 71,
+          "outcome": "streamer",
+          "duration": 90.61666666666281,
+          "bossHp": 168,
+          "escapes": 0
+        },
+        {
+          "seed": 72,
+          "outcome": "streamer",
+          "duration": 98.3999999999957,
+          "bossHp": 256,
+          "escapes": 0
+        },
+        {
+          "seed": 73,
+          "outcome": "streamer",
+          "duration": 84.58333333332982,
+          "bossHp": 256,
+          "escapes": 0
+        },
+        {
+          "seed": 74,
+          "outcome": "streamer",
+          "duration": 90.34999999999616,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 75,
+          "outcome": "streamer",
+          "duration": 82.4999999999966,
+          "bossHp": 366,
+          "escapes": 0
+        },
+        {
+          "seed": 76,
+          "outcome": "streamer",
+          "duration": 97.2833333333291,
+          "bossHp": 294,
+          "escapes": 0
+        },
+        {
+          "seed": 77,
+          "outcome": "streamer",
+          "duration": 95.89999999999584,
+          "bossHp": 134,
+          "escapes": 0
+        },
+        {
+          "seed": 78,
+          "outcome": "streamer",
+          "duration": 103.33333333332875,
+          "bossHp": 296,
+          "escapes": 0
+        },
+        {
+          "seed": 79,
+          "outcome": "streamer",
+          "duration": 86.06666666666307,
+          "bossHp": 108,
+          "escapes": 0
+        },
+        {
+          "seed": 80,
+          "outcome": "streamer",
+          "duration": 87.51666666666299,
+          "bossHp": 88,
+          "escapes": 0
+        },
+        {
+          "seed": 81,
+          "outcome": "streamer",
+          "duration": 103.0166666666621,
+          "bossHp": 242,
+          "escapes": 0
+        },
+        {
+          "seed": 82,
+          "outcome": "streamer",
+          "duration": 87.166666666663,
+          "bossHp": 72,
+          "escapes": 0
+        },
+        {
+          "seed": 83,
+          "outcome": "streamer",
+          "duration": 86.48333333332971,
+          "bossHp": 82,
+          "escapes": 0
+        },
+        {
+          "seed": 84,
+          "outcome": "streamer",
+          "duration": 87.38333333332966,
+          "bossHp": 74,
+          "escapes": 0
+        },
+        {
+          "seed": 85,
+          "outcome": "streamer",
+          "duration": 98.21666666666238,
+          "bossHp": 220,
+          "escapes": 0
+        },
+        {
+          "seed": 86,
+          "outcome": "streamer",
+          "duration": 88.56666666666293,
+          "bossHp": 260,
+          "escapes": 0
+        },
+        {
+          "seed": 87,
+          "outcome": "streamer",
+          "duration": 86.81666666666302,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 88,
+          "outcome": "streamer",
+          "duration": 110.99999999999498,
+          "bossHp": 264,
+          "escapes": 0
+        },
+        {
+          "seed": 89,
+          "outcome": "streamer",
+          "duration": 133.1499999999981,
+          "bossHp": 268,
+          "escapes": 0
+        },
+        {
+          "seed": 90,
+          "outcome": "streamer",
+          "duration": 87.46666666666299,
+          "bossHp": 366,
+          "escapes": 0
+        },
+        {
+          "seed": 91,
+          "outcome": "streamer",
+          "duration": 89.93333333332951,
+          "bossHp": 238,
+          "escapes": 0
+        },
+        {
+          "seed": 92,
+          "outcome": "chat",
+          "duration": 90.48333333332948,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 93,
+          "outcome": "streamer",
+          "duration": 108.88333333332844,
+          "bossHp": 4,
+          "escapes": 0
+        },
+        {
+          "seed": 94,
+          "outcome": "streamer",
+          "duration": 96.49999999999581,
+          "bossHp": 180,
+          "escapes": 0
+        },
+        {
+          "seed": 95,
+          "outcome": "streamer",
+          "duration": 107.89999999999516,
+          "bossHp": 266,
+          "escapes": 0
+        },
+        {
+          "seed": 96,
+          "outcome": "streamer",
+          "duration": 95.79999999999585,
+          "bossHp": 86,
+          "escapes": 0
+        },
+        {
+          "seed": 97,
+          "outcome": "streamer",
+          "duration": 92.21666666666272,
+          "bossHp": 482,
+          "escapes": 0
+        },
+        {
+          "seed": 98,
+          "outcome": "chat",
+          "duration": 84.74999999999648,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 99,
+          "outcome": "streamer",
+          "duration": 95.9666666666625,
+          "bossHp": 96,
+          "escapes": 0
+        },
+        {
+          "seed": 100,
+          "outcome": "streamer",
+          "duration": 87.24999999999633,
+          "bossHp": 160,
+          "escapes": 0
+        },
+        {
+          "seed": 101,
+          "outcome": "streamer",
+          "duration": 110.04999999999504,
+          "bossHp": 52,
+          "escapes": 0
+        },
+        {
+          "seed": 102,
+          "outcome": "streamer",
+          "duration": 96.83333333332912,
+          "bossHp": 346,
+          "escapes": 0
+        },
+        {
+          "seed": 103,
+          "outcome": "chat",
+          "duration": 99.24999999999565,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 104,
+          "outcome": "streamer",
+          "duration": 126.73333333332742,
+          "bossHp": 84,
+          "escapes": 0
+        },
+        {
+          "seed": 105,
+          "outcome": "streamer",
+          "duration": 107.33333333332853,
+          "bossHp": 166,
+          "escapes": 0
+        },
+        {
+          "seed": 106,
+          "outcome": "streamer",
+          "duration": 113.0333333333282,
+          "bossHp": 336,
+          "escapes": 0
+        },
+        {
+          "seed": 107,
+          "outcome": "streamer",
+          "duration": 99.34999999999565,
+          "bossHp": 368,
+          "escapes": 0
+        },
+        {
+          "seed": 108,
+          "outcome": "streamer",
+          "duration": 92.31666666666271,
+          "bossHp": 156,
+          "escapes": 0
+        },
+        {
+          "seed": 109,
+          "outcome": "streamer",
+          "duration": 76.73333333333026,
+          "bossHp": 100,
+          "escapes": 0
+        },
+        {
+          "seed": 110,
+          "outcome": "streamer",
+          "duration": 99.69999999999563,
+          "bossHp": 94,
+          "escapes": 0
+        },
+        {
+          "seed": 111,
+          "outcome": "streamer",
+          "duration": 102.68333333332879,
+          "bossHp": 180,
+          "escapes": 0
+        },
+        {
+          "seed": 112,
+          "outcome": "streamer",
+          "duration": 84.54999999999649,
+          "bossHp": 40,
+          "escapes": 0
+        },
+        {
+          "seed": 113,
+          "outcome": "streamer",
+          "duration": 92.23333333332938,
+          "bossHp": 336,
+          "escapes": 0
+        },
+        {
+          "seed": 114,
+          "outcome": "streamer",
+          "duration": 83.79999999999653,
+          "bossHp": 228,
+          "escapes": 0
+        },
+        {
+          "seed": 115,
+          "outcome": "streamer",
+          "duration": 86.61666666666304,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 116,
+          "outcome": "streamer",
+          "duration": 115.74999999999471,
+          "bossHp": 132,
+          "escapes": 0
+        },
+        {
+          "seed": 117,
+          "outcome": "streamer",
+          "duration": 82.5499999999966,
+          "bossHp": 222,
+          "escapes": 0
+        },
+        {
+          "seed": 118,
+          "outcome": "streamer",
+          "duration": 80.94999999999669,
+          "bossHp": 324,
+          "escapes": 0
+        },
+        {
+          "seed": 119,
+          "outcome": "streamer",
+          "duration": 97.64999999999574,
+          "bossHp": 192,
+          "escapes": 0
+        },
+        {
+          "seed": 120,
+          "outcome": "streamer",
+          "duration": 122.54999999999433,
+          "bossHp": 2,
+          "escapes": 0
+        },
+        {
+          "seed": 121,
+          "outcome": "chat",
+          "duration": 88.41666666666293,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 122,
+          "outcome": "streamer",
+          "duration": 87.98333333332963,
+          "bossHp": 32,
+          "escapes": 0
+        },
+        {
+          "seed": 123,
+          "outcome": "streamer",
+          "duration": 87.46666666666299,
+          "bossHp": 226,
+          "escapes": 0
+        },
+        {
+          "seed": 124,
+          "outcome": "streamer",
+          "duration": 92.71666666666269,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 125,
+          "outcome": "streamer",
+          "duration": 106.59999999999523,
+          "bossHp": 122,
+          "escapes": 0
+        },
+        {
+          "seed": 126,
+          "outcome": "streamer",
+          "duration": 88.93333333332957,
+          "bossHp": 136,
+          "escapes": 0
+        },
+        {
+          "seed": 127,
+          "outcome": "streamer",
+          "duration": 117.39999999999462,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 128,
+          "outcome": "streamer",
+          "duration": 78.98333333333014,
+          "bossHp": 510,
+          "escapes": 0
+        },
+        {
+          "seed": 129,
+          "outcome": "streamer",
+          "duration": 84.48333333332982,
+          "bossHp": 176,
+          "escapes": 0
+        },
+        {
+          "seed": 130,
+          "outcome": "streamer",
+          "duration": 89.13333333332956,
+          "bossHp": 58,
+          "escapes": 0
+        },
+        {
+          "seed": 131,
+          "outcome": "streamer",
+          "duration": 87.8999999999963,
+          "bossHp": 312,
+          "escapes": 0
+        },
+        {
+          "seed": 132,
+          "outcome": "streamer",
+          "duration": 106.31666666666192,
+          "bossHp": 266,
+          "escapes": 0
+        },
+        {
+          "seed": 133,
+          "outcome": "streamer",
+          "duration": 102.09999999999549,
+          "bossHp": 148,
+          "escapes": 0
+        },
+        {
+          "seed": 134,
+          "outcome": "chat",
+          "duration": 82.94999999999658,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 135,
+          "outcome": "streamer",
+          "duration": 86.43333333332971,
+          "bossHp": 376,
+          "escapes": 0
+        },
+        {
+          "seed": 136,
+          "outcome": "streamer",
+          "duration": 134.51666666666586,
+          "bossHp": 114,
+          "escapes": 0
+        },
+        {
+          "seed": 137,
+          "outcome": "streamer",
+          "duration": 102.14999999999549,
+          "bossHp": 138,
+          "escapes": 0
+        },
+        {
+          "seed": 138,
+          "outcome": "streamer",
+          "duration": 108.81666666666177,
+          "bossHp": 264,
+          "escapes": 0
+        },
+        {
+          "seed": 139,
+          "outcome": "streamer",
+          "duration": 111.61666666666162,
+          "bossHp": 100,
+          "escapes": 0
+        },
+        {
+          "seed": 140,
+          "outcome": "streamer",
+          "duration": 86.39999999999638,
+          "bossHp": 222,
+          "escapes": 0
+        },
+        {
+          "seed": 141,
+          "outcome": "streamer",
+          "duration": 98.76666666666235,
+          "bossHp": 228,
+          "escapes": 0
+        },
+        {
+          "seed": 142,
+          "outcome": "streamer",
+          "duration": 87.23333333332967,
+          "bossHp": 210,
+          "escapes": 0
+        },
+        {
+          "seed": 143,
+          "outcome": "streamer",
+          "duration": 78.08333333333019,
+          "bossHp": 110,
+          "escapes": 0
+        },
+        {
+          "seed": 144,
+          "outcome": "chat",
+          "duration": 113.06666666666153,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 145,
+          "outcome": "chat",
+          "duration": 83.83333333332986,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 146,
+          "outcome": "streamer",
+          "duration": 79.81666666666342,
+          "bossHp": 204,
+          "escapes": 0
+        },
+        {
+          "seed": 147,
+          "outcome": "chat",
+          "duration": 76.31666666666362,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 148,
+          "outcome": "chat",
+          "duration": 76.84999999999692,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 149,
+          "outcome": "streamer",
+          "duration": 114.69999999999477,
+          "bossHp": 30,
+          "escapes": 0
+        },
+        {
+          "seed": 150,
+          "outcome": "streamer",
+          "duration": 91.04999999999612,
+          "bossHp": 102,
+          "escapes": 0
+        },
+        {
+          "seed": 151,
+          "outcome": "streamer",
+          "duration": 87.04999999999634,
+          "bossHp": 170,
+          "escapes": 0
+        },
+        {
+          "seed": 152,
+          "outcome": "streamer",
+          "duration": 94.34999999999593,
+          "bossHp": 8,
+          "escapes": 0
+        },
+        {
+          "seed": 153,
+          "outcome": "streamer",
+          "duration": 89.56666666666287,
+          "bossHp": 540,
+          "escapes": 0
+        },
+        {
+          "seed": 154,
+          "outcome": "streamer",
+          "duration": 100.74999999999557,
+          "bossHp": 118,
+          "escapes": 0
+        },
+        {
+          "seed": 155,
+          "outcome": "streamer",
+          "duration": 90.88333333332946,
+          "bossHp": 122,
+          "escapes": 0
+        },
+        {
+          "seed": 156,
+          "outcome": "streamer",
+          "duration": 96.41666666666248,
+          "bossHp": 116,
+          "escapes": 0
+        },
+        {
+          "seed": 157,
+          "outcome": "streamer",
+          "duration": 84.53333333332982,
+          "bossHp": 88,
+          "escapes": 0
+        },
+        {
+          "seed": 158,
+          "outcome": "streamer",
+          "duration": 80.73333333333004,
+          "bossHp": 232,
+          "escapes": 0
+        },
+        {
+          "seed": 159,
+          "outcome": "streamer",
+          "duration": 82.13333333332996,
+          "bossHp": 414,
+          "escapes": 0
+        },
+        {
+          "seed": 160,
+          "outcome": "streamer",
+          "duration": 95.86666666666251,
+          "bossHp": 212,
+          "escapes": 0
+        },
+        {
+          "seed": 161,
+          "outcome": "streamer",
+          "duration": 82.19999999999662,
+          "bossHp": 410,
+          "escapes": 0
+        },
+        {
+          "seed": 162,
+          "outcome": "streamer",
+          "duration": 84.3999999999965,
+          "bossHp": 226,
+          "escapes": 0
+        },
+        {
+          "seed": 163,
+          "outcome": "streamer",
+          "duration": 89.63333333332953,
+          "bossHp": 360,
+          "escapes": 0
+        },
+        {
+          "seed": 164,
+          "outcome": "streamer",
+          "duration": 106.5666666666619,
+          "bossHp": 20,
+          "escapes": 0
+        },
+        {
+          "seed": 165,
+          "outcome": "streamer",
+          "duration": 93.53333333332931,
+          "bossHp": 154,
+          "escapes": 0
+        },
+        {
+          "seed": 166,
+          "outcome": "streamer",
+          "duration": 80.96666666666336,
+          "bossHp": 276,
+          "escapes": 0
+        },
+        {
+          "seed": 167,
+          "outcome": "streamer",
+          "duration": 123.08333333332763,
+          "bossHp": 108,
+          "escapes": 0
+        },
+        {
+          "seed": 168,
+          "outcome": "streamer",
+          "duration": 91.49999999999609,
+          "bossHp": 106,
+          "escapes": 0
+        },
+        {
+          "seed": 169,
+          "outcome": "streamer",
+          "duration": 94.9999999999959,
+          "bossHp": 46,
+          "escapes": 0
+        },
+        {
+          "seed": 170,
+          "outcome": "streamer",
+          "duration": 86.29999999999639,
+          "bossHp": 174,
+          "escapes": 0
+        },
+        {
+          "seed": 171,
+          "outcome": "streamer",
+          "duration": 87.08333333332968,
+          "bossHp": 100,
+          "escapes": 0
+        },
+        {
+          "seed": 172,
+          "outcome": "streamer",
+          "duration": 90.26666666666283,
+          "bossHp": 282,
+          "escapes": 0
+        },
+        {
+          "seed": 173,
+          "outcome": "streamer",
+          "duration": 82.43333333332994,
+          "bossHp": 26,
+          "escapes": 0
+        },
+        {
+          "seed": 174,
+          "outcome": "streamer",
+          "duration": 113.0833333333282,
+          "bossHp": 204,
+          "escapes": 0
+        },
+        {
+          "seed": 175,
+          "outcome": "streamer",
+          "duration": 95.84999999999584,
+          "bossHp": 150,
+          "escapes": 0
+        },
+        {
+          "seed": 176,
+          "outcome": "streamer",
+          "duration": 101.88333333332884,
+          "bossHp": 314,
+          "escapes": 0
+        },
+        {
+          "seed": 177,
+          "outcome": "streamer",
+          "duration": 93.41666666666265,
+          "bossHp": 332,
+          "escapes": 0
+        },
+        {
+          "seed": 178,
+          "outcome": "streamer",
+          "duration": 90.1833333333295,
+          "bossHp": 198,
+          "escapes": 0
+        },
+        {
+          "seed": 179,
+          "outcome": "streamer",
+          "duration": 128.13333333332744,
+          "bossHp": 226,
+          "escapes": 0
+        },
+        {
+          "seed": 180,
+          "outcome": "streamer",
+          "duration": 89.68333333332953,
+          "bossHp": 348,
+          "escapes": 0
+        },
+        {
+          "seed": 181,
+          "outcome": "streamer",
+          "duration": 81.56666666666332,
+          "bossHp": 372,
+          "escapes": 0
+        },
+        {
+          "seed": 182,
+          "outcome": "streamer",
+          "duration": 83.0333333333299,
+          "bossHp": 204,
+          "escapes": 0
+        },
+        {
+          "seed": 183,
+          "outcome": "chat",
+          "duration": 124.53333333332755,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 184,
+          "outcome": "streamer",
+          "duration": 113.68333333332816,
+          "bossHp": 62,
+          "escapes": 0
+        },
+        {
+          "seed": 185,
+          "outcome": "streamer",
+          "duration": 112.36666666666157,
+          "bossHp": 192,
+          "escapes": 0
+        },
+        {
+          "seed": 186,
+          "outcome": "chat",
+          "duration": 88.94999999999624,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 187,
+          "outcome": "streamer",
+          "duration": 98.53333333332903,
+          "bossHp": 30,
+          "escapes": 0
+        },
+        {
+          "seed": 188,
+          "outcome": "streamer",
+          "duration": 87.86666666666297,
+          "bossHp": 148,
+          "escapes": 0
+        },
+        {
+          "seed": 189,
+          "outcome": "streamer",
+          "duration": 102.31666666666214,
+          "bossHp": 116,
+          "escapes": 0
+        },
+        {
+          "seed": 190,
+          "outcome": "streamer",
+          "duration": 84.96666666666313,
+          "bossHp": 182,
+          "escapes": 0
+        },
+        {
+          "seed": 191,
+          "outcome": "streamer",
+          "duration": 89.61666666666287,
+          "bossHp": 88,
+          "escapes": 0
+        },
+        {
+          "seed": 192,
+          "outcome": "chat",
+          "duration": 86.69999999999636,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 193,
+          "outcome": "streamer",
+          "duration": 87.7999999999963,
+          "bossHp": 138,
+          "escapes": 0
+        },
+        {
+          "seed": 194,
+          "outcome": "streamer",
+          "duration": 92.96666666666268,
+          "bossHp": 140,
+          "escapes": 0
+        },
+        {
+          "seed": 195,
+          "outcome": "chat",
+          "duration": 80.64999999999671,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 196,
+          "outcome": "chat",
+          "duration": 80.46666666666339,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 197,
+          "outcome": "streamer",
+          "duration": 99.99999999999561,
+          "bossHp": 420,
+          "escapes": 0
+        },
+        {
+          "seed": 198,
+          "outcome": "streamer",
+          "duration": 91.46666666666276,
+          "bossHp": 284,
+          "escapes": 0
+        },
+        {
+          "seed": 199,
+          "outcome": "streamer",
+          "duration": 100.34999999999559,
+          "bossHp": 408,
+          "escapes": 0
+        },
+        {
+          "seed": 200,
+          "outcome": "streamer",
+          "duration": 110.99999999999498,
+          "bossHp": 216,
+          "escapes": 0
+        }
+      ]
+    },
+    {
+      "chat": 32,
+      "wins": 135,
+      "bossShare": 0.675,
+      "voids": 0,
+      "escapes": 0,
+      "median": 98.18333333332905,
+      "pass": false,
+      "rows": [
+        {
+          "seed": 1,
+          "outcome": "streamer",
+          "duration": 123.56666666666094,
+          "bossHp": 226,
+          "escapes": 0
+        },
+        {
+          "seed": 2,
+          "outcome": "streamer",
+          "duration": 89.58333333332953,
+          "bossHp": 154,
+          "escapes": 0
+        },
+        {
+          "seed": 3,
+          "outcome": "chat",
+          "duration": 100.6833333333289,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 4,
+          "outcome": "streamer",
+          "duration": 103.51666666666208,
+          "bossHp": 606,
+          "escapes": 0
+        },
+        {
+          "seed": 5,
+          "outcome": "streamer",
+          "duration": 96.5499999999958,
+          "bossHp": 398,
+          "escapes": 0
+        },
+        {
+          "seed": 6,
+          "outcome": "streamer",
+          "duration": 96.31666666666248,
+          "bossHp": 340,
+          "escapes": 0
+        },
+        {
+          "seed": 7,
+          "outcome": "chat",
+          "duration": 84.23333333332984,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 8,
+          "outcome": "streamer",
+          "duration": 93.98333333332928,
+          "bossHp": 264,
+          "escapes": 0
+        },
+        {
+          "seed": 9,
+          "outcome": "streamer",
+          "duration": 137.15000000000128,
+          "bossHp": 26,
+          "escapes": 0
+        },
+        {
+          "seed": 10,
+          "outcome": "chat",
+          "duration": 113.64999999999483,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 11,
+          "outcome": "streamer",
+          "duration": 104.46666666666202,
+          "bossHp": 266,
+          "escapes": 0
+        },
+        {
+          "seed": 12,
+          "outcome": "chat",
+          "duration": 79.34999999999678,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 13,
+          "outcome": "streamer",
+          "duration": 111.74999999999494,
+          "bossHp": 232,
+          "escapes": 0
+        },
+        {
+          "seed": 14,
+          "outcome": "chat",
+          "duration": 96.31666666666248,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 15,
+          "outcome": "streamer",
+          "duration": 93.84999999999596,
+          "bossHp": 278,
+          "escapes": 0
+        },
+        {
+          "seed": 16,
+          "outcome": "chat",
+          "duration": 75.34999999999701,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 17,
+          "outcome": "streamer",
+          "duration": 111.14999999999498,
+          "bossHp": 368,
+          "escapes": 0
+        },
+        {
+          "seed": 18,
+          "outcome": "streamer",
+          "duration": 114.68333333332811,
+          "bossHp": 56,
+          "escapes": 0
+        },
+        {
+          "seed": 19,
+          "outcome": "streamer",
+          "duration": 155.43333333334917,
+          "bossHp": 314,
+          "escapes": 0
+        },
+        {
+          "seed": 20,
+          "outcome": "streamer",
+          "duration": 111.1833333333283,
+          "bossHp": 206,
+          "escapes": 0
+        },
+        {
+          "seed": 21,
+          "outcome": "streamer",
+          "duration": 101.18333333332887,
+          "bossHp": 252,
+          "escapes": 0
+        },
+        {
+          "seed": 22,
+          "outcome": "streamer",
+          "duration": 111.68333333332828,
+          "bossHp": 144,
+          "escapes": 0
+        },
+        {
+          "seed": 23,
+          "outcome": "chat",
+          "duration": 85.43333333332977,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 24,
+          "outcome": "streamer",
+          "duration": 110.84999999999499,
+          "bossHp": 214,
+          "escapes": 0
+        },
+        {
+          "seed": 25,
+          "outcome": "streamer",
+          "duration": 103.98333333332872,
+          "bossHp": 126,
+          "escapes": 0
+        },
+        {
+          "seed": 26,
+          "outcome": "chat",
+          "duration": 88.34999999999627,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 27,
+          "outcome": "chat",
+          "duration": 103.43333333332875,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 28,
+          "outcome": "streamer",
+          "duration": 99.34999999999565,
+          "bossHp": 564,
+          "escapes": 0
+        },
+        {
+          "seed": 29,
+          "outcome": "streamer",
+          "duration": 113.1333333333282,
+          "bossHp": 102,
+          "escapes": 0
+        },
+        {
+          "seed": 30,
+          "outcome": "chat",
+          "duration": 88.16666666666295,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 31,
+          "outcome": "chat",
+          "duration": 90.56666666666281,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 32,
+          "outcome": "chat",
+          "duration": 83.19999999999656,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 33,
+          "outcome": "streamer",
+          "duration": 113.09999999999486,
+          "bossHp": 248,
+          "escapes": 0
+        },
+        {
+          "seed": 34,
+          "outcome": "streamer",
+          "duration": 96.23333333332916,
+          "bossHp": 38,
+          "escapes": 0
+        },
+        {
+          "seed": 35,
+          "outcome": "streamer",
+          "duration": 109.33333333332841,
+          "bossHp": 406,
+          "escapes": 0
+        },
+        {
+          "seed": 36,
+          "outcome": "streamer",
+          "duration": 112.08333333332826,
+          "bossHp": 322,
+          "escapes": 0
+        },
+        {
+          "seed": 37,
+          "outcome": "chat",
+          "duration": 94.41666666666259,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 38,
+          "outcome": "streamer",
+          "duration": 101.29999999999553,
+          "bossHp": 12,
+          "escapes": 0
+        },
+        {
+          "seed": 39,
+          "outcome": "streamer",
+          "duration": 98.3999999999957,
+          "bossHp": 392,
+          "escapes": 0
+        },
+        {
+          "seed": 40,
+          "outcome": "streamer",
+          "duration": 97.7666666666624,
+          "bossHp": 216,
+          "escapes": 0
+        },
+        {
+          "seed": 41,
+          "outcome": "streamer",
+          "duration": 104.68333333332868,
+          "bossHp": 128,
+          "escapes": 0
+        },
+        {
+          "seed": 42,
+          "outcome": "streamer",
+          "duration": 98.91666666666234,
+          "bossHp": 164,
+          "escapes": 0
+        },
+        {
+          "seed": 43,
+          "outcome": "streamer",
+          "duration": 117.76666666666127,
+          "bossHp": 372,
+          "escapes": 0
+        },
+        {
+          "seed": 44,
+          "outcome": "streamer",
+          "duration": 89.09999999999623,
+          "bossHp": 366,
+          "escapes": 0
+        },
+        {
+          "seed": 45,
+          "outcome": "streamer",
+          "duration": 125.8666666666608,
+          "bossHp": 222,
+          "escapes": 0
+        },
+        {
+          "seed": 46,
+          "outcome": "chat",
+          "duration": 69.0833333333307,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 47,
+          "outcome": "streamer",
+          "duration": 83.78333333332986,
+          "bossHp": 322,
+          "escapes": 0
+        },
+        {
+          "seed": 48,
+          "outcome": "chat",
+          "duration": 76.41666666666362,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 49,
+          "outcome": "chat",
+          "duration": 78.03333333333019,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 50,
+          "outcome": "streamer",
+          "duration": 103.96666666666205,
+          "bossHp": 300,
+          "escapes": 0
+        },
+        {
+          "seed": 51,
+          "outcome": "streamer",
+          "duration": 102.63333333332879,
+          "bossHp": 260,
+          "escapes": 0
+        },
+        {
+          "seed": 52,
+          "outcome": "streamer",
+          "duration": 99.23333333332899,
+          "bossHp": 88,
+          "escapes": 0
+        },
+        {
+          "seed": 53,
+          "outcome": "chat",
+          "duration": 79.76666666666343,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 54,
+          "outcome": "chat",
+          "duration": 99.96666666666228,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 55,
+          "outcome": "streamer",
+          "duration": 92.6166666666627,
+          "bossHp": 122,
+          "escapes": 0
+        },
+        {
+          "seed": 56,
+          "outcome": "streamer",
+          "duration": 103.94999999999538,
+          "bossHp": 284,
+          "escapes": 0
+        },
+        {
+          "seed": 57,
+          "outcome": "streamer",
+          "duration": 109.01666666666176,
+          "bossHp": 26,
+          "escapes": 0
+        },
+        {
+          "seed": 58,
+          "outcome": "streamer",
+          "duration": 96.14999999999583,
+          "bossHp": 172,
+          "escapes": 0
+        },
+        {
+          "seed": 59,
+          "outcome": "streamer",
+          "duration": 87.98333333332963,
+          "bossHp": 312,
+          "escapes": 0
+        },
+        {
+          "seed": 60,
+          "outcome": "streamer",
+          "duration": 103.24999999999542,
+          "bossHp": 186,
+          "escapes": 0
+        },
+        {
+          "seed": 61,
+          "outcome": "chat",
+          "duration": 77.3499999999969,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 62,
+          "outcome": "streamer",
+          "duration": 96.03333333332917,
+          "bossHp": 266,
+          "escapes": 0
+        },
+        {
+          "seed": 63,
+          "outcome": "chat",
+          "duration": 86.1499999999964,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 64,
+          "outcome": "streamer",
+          "duration": 104.73333333332867,
+          "bossHp": 102,
+          "escapes": 0
+        },
+        {
+          "seed": 65,
+          "outcome": "streamer",
+          "duration": 98.71666666666235,
+          "bossHp": 102,
+          "escapes": 0
+        },
+        {
+          "seed": 66,
+          "outcome": "streamer",
+          "duration": 102.78333333332878,
+          "bossHp": 182,
+          "escapes": 0
+        },
+        {
+          "seed": 67,
+          "outcome": "chat",
+          "duration": 81.33333333333,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 68,
+          "outcome": "streamer",
+          "duration": 105.4499999999953,
+          "bossHp": 212,
+          "escapes": 0
+        },
+        {
+          "seed": 69,
+          "outcome": "streamer",
+          "duration": 93.36666666666265,
+          "bossHp": 226,
+          "escapes": 0
+        },
+        {
+          "seed": 70,
+          "outcome": "chat",
+          "duration": 89.73333333332953,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 71,
+          "outcome": "streamer",
+          "duration": 157.03333333335044,
+          "bossHp": 436,
+          "escapes": 0
+        },
+        {
+          "seed": 72,
+          "outcome": "streamer",
+          "duration": 98.18333333332905,
+          "bossHp": 54,
+          "escapes": 0
+        },
+        {
+          "seed": 73,
+          "outcome": "chat",
+          "duration": 78.59999999999683,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 74,
+          "outcome": "streamer",
+          "duration": 108.4166666666618,
+          "bossHp": 34,
+          "escapes": 0
+        },
+        {
+          "seed": 75,
+          "outcome": "chat",
+          "duration": 83.28333333332989,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 76,
+          "outcome": "chat",
+          "duration": 82.34999999999661,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 77,
+          "outcome": "streamer",
+          "duration": 102.59999999999546,
+          "bossHp": 32,
+          "escapes": 0
+        },
+        {
+          "seed": 78,
+          "outcome": "chat",
+          "duration": 98.14999999999571,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 79,
+          "outcome": "streamer",
+          "duration": 141.68333333333823,
+          "bossHp": 98,
+          "escapes": 0
+        },
+        {
+          "seed": 80,
+          "outcome": "chat",
+          "duration": 99.09999999999566,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 81,
+          "outcome": "streamer",
+          "duration": 103.88333333332872,
+          "bossHp": 466,
+          "escapes": 0
+        },
+        {
+          "seed": 82,
+          "outcome": "streamer",
+          "duration": 102.04999999999549,
+          "bossHp": 568,
+          "escapes": 0
+        },
+        {
+          "seed": 83,
+          "outcome": "streamer",
+          "duration": 106.6666666666619,
+          "bossHp": 574,
+          "escapes": 0
+        },
+        {
+          "seed": 84,
+          "outcome": "chat",
+          "duration": 98.13333333332905,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 85,
+          "outcome": "streamer",
+          "duration": 143.88333333333998,
+          "bossHp": 72,
+          "escapes": 0
+        },
+        {
+          "seed": 86,
+          "outcome": "streamer",
+          "duration": 98.69999999999568,
+          "bossHp": 68,
+          "escapes": 0
+        },
+        {
+          "seed": 87,
+          "outcome": "chat",
+          "duration": 93.93333333332929,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 88,
+          "outcome": "streamer",
+          "duration": 107.08333333332854,
+          "bossHp": 308,
+          "escapes": 0
+        },
+        {
+          "seed": 89,
+          "outcome": "chat",
+          "duration": 71.98333333333053,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 90,
+          "outcome": "streamer",
+          "duration": 95.33333333332921,
+          "bossHp": 350,
+          "escapes": 0
+        },
+        {
+          "seed": 91,
+          "outcome": "streamer",
+          "duration": 93.76666666666263,
+          "bossHp": 468,
+          "escapes": 0
+        },
+        {
+          "seed": 92,
+          "outcome": "streamer",
+          "duration": 114.18333333332814,
+          "bossHp": 10,
+          "escapes": 0
+        },
+        {
+          "seed": 93,
+          "outcome": "streamer",
+          "duration": 104.2833333333287,
+          "bossHp": 116,
+          "escapes": 0
+        },
+        {
+          "seed": 94,
+          "outcome": "streamer",
+          "duration": 95.06666666666256,
+          "bossHp": 368,
+          "escapes": 0
+        },
+        {
+          "seed": 95,
+          "outcome": "chat",
+          "duration": 73.29999999999713,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 96,
+          "outcome": "streamer",
+          "duration": 95.69999999999585,
+          "bossHp": 472,
+          "escapes": 0
+        },
+        {
+          "seed": 97,
+          "outcome": "chat",
+          "duration": 89.0166666666629,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 98,
+          "outcome": "streamer",
+          "duration": 93.26666666666266,
+          "bossHp": 566,
+          "escapes": 0
+        },
+        {
+          "seed": 99,
+          "outcome": "streamer",
+          "duration": 133.51666666666506,
+          "bossHp": 76,
+          "escapes": 0
+        },
+        {
+          "seed": 100,
+          "outcome": "streamer",
+          "duration": 95.63333333332919,
+          "bossHp": 24,
+          "escapes": 0
+        },
+        {
+          "seed": 101,
+          "outcome": "streamer",
+          "duration": 96.58333333332914,
+          "bossHp": 804,
+          "escapes": 0
+        },
+        {
+          "seed": 102,
+          "outcome": "chat",
+          "duration": 81.43333333333,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 103,
+          "outcome": "streamer",
+          "duration": 102.84999999999545,
+          "bossHp": 410,
+          "escapes": 0
+        },
+        {
+          "seed": 104,
+          "outcome": "chat",
+          "duration": 95.06666666666256,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 105,
+          "outcome": "chat",
+          "duration": 75.91666666666364,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 106,
+          "outcome": "streamer",
+          "duration": 94.48333333332926,
+          "bossHp": 134,
+          "escapes": 0
+        },
+        {
+          "seed": 107,
+          "outcome": "chat",
+          "duration": 82.6499999999966,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 108,
+          "outcome": "streamer",
+          "duration": 106.84999999999522,
+          "bossHp": 62,
+          "escapes": 0
+        },
+        {
+          "seed": 109,
+          "outcome": "chat",
+          "duration": 95.01666666666256,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 110,
+          "outcome": "chat",
+          "duration": 80.2166666666634,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 111,
+          "outcome": "streamer",
+          "duration": 99.84999999999562,
+          "bossHp": 358,
+          "escapes": 0
+        },
+        {
+          "seed": 112,
+          "outcome": "streamer",
+          "duration": 109.14999999999509,
+          "bossHp": 286,
+          "escapes": 0
+        },
+        {
+          "seed": 113,
+          "outcome": "streamer",
+          "duration": 99.16666666666232,
+          "bossHp": 44,
+          "escapes": 0
+        },
+        {
+          "seed": 114,
+          "outcome": "streamer",
+          "duration": 114.66666666666144,
+          "bossHp": 322,
+          "escapes": 0
+        },
+        {
+          "seed": 115,
+          "outcome": "chat",
+          "duration": 69.616666666664,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 116,
+          "outcome": "chat",
+          "duration": 84.91666666666313,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 117,
+          "outcome": "streamer",
+          "duration": 100.66666666666224,
+          "bossHp": 16,
+          "escapes": 0
+        },
+        {
+          "seed": 118,
+          "outcome": "chat",
+          "duration": 89.03333333332957,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 119,
+          "outcome": "streamer",
+          "duration": 89.89999999999618,
+          "bossHp": 164,
+          "escapes": 0
+        },
+        {
+          "seed": 120,
+          "outcome": "chat",
+          "duration": 83.69999999999654,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 121,
+          "outcome": "streamer",
+          "duration": 102.61666666666213,
+          "bossHp": 202,
+          "escapes": 0
+        },
+        {
+          "seed": 122,
+          "outcome": "streamer",
+          "duration": 109.26666666666175,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 123,
+          "outcome": "streamer",
+          "duration": 102.08333333332882,
+          "bossHp": 334,
+          "escapes": 0
+        },
+        {
+          "seed": 124,
+          "outcome": "streamer",
+          "duration": 120.64999999999444,
+          "bossHp": 92,
+          "escapes": 0
+        },
+        {
+          "seed": 125,
+          "outcome": "chat",
+          "duration": 77.08333333333024,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 126,
+          "outcome": "streamer",
+          "duration": 129.4999999999952,
+          "bossHp": 252,
+          "escapes": 0
+        },
+        {
+          "seed": 127,
+          "outcome": "chat",
+          "duration": 70.16666666666397,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 128,
+          "outcome": "chat",
+          "duration": 80.2666666666634,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 129,
+          "outcome": "chat",
+          "duration": 100.66666666666224,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 130,
+          "outcome": "streamer",
+          "duration": 99.74999999999562,
+          "bossHp": 314,
+          "escapes": 0
+        },
+        {
+          "seed": 131,
+          "outcome": "streamer",
+          "duration": 103.33333333332875,
+          "bossHp": 172,
+          "escapes": 0
+        },
+        {
+          "seed": 132,
+          "outcome": "streamer",
+          "duration": 107.64999999999517,
+          "bossHp": 222,
+          "escapes": 0
+        },
+        {
+          "seed": 133,
+          "outcome": "streamer",
+          "duration": 129.23333333332832,
+          "bossHp": 40,
+          "escapes": 0
+        },
+        {
+          "seed": 134,
+          "outcome": "chat",
+          "duration": 81.46666666666333,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 135,
+          "outcome": "streamer",
+          "duration": 112.3499999999949,
+          "bossHp": 66,
+          "escapes": 0
+        },
+        {
+          "seed": 136,
+          "outcome": "chat",
+          "duration": 80.86666666666336,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 137,
+          "outcome": "streamer",
+          "duration": 94.2666666666626,
+          "bossHp": 464,
+          "escapes": 0
+        },
+        {
+          "seed": 138,
+          "outcome": "streamer",
+          "duration": 102.5833333333288,
+          "bossHp": 270,
+          "escapes": 0
+        },
+        {
+          "seed": 139,
+          "outcome": "streamer",
+          "duration": 94.81666666666257,
+          "bossHp": 6,
+          "escapes": 0
+        },
+        {
+          "seed": 140,
+          "outcome": "streamer",
+          "duration": 124.28333333332756,
+          "bossHp": 94,
+          "escapes": 0
+        },
+        {
+          "seed": 141,
+          "outcome": "streamer",
+          "duration": 114.3499999999948,
+          "bossHp": 62,
+          "escapes": 0
+        },
+        {
+          "seed": 142,
+          "outcome": "chat",
+          "duration": 86.18333333332973,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 143,
+          "outcome": "streamer",
+          "duration": 94.81666666666257,
+          "bossHp": 34,
+          "escapes": 0
+        },
+        {
+          "seed": 144,
+          "outcome": "chat",
+          "duration": 81.66666666666332,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 145,
+          "outcome": "streamer",
+          "duration": 91.21666666666277,
+          "bossHp": 146,
+          "escapes": 0
+        },
+        {
+          "seed": 146,
+          "outcome": "streamer",
+          "duration": 94.68333333332924,
+          "bossHp": 148,
+          "escapes": 0
+        },
+        {
+          "seed": 147,
+          "outcome": "chat",
+          "duration": 73.04999999999714,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 148,
+          "outcome": "streamer",
+          "duration": 121.99999999999436,
+          "bossHp": 470,
+          "escapes": 0
+        },
+        {
+          "seed": 149,
+          "outcome": "streamer",
+          "duration": 92.74999999999602,
+          "bossHp": 348,
+          "escapes": 0
+        },
+        {
+          "seed": 150,
+          "outcome": "streamer",
+          "duration": 98.31666666666237,
+          "bossHp": 206,
+          "escapes": 0
+        },
+        {
+          "seed": 151,
+          "outcome": "streamer",
+          "duration": 86.36666666666305,
+          "bossHp": 34,
+          "escapes": 0
+        },
+        {
+          "seed": 152,
+          "outcome": "streamer",
+          "duration": 94.3166666666626,
+          "bossHp": 32,
+          "escapes": 0
+        },
+        {
+          "seed": 153,
+          "outcome": "streamer",
+          "duration": 100.71666666666223,
+          "bossHp": 156,
+          "escapes": 0
+        },
+        {
+          "seed": 154,
+          "outcome": "streamer",
+          "duration": 98.71666666666235,
+          "bossHp": 174,
+          "escapes": 0
+        },
+        {
+          "seed": 155,
+          "outcome": "streamer",
+          "duration": 97.14999999999577,
+          "bossHp": 142,
+          "escapes": 0
+        },
+        {
+          "seed": 156,
+          "outcome": "chat",
+          "duration": 78.9999999999968,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 157,
+          "outcome": "streamer",
+          "duration": 100.23333333332893,
+          "bossHp": 10,
+          "escapes": 0
+        },
+        {
+          "seed": 158,
+          "outcome": "streamer",
+          "duration": 115.43333333332806,
+          "bossHp": 308,
+          "escapes": 0
+        },
+        {
+          "seed": 159,
+          "outcome": "chat",
+          "duration": 77.2999999999969,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 160,
+          "outcome": "streamer",
+          "duration": 131.68333333333027,
+          "bossHp": 562,
+          "escapes": 0
+        },
+        {
+          "seed": 161,
+          "outcome": "streamer",
+          "duration": 107.49999999999518,
+          "bossHp": 444,
+          "escapes": 0
+        },
+        {
+          "seed": 162,
+          "outcome": "streamer",
+          "duration": 113.96666666666148,
+          "bossHp": 436,
+          "escapes": 0
+        },
+        {
+          "seed": 163,
+          "outcome": "streamer",
+          "duration": 103.78333333332873,
+          "bossHp": 218,
+          "escapes": 0
+        },
+        {
+          "seed": 164,
+          "outcome": "streamer",
+          "duration": 102.33333333332881,
+          "bossHp": 414,
+          "escapes": 0
+        },
+        {
+          "seed": 165,
+          "outcome": "chat",
+          "duration": 82.98333333332991,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 166,
+          "outcome": "streamer",
+          "duration": 100.46666666666225,
+          "bossHp": 262,
+          "escapes": 0
+        },
+        {
+          "seed": 167,
+          "outcome": "streamer",
+          "duration": 89.36666666666288,
+          "bossHp": 652,
+          "escapes": 0
+        },
+        {
+          "seed": 168,
+          "outcome": "chat",
+          "duration": 75.81666666666365,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 169,
+          "outcome": "streamer",
+          "duration": 102.64999999999546,
+          "bossHp": 304,
+          "escapes": 0
+        },
+        {
+          "seed": 170,
+          "outcome": "streamer",
+          "duration": 105.31666666666197,
+          "bossHp": 164,
+          "escapes": 0
+        },
+        {
+          "seed": 171,
+          "outcome": "chat",
+          "duration": 81.84999999999664,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 172,
+          "outcome": "streamer",
+          "duration": 98.26666666666237,
+          "bossHp": 62,
+          "escapes": 0
+        },
+        {
+          "seed": 173,
+          "outcome": "streamer",
+          "duration": 94.14999999999594,
+          "bossHp": 310,
+          "escapes": 0
+        },
+        {
+          "seed": 174,
+          "outcome": "streamer",
+          "duration": 90.03333333332951,
+          "bossHp": 482,
+          "escapes": 0
+        },
+        {
+          "seed": 175,
+          "outcome": "chat",
+          "duration": 86.31666666666305,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 176,
+          "outcome": "streamer",
+          "duration": 112.66666666666156,
+          "bossHp": 272,
+          "escapes": 0
+        },
+        {
+          "seed": 177,
+          "outcome": "streamer",
+          "duration": 116.44999999999467,
+          "bossHp": 258,
+          "escapes": 0
+        },
+        {
+          "seed": 178,
+          "outcome": "streamer",
+          "duration": 104.43333333332869,
+          "bossHp": 184,
+          "escapes": 0
+        },
+        {
+          "seed": 179,
+          "outcome": "chat",
+          "duration": 98.03333333332905,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 180,
+          "outcome": "streamer",
+          "duration": 109.76666666666172,
+          "bossHp": 4,
+          "escapes": 0
+        },
+        {
+          "seed": 181,
+          "outcome": "chat",
+          "duration": 77.28333333333023,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 182,
+          "outcome": "chat",
+          "duration": 89.24999999999622,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 183,
+          "outcome": "streamer",
+          "duration": 107.38333333332852,
+          "bossHp": 54,
+          "escapes": 0
+        },
+        {
+          "seed": 184,
+          "outcome": "streamer",
+          "duration": 96.08333333332916,
+          "bossHp": 638,
+          "escapes": 0
+        },
+        {
+          "seed": 185,
+          "outcome": "streamer",
+          "duration": 100.18333333332893,
+          "bossHp": 394,
+          "escapes": 0
+        },
+        {
+          "seed": 186,
+          "outcome": "chat",
+          "duration": 74.73333333333038,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 187,
+          "outcome": "streamer",
+          "duration": 97.08333333332911,
+          "bossHp": 204,
+          "escapes": 0
+        },
+        {
+          "seed": 188,
+          "outcome": "streamer",
+          "duration": 95.19999999999588,
+          "bossHp": 104,
+          "escapes": 0
+        },
+        {
+          "seed": 189,
+          "outcome": "chat",
+          "duration": 92.69999999999602,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 190,
+          "outcome": "streamer",
+          "duration": 92.04999999999606,
+          "bossHp": 274,
+          "escapes": 0
+        },
+        {
+          "seed": 191,
+          "outcome": "streamer",
+          "duration": 100.33333333332892,
+          "bossHp": 266,
+          "escapes": 0
+        },
+        {
+          "seed": 192,
+          "outcome": "chat",
+          "duration": 81.61666666666332,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 193,
+          "outcome": "streamer",
+          "duration": 95.63333333332919,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 194,
+          "outcome": "chat",
+          "duration": 90.56666666666281,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 195,
+          "outcome": "streamer",
+          "duration": 98.2999999999957,
+          "bossHp": 264,
+          "escapes": 0
+        },
+        {
+          "seed": 196,
+          "outcome": "streamer",
+          "duration": 91.51666666666276,
+          "bossHp": 394,
+          "escapes": 0
+        },
+        {
+          "seed": 197,
+          "outcome": "chat",
+          "duration": 85.93333333332974,
+          "bossHp": 0,
+          "escapes": 0
+        },
+        {
+          "seed": 198,
+          "outcome": "streamer",
+          "duration": 112.11666666666159,
+          "bossHp": 374,
+          "escapes": 0
+        },
+        {
+          "seed": 199,
+          "outcome": "streamer",
+          "duration": 106.09999999999526,
+          "bossHp": 178,
+          "escapes": 0
+        },
+        {
+          "seed": 200,
+          "outcome": "streamer",
+          "duration": 102.31666666666214,
+          "bossHp": 362,
+          "escapes": 0
+        }
+      ]
+    }
+  ]
+}

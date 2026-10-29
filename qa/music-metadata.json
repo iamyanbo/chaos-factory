@@ -1,0 +1,34 @@
+[
+  {
+    "file": "adventure-1.ogg",
+    "bytes": 1691690,
+    "sha256": "cd35b9cf8929352d60b79fdedbe43f7fab3e6e0c228b22970851c542a89f0531",
+    "duration": 41.14288,
+    "sampleRate": "44100",
+    "channels": 2
+  },
+  {
+    "file": "adventure-2.ogg",
+    "bytes": 2470125,
+    "sha256": "68ec252839e1f227275fe46fca5e38ffab5086b39a6ab2650a752e4f2ef2a5a7",
+    "duration": 56.1039,
+    "sampleRate": "44100",
+    "channels": 2
+  },
+  {
+    "file": "factory.ogg",
+    "bytes": 1819852,
+    "sha256": "da95a6c87759d0b82f6153970a19c345a30241f2705b798eaca93b0a40e209e8",
+    "duration": 80.0,
+    "sampleRate": "44100",
+    "channels": 2
+  },
+  {
+    "file": "menu.ogg",
+    "bytes": 236721,
+    "sha256": "21c82fe1ad239184fb56cb778995f3891aa87db48d5938889179e6a8fb172ba9",
+    "duration": 11.707324,
+    "sampleRate": "44100",
+    "channels": 2
+  }
+]

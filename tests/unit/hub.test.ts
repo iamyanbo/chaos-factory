@@ -1,0 +1,7 @@
+import { expect,test } from 'vitest';
+import { createServer } from 'node:http';
+import { once } from 'node:events';
+import { WebSocket } from 'ws';
+import { Hub } from '../../apps/server/src/hub';
+test('hub gates writes by role, rejects foreign origins and allows one show owner',async()=>{const server=createServer(),hub=new Hub(server);const types:string[]=[];hub.onMessage=m=>types.push(m.type);server.listen(0,'127.0.0.1');await once(server,'listening');const port=(server.address()as{port:number}).port;const clients:WebSocket[]=[];async function connect(role:string){const ws=new WebSocket(`ws://127.0.0.1:${port}/ws`);clients.push(ws);await once(ws,'open');ws.send(JSON.stringify({type:'hello',role}));return ws;}
+  try{const controller=await connect('controller');controller.send(JSON.stringify({type:'prediction.cancel',reason:'unauthorized'}));controller.send(JSON.stringify({type:'streamer.input',action:'left',pressed:true,seq:1}));await new Promise(r=>setTimeout(r,40));expect(types).toEqual(['streamer.input']);await connect('show');const second=await connect('show');const[code]=await once(second,'close');expect(code).toBe(4001);const foreign=new WebSocket(`ws://127.0.0.1:${port}/ws`,{origin:'https://unrelated.example'});clients.push(foreign);const[foreignCode]=await once(foreign,'close');expect(foreignCode).toBe(1008);}finally{for(const c of clients)c.close();hub.close();server.close();await once(server,'close');}});

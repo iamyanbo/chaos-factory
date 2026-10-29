@@ -1,0 +1,21 @@
+.music-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  padding: 9px;
+  border: 3px solid var(--toy-ink);
+  border-radius: 50%;
+  background: var(--toy-white);
+  color: var(--toy-ink);
+  box-shadow: 0 3px 0 var(--toy-shadow);
+  cursor: pointer;
+}
+.music-toggle svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.music-toggle:hover { background: var(--toy-yellow); }
+.music-toggle:focus-visible { outline: 3px solid var(--toy-ink); outline-offset: 3px; }
+.music-toggle .music-slash { display: none; }
+.music-toggle[aria-pressed="false"] .music-slash { display: block; stroke-width: 3; }
+.show > #app > .music-toggle { position: fixed; right: 18px; bottom: 18px; z-index: 30; }

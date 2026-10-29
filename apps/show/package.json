@@ -1,0 +1,17 @@
+{
+  "name": "@chaos/show",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@chaos/shared": "*",
+    "@dimforge/rapier2d-deterministic-compat": "^0.21.0",
+    "howler": "^2.2.4",
+    "pixi.js": "^8.14.0"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.12"
+  }
+}

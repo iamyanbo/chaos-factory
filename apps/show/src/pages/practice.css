@@ -1,0 +1,59 @@
+.practice #app { min-height: 100dvh; }
+.practice-shell { height: 100dvh; min-height: 700px; display: flex; flex-direction: column; }
+.practice-toolbar { flex: none; padding: 16px 28px; border-bottom: 4px solid var(--toy-ink); background: var(--toy-white); }
+.practice-heading { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+.practice-heading .pill-link { margin-left: auto; }
+.practice-toolbar form { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; }
+.practice-toolbar form label { flex: 1; min-width: 95px; }
+.practice-toolbar form label:first-child { flex: 2; min-width: 190px; }
+.practice-toolbar input, .practice-toolbar select { margin-top: 4px; min-height: 42px; padding: 5px 10px; }
+.practice-status { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+.practice-status p { margin: 0; color: var(--toy-ink); font-size: 20px; }
+.practice-status .toggle { margin: 0; white-space: nowrap; }
+.practice-stage { flex: 1 1 0; min-height: 240px; overflow: hidden; width: 100%; position: relative; }
+.practice-stage canvas { display: block; outline: none; max-width: 100%; max-height: 100%; }
+.practice-actions { flex: none; display: grid; gap: 24px; padding: 12px 28px; background: var(--toy-white); border-top: 4px solid var(--toy-ink); }
+.practice-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.practice-control { touch-action: none; user-select: none; min-width: 90px; }
+.practice-control.pressed { background: var(--toy-yellow); }
+.practice-actions button:disabled { opacity: .5; cursor: default; }
+.practice-actions input { max-width: 120px; }
+.practice-explanation { flex: 1; }
+#practice-join-panel { display: flex; align-items: center; gap: 20px; }
+#practice-join { flex: 0 0 auto; width: auto; min-width: 150px; font-size: 24px; margin: 0; }
+#practice-join-status { color: var(--toy-muted); font-size: 20px; }
+#practice-bots { max-width: 95px; }
+.practice-focus .practice-heading, .practice-focus #practice-settings, .practice-focus #practice-goal { display: none; }
+.practice-focus .practice-toolbar { padding: 8px 20px; }
+.practice-focus .practice-status { margin: 0; gap: 14px; }
+.practice-focus .practice-actions { padding: 8px 20px; }
+.practice-focus .practice-status .button { white-space: nowrap; }
+.practice-record { height: 100dvh; min-height: 0; }
+.practice-record .practice-toolbar, .practice-record .practice-actions { display: none !important; }
+.practice-record .practice-stage { height: 100dvh; min-height: 0; flex: 1; }
+@media (max-width: 950px) {
+  .practice-shell { height: auto; min-height: 100dvh; }
+  .practice-toolbar { padding: 12px 16px; }
+  .practice-status { flex-wrap: wrap; gap: 12px; }
+  .practice-status .practice-explanation { flex: 1 0 100%; min-width: 0; }
+  .practice-stage { flex: none; height: 56.25vw; min-height: 220px; }
+  .practice-actions { padding: 14px 16px; }
+  .practice-toolbar form label { min-width: 110px; }
+  .practice-toolbar form label:first-child { flex-basis: 50%; }
+}
+
+.practice-stage { position: relative; }
+.practice-result-actions {
+  position: absolute;
+  z-index: 4;
+  right: 4.2%;
+  bottom: 6%;
+  display: flex;
+  gap: 14px;
+}
+.practice-result-actions[hidden] { display: none; }
+.practice-result-actions .button { min-width: 210px; min-height: 58px; padding: 12px 26px; font-size: 24px; white-space: nowrap; }
+@media (max-width: 950px) {
+  .practice-result-actions { gap: 8px; bottom: 5%; }
+  .practice-result-actions .button { min-width: 0; min-height: 38px; padding: 7px 14px; font-size: 16px; }
+}

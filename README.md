@@ -1,0 +1,106 @@
+# Chaos Factory
+
+A Twitch physics game show. Viewers type `!join`, become named marbles, and watch
+five-round Cups with standings, a top-eight final and a returning champion's crown.
+Native Twitch Predictions add channel-point stakes on eligible channels.
+
+## Try it in two minutes
+
+Install **Node.js 22 or newer**, then run:
+
+```sh
+npm ci
+npm run demo
+```
+
+- [Play offline](http://127.0.0.1:4182/play)
+- [Automatic five-round Cup](http://127.0.0.1:4182/show)
+- [Host dashboard](http://127.0.0.1:4182/dashboard)
+
+The demo always uses mock Twitch, 24 simulated viewers and delayed joins. No
+account, credentials, external fonts or browser extensions are needed. Stop with
+Ctrl+C. Windows users can also double-click `START.cmd`.
+
+## Games
+
+| Game | Offline link | In Cups |
+|---|---|---|
+| Blade Brawl | [Play](http://127.0.0.1:4182/play?game=blade-brawl) | Yes; also the Grand Final |
+| Hot Potato | [Play](http://127.0.0.1:4182/play?game=hot-potato) | Yes |
+| Multiplier Cascade | [Play](http://127.0.0.1:4182/play?game=multiplier-cascade) | Yes |
+| Peg Fever | [Play](http://127.0.0.1:4182/play?game=peg-fever) | Yes |
+| Marble Race | [Play](http://127.0.0.1:4182/play?game=marble-race) | Yes |
+| Light Cycles | [Play](http://127.0.0.1:4182/play?game=light-cycles) | No |
+| Pong Wars | [Play](http://127.0.0.1:4182/play?game=pong-wars) | No |
+| Ring Run+ | [Play](http://127.0.0.1:4182/play?game=ring-escape) | No |
+
+Games play automatically; chat never needs reflex timing. Four Cup rounds award
+points, then the top eight enter a Blade Brawl final. The final survivor wins.
+The dashboard supports a draggable queue, player limits, manual starts and audio
+controls. Rounds load visibly and count down before play. Offline results offer
+**Play again** and **Change game**.
+
+The musical-note button toggles bundled CC0 music separately from effects.
+Toy balls default to matte vinyl; add `&ball=b` for jelly or `&ball=c` for faces.
+Normal rounds choose fresh hidden seeds. Debug URLs accept `seed` and `take=seed`
+for exact reproduction.
+
+## Connect your Twitch channel
+
+```sh
+npm run twitch
+```
+
+Open http://localhost:4181/dashboard. The connection card guides you through
+registering a **Public** Twitch app and authorizing as the broadcaster using its
+Client ID. No pasted access tokens or client secret are needed. Saved grants
+reconnect automatically; credentials remain in gitignored server storage.
+
+OBS Browser Source: **1920 x 1080**, `http://localhost:4181/show?manual=1`.
+Control that show from the dashboard on **4181**. Viewers type `!join`; the host
+starts each round when ready. Predictions require an Affiliate or Partner channel.
+API failures keep the show running without wagers. Only one controlling `/show`
+connection is allowed per server; `/play` is independent.
+
+Follow [LIVE-TEST.md](docs/LIVE-TEST.md) for connection details and the real-channel
+rehearsal. The offline demo on **4182** never places real wagers.
+
+## Develop and verify
+
+```sh
+npm run dev          # mock bridge + Vite on http://127.0.0.1:5173
+npm run typecheck
+npm test
+npm run build
+npm run test:e2e
+```
+
+TypeScript is strict. PixiJS v8 renders the Toy theme; deterministic Rapier runs at
+60 Hz. Fastify, WebSockets and Twurple connect the show and Twitch. Games are
+isolated plugins under `apps/show/src/games/`; the shared engine/context, kits and
+show layer supply physics, presentation, scoring and Cup services.
+
+Browser QA defaults to installed Chrome on Windows; set `CHROME_PATH` elsewhere.
+For stills, run `npm run frames -- --game peg-fever`. Optional frame sheets need
+Python with Pillow. Tests, captures, builds and local data are excluded from Git;
+selected review notes remain in `qa/`. `npm run audit:ship` runs raw-seed completion
+and body-budget checks. Replays can be checked with `npm run replay -- --file <file>`.
+The best-take selector scores aggregate activity and pacing, never player identity
+or which side wins.
+
+## Submission and limitations
+
+- [Submission description](docs/SUBMISSION.md), [remaining steps](docs/SHIP-CHECKLIST.md)
+- [Known issues](qa/known-issues.md), [verification summary](qa/release-check.md)
+- [Asset credits and licenses](ASSETS.md), [how Codex was used](CODEX_LOG.md)
+- [Toy theme](docs/24-toy-theme.md), [frozen lineup](docs/23-ship.md)
+
+Streamer-versus-chat Blade Brawl favors the streamer in the last diagnostic sample;
+no balanced 50/50 claim is made. Authenticated native point payout still needs the
+owner's rehearsal. Mock tests do not establish live Twitch success.
+
+`npm run submission` creates a source ZIP, commit/hash manifest, copy, credits and
+five existing game images in `qa/submission/`. Commit reviewed changes first.
+`npm run submission:check` flags missing links, the actual main Codex session ID,
+team details and owner-confirmed access/rehearsal checks in
+`docs/submission-fields.json`. It does not publish or submit the Devpost entry.

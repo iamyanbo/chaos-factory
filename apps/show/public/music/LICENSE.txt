@@ -1,0 +1,14 @@
+All music in this folder is released under CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+
+adventure-1.ogg / adventure-2.ogg (and MP3 versions)
+Chiptune Adventures, Stage 1 and Stage 2, by Juhani Junkala / SubspaceAudio.
+https://opengameart.org/content/4-chiptunes-adventure
+Original author notice: Juhani-Junkala-NOTICE.txt
+
+factory.ogg / menu.ogg (and MP3 versions)
+Empacotatron, loop and menu, by Fupi.
+https://opengameart.org/content/empacotatron
+Author page lists License(s): CC0.
+
+OGGs are unchanged original files. MP3s are local 128 kbps conversions for browser compatibility.

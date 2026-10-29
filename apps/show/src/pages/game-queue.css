@@ -1,0 +1,22 @@
+.queue-card .queue-row, .queue-drag-preview {
+  display: grid; grid-template-columns: 24px 44px minmax(0, 1fr) 26px; align-items: center;
+  gap: 8px; padding: 10px; margin: 0 0 10px; border: 3px solid var(--toy-ink);
+  border-radius: 16px; background: var(--toy-white); color: var(--toy-ink); list-style: none;
+  cursor: grab; user-select: none;
+}
+.queue-row img, .queue-drag-preview img { width: 44px; height: 44px; border-radius: 10px; border: 2px solid var(--toy-ink); object-fit: contain; }
+.queue-title { font: 21px/1.1 var(--toy-display); overflow-wrap: anywhere; }
+.queue-grip, .queue-remove { display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--toy-muted); padding: 0; min-height: 40px; }
+.queue-grip { cursor: grab; touch-action: none; }
+.grip-dots { display: grid; grid-template-columns: repeat(2, 4px); gap: 4px; }
+.grip-dots i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+.queue-remove { font: 26px var(--toy-body); cursor: pointer; }
+.queue-remove:hover { color: var(--toy-accentB); }
+.queue-grip:hover { color: var(--toy-ink); }
+.queue-card .queue-placeholder { background: var(--toy-pale); border-style: dashed; }
+.queue-placeholder > * { opacity: .2; }
+.queue-drag-preview { position: fixed; z-index: 100; margin: 0; pointer-events: none; cursor: grabbing; box-shadow: 7px 9px 0 var(--toy-shadow); transform: rotate(-1deg); }
+.queue-dragging, .queue-dragging .queue-grip { cursor: grabbing; }
+.queue-help { margin: -8px 0 16px; font-size: 16px; color: var(--toy-muted); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.queue-card .queue { position: relative; }

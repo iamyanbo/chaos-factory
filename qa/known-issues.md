@@ -1,0 +1,44 @@
+# Release limits — October 29, 2026
+
+## Still open
+
+- **Blade Brawl Boss balance:** the requested rage power is implemented; the
+  200-seed-per-size rerun favors the Boss (78.5%, 89.0%, 67.5% at 8/16/32
+  chatters), with zero voids or arena escapes. This is FAIL against 45–55%.
+  HP remains the documented 55/viewer. Earlier no-rage threshold probes are
+  historical and do not calibrate this version. Cosmetic event-timing/palette
+  edits during/after the long audit also prevent its source-hash acceptance;
+  no balance PASS is claimed. See qa/blade-boss-balance.md and JSON provenance.
+  Do not add an undisclosed population curve or select takes by who wins.
+- **Real Twitch proof:** authorization/chat have previously been connected,
+  but a complete live broadcast, eligible-channel Prediction resolution and
+  native point payout still require the user's rehearsal. This offline pass
+  does not claim that testing. Native wagering needs an eligible broadcaster.
+- **Submission account steps:** the public repository is
+  https://github.com/iamyanbo/chaos-factory. The final YouTube demo URL and actual
+  main Codex session ID still need to be supplied. The copy and storyboard are in
+  docs/SUBMISSION.md; docs/SHIP-CHECKLIST.md now collects the remaining owner
+  steps. `npm run submission` packages the committed handoff without publishing
+  it, and `npm run submission:check` reports missing fields/confirmations from
+  docs/submission-fields.json. Publish/share the repo and enter the real values
+  before submitting. No live or mock video was recorded in this pass.
+
+## Expected behavior
+
+- An equal-territory Pong Wars result is a draw/void, rather than an invented
+  tiebreak winner. One of 16 raw seeds tied in the release audit. Pong stays
+  outside the Cup pool.
+- Raw Ring Run+ seeds can escape quickly (11.9s in the current sample). Normal
+  play uses the winner-blind best-take selector; `take=seed` bypasses it for
+  debugging. Ring Run+ stays outside the Cup pool.
+- A hidden 150s threshold begins visible sudden death; it does not award a
+  timed win. The release sample needed no sudden death at default field sizes.
+- The app allows one controlling `/show` connection per server. Additional
+  shows explain the conflict; use `/play` for independent offline games.
+- A production build reports a large bundle warning because deterministic
+  Rapier is included in the show and simulation worker. Round preparation can
+  take up to six seconds, followed by the visible three-second countdown.
+
+The offline release audit covers completion, natural results and body limits.
+Passing it is not a claim that every seed is equally entertaining; real viewer
+feedback remains the standard for watchability.

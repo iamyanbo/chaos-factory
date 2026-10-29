@@ -1,0 +1,35 @@
+export const LEFT = 470;
+export const RIGHT = 1450;
+export const START_Y = 74;
+export const MODULE_TOP = 520;
+export const MODULE_STORY_HEIGHT = 620;
+export const MODULE_STOREYS = 2;
+export const MODULE_COUNT = 5;
+export const MODULE_HEIGHT = MODULE_STORY_HEIGHT * MODULE_STOREYS;
+export const FINAL_SECTION_TOP = MODULE_TOP + MODULE_COUNT * MODULE_HEIGHT;
+export const FINISH_Y = FINAL_SECTION_TOP + 570;
+export const COURSE_BOTTOM = FINAL_SECTION_TOP + 700;
+export const RADIUS = 14;
+export const MAX_ENTRANTS = 48;
+export const GRAVITY = 2.4;
+export const HARD_CAP = 150;
+export const FINISH_GRACE_SECONDS = 10;
+export const COURSE_OPEN_SECONDS = 3;
+// Audit/selector observation horizon only: the live race never stops here.
+export const AUDIT_SECONDS = 360;
+export const CAMERA_START_Y = 540;
+export const CAMERA_BOTTOM_Y = COURSE_BOTTOM - 540;
+export const CAMERA_DEAD_ZONE = 60;
+export const CAMERA_LOOK_AHEAD = 140;
+export const CAMERA_OMEGA = 4;
+export const CAMERA_MAX_SPEED = 900;
+export const CAMERA_MAX_ACCELERATION = 2400;
+export const TRAP_PERIOD = 4;
+export const TRAP_CLOSED = 1.4;
+export const TRAP_OPEN_SECONDS = 0.45;
+export const TRAP_CLOSE_SECONDS = 1.25;
+export const RAIL_FRICTION = 0.035;
+export const RAIL_BOUNCE = 0.24;
+export const CHECKPOINTS = [MODULE_TOP,
+  ...Array.from({ length: MODULE_COUNT * MODULE_STOREYS }, (_, index) =>
+    MODULE_TOP + (index + 1) * MODULE_STORY_HEIGHT)];
