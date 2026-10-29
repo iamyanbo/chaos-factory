@@ -115,6 +115,8 @@ npx tsx tools/capture-cup.ts --sfx-only --out qa/submission-video/full-cup-sfx
 npx tsx tools/capture-join-crowd.ts
 # With npm run twitch running separately, capture an actual chat !join:
 npx tsx tools/capture-live-join.ts
+# Capture the connected host workflow without desktop automation:
+npx tsx tools/capture-host-setup.ts
 npm run video
 ```
 
@@ -125,8 +127,9 @@ continues at its captured speed. The older mixed-audio live inset is muted.
 A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
 and overlays each game's actual name and short rules during gameplay. The opening
-title says "Implemented with Codex"; the game shots contain only rules and event
-accents. Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
+title says "Implemented with Codex". The connected dashboard shows queue ordering
+and Start Cup. Marble Race includes edited excerpts of the actual Codex conversation
+and its verified Git patch; this build-record panel is not a native Codex UI recording. Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
 separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
 local under `qa/submission-video/`; they are excluded from Git. Account uploads
 and final Devpost submission are not automated.

@@ -97,3 +97,14 @@ scroll/fuse sections are cut while both explosions and other physical payoffs
 remain. Deterministic title frames and a source-duration guard preserve reading
 time in the export. Typecheck, all 361 tests/73 files and eight final focused
 checks pass. Full decoding, cut timing and final audio headroom checks pass.
+
+
+## Setup and build-record cut ? October 29
+
+The latest film is v8, 115.100 seconds. It adds the actual connected dashboard
+workflow and edited real conversation/committed-diff evidence alongside Marble
+Race. No native Codex UI recording or public Twitch broadcast is claimed.
+Full decode and strict video DTS checks pass, with zero planned/export drift.
+Final audio is -18.09 LUFS/-1.44 dBTP. The twenty-frame review and actual source
+provenance are recorded in qa/submission-video/v8-review/ and edit.json.
+Typecheck and all 364 tests across 74 files pass; eleven focused edit checks pass.

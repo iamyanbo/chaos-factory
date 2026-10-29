@@ -3,18 +3,19 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { command } from './drama/capture-media';
 import type { CrowdVideo, VideoSegment } from './video-plan';
+import type { BuildProof } from './video-proof';
 import { CHAPTER_TIMING } from './video-titles';
 
 const FPS = 30;
 const BATCH = 20;
 
 /** Deterministic transparent motion graphics, separate from the untouched game canvas. */
-export async function gameplayOverlay(page: Page, segment: VideoSegment, index: number, crowd: CrowdVideo): Promise<string> {
+export async function gameplayOverlay(page: Page, segment: VideoSegment, index: number, crowd: CrowdVideo, proof: BuildProof): Promise<string> {
   const directory = resolve('qa/submission-video/edit/overlays', String(index));
   await mkdir(directory, { recursive: true });
   const frames = Math.ceil(segment.seconds * FPS);
   for (let start = 0; start < frames; start += BATCH) {
-    const batch = await page.evaluate(async ({ segment, crowd, start, count, fps, chapterTiming }) => {
+    const batch = await page.evaluate(async ({ segment, crowd, start, count, fps, chapterTiming, proof }) => {
       await document.fonts.load('60px Lilita');
       await document.fonts.load('32px Fredoka');
       const canvas = document.createElement('canvas');
@@ -38,8 +39,8 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.stroke();
       }
       function lines(text: string, x: number, y: number, width: number, size: number,
-        display = false, color = INK): number {
-        ctx.font = `${size}px ${display ? 'Lilita' : 'Fredoka'}`;
+        display = false, color = INK, mono = false): number {
+        ctx.font = `${size}px ${mono ? 'Consolas' : display ? 'Lilita' : 'Fredoka'}`;
         ctx.fillStyle = color;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
@@ -60,7 +61,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         return at;
       }
       function badge() {
-        const label = 'SIMULATED AUDIENCE';
+        const label = segment.source === 'setup' ? 'TWITCH CONNECTED ? HOST CONTROLS' : 'SIMULATED AUDIENCE';
         ctx.font = '21px Fredoka';
         const width = ctx.measureText(label).width + 24;
         ctx.fillStyle = INK;
@@ -136,7 +137,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
           const pop = 1 - Math.exp(-age * 18) * Math.cos(age * 22);
           ctx.save();
           ctx.globalAlpha = opacity;
-          ctx.translate(1670, 730);
+          ctx.translate(segment.buildProof ? 210 : 1670, 730);
           ctx.rotate(-.07 + Math.sin(age * 18) * Math.exp(-age * 7) * .07);
           ctx.scale(pop, pop);
           ctx.beginPath();
@@ -226,6 +227,32 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
           lines(`@${inset.name} | channel offline`, 1504, 901, 356, 22);
         }
       }
+      function buildRecord(time: number) {
+        if (!segment.buildProof || time < 3.2 || time > 13.2) return;
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, (time - 3.2) * 5, (13.2 - time) * 5);
+        const x = 1480;
+        box(x, 515, 400, 520);
+        lines('ACTUAL BUILD RECORD', x + 22, 536, 356, 29, true);
+        ctx.fillStyle = '#ffde3b';
+        ctx.fillRect(x + 22, 578, 356, 6);
+        if (time < 7.8) {
+          lines('MY PROMPT', x + 22, 609, 356, 22, true, PINK);
+          const next = lines(proof.request.excerpt, x + 22, 646, 356, 30);
+          lines('CODEX REPLY', x + 22, next + 26, 356, 22, true, '#3a8ee6');
+          lines(proof.response.excerpt, x + 22, next + 63, 356, 30);
+          lines('Edited project transcript', x + 22, 990, 356, 21);
+        } else {
+          lines('CODEX CHANGE', x + 22, 609, 356, 22, true, '#3a8ee6');
+          lines('kit/hype/view.ts', x + 22, 646, 356, 22, false, INK, true);
+          lines('BEFORE', x + 22, 701, 356, 21, true, PINK);
+          lines(proof.before, x + 22, 738, 356, 20, false, INK, true);
+          lines('AFTER', x + 22, 824, 356, 21, true, '#218747');
+          lines(proof.after.replace('hypeFocus', '\nhypeFocus'), x + 22, 861, 356, 20, false, INK, true);
+          lines(`COMMIT ${proof.commit.slice(0, 7)}`, x + 22, 990, 356, 21);
+        }
+        ctx.restore();
+      }
       const output: string[] = [];
       for (let frame = start; frame < start + count; frame++) {
         const time = frame / fps;
@@ -234,12 +261,13 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         rule(time);
         crowdFeed(time);
         chapter(time);
+        buildRecord(time);
         impacts(time);
         celebration(time);
         output.push(canvas.toDataURL().split(',')[1]);
       }
       return output;
-    }, { segment, crowd, start, count: Math.min(BATCH, frames - start), fps: FPS, chapterTiming: CHAPTER_TIMING });
+    }, { segment, crowd, start, count: Math.min(BATCH, frames - start), fps: FPS, chapterTiming: CHAPTER_TIMING, proof });
     await Promise.all(batch.map((data, offset) => writeFile(
       resolve(directory, `${String(start + offset).padStart(4, '0')}.png`), Buffer.from(data, 'base64'))));
   }

@@ -28,8 +28,16 @@ export interface CrowdVideo {
   joins: { wall: number; name: string; color: string }[];
   media: { duration: number };
 }
+export interface HostVideo {
+  mode: string;
+  authenticated: boolean;
+  connected: boolean;
+  readyAt: number;
+  actions: { at: number; action: string }[];
+  media: { duration: number };
+}
 export interface VideoSegment {
-  source: 'cup' | 'crowd' | 'title' | 'outro';
+  source: 'cup' | 'crowd' | 'setup' | 'title' | 'outro';
   from: number;
   seconds: number;
   title: string;
@@ -38,14 +46,15 @@ export interface VideoSegment {
   gameId?: string;
   chapter?: number;
   celebrate?: boolean;
+  buildProof?: boolean;
   cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string }[];
-  evidence: 'mock' | 'project-files';
+  evidence: 'mock' | 'project-files' | 'host-ui';
   inset?: { from: number; at: number; seconds: number; name: string; evidence: 'real-chat' };
 }
 
 /** Keep each physical sequence intact; cover source jumps with animated Toy wipes. */
 export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: CrowdVideo,
-  offlinePreview = false): VideoSegment[] {
+  offlinePreview = false, host?: HostVideo): VideoSegment[] {
   if (crowd?.mode !== 'mock' || crowd.viewers < 24 || crowd.joins.length < 24
     || crowd.playAt === undefined || crowd.startedAt === undefined) {
     throw new Error('Capture a populated mock lobby first: tools/capture-join-crowd.ts');
@@ -53,6 +62,13 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   const segments: VideoSegment[] = [
     { source: 'title', from: 0, seconds: INTRO_SECONDS, title: '', body: '', subtitle: TITLE_CREDIT, evidence: 'project-files' }
   ];
+  if (host) {
+    const start = host.actions.find(row => row.action === 'start-cup');
+    if (host.mode !== 'live' || !host.authenticated || !host.connected || !start
+      || start.at + 1 > host.media.duration) throw new Error('Connected host workflow proof is incomplete');
+    segments.push({ source: 'setup', from: host.readyAt, seconds: 7.3,
+      title: '', body: '', evidence: 'host-ui' });
+  }
   const from = Math.max(0, crowd.joins[0].wall - .7);
   const seconds = Math.floor((crowd.playAt + 5 - from) * 30) / 30;
   if (from + seconds > crowd.media.duration) throw new Error('Crowd recording ends before gameplay.');
@@ -96,6 +112,7 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     'Three balls each.\nEvery landing multiplies its score.');
   shot('marble-race', 68, 13.5, 'MARBLE RACE',
     'Leaders break gates.\nFollowers get an open lane.');
+  segments.at(-1)!.buildProof = true;
   const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
   if (!standings || standings.wall + 5.7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
   segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 4.5,
@@ -115,6 +132,9 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
       if (segment.gameId) {
         segment.from = Math.min(segment.from, round(segment.gameId).result + 2 - segment.seconds);
       }
+    }
+    if (segment.source === 'setup' && segment.from + segment.seconds > host!.media.duration) {
+      throw new Error('Host workflow recording ends before its reading hold');
     }
     // These are annotations of reviewed events in the retained source, never invented events.
     const cue = (sourceOffset: number, seconds: number, kind: 'burst' | 'score' | 'finish',

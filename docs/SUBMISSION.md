@@ -63,16 +63,19 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 1 minute 48 seconds
+## Current edit - about 1 minute 55 seconds
 
-The film opens with the animated Chaos Factory intro. A continuous mock lobby
+The film opens with the animated Chaos Factory intro, then an actual connected
+Twitch dashboard capture shows queue ordering and Start Cup. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
 inset separately labels the real Twitch test with iamyanbo while the channel
 was offline. The main audience is simulated; no real crowd is implied.
 
 Five game chapters lead through the Cup standings, final duel and actual
 champion. Titles hold still for two seconds before a slower move into the corner.
-The opening title says "Implemented with Codex"; gameplay has no credit cards.
+The opening title says "Implemented with Codex"; Marble Race includes a build-record panel with edited excerpts of the real user
+feedback, Codex reply and committed camera fix. The panel is a rendered record
+viewer, not native Codex UI footage.
 Short rules remain beside each game, and the standings note stays above its table.
 
 Cascade cuts from the multiplying stream to the finish race, omitting the quiet
@@ -85,7 +88,7 @@ One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
 the scenes. Comic accents mark real recorded events. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v7.mp4. Previous cuts
+Latest local MP4: qa/submission-video/chaos-factory-demo-v8.mp4. Previous cuts
 remain for comparison. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.

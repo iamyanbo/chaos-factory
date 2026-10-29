@@ -19,18 +19,25 @@ const description = `One join. Five games. A whole stream competing.
 Chaos Factory is an automatic Twitch physics game show. Viewers type !join to
 become named marbles. Four Cup rounds lead into a top-eight Blade Brawl final.
 
+The opening shows the connected Twitch dashboard, queue reordering and Start Cup.
+
 This video shows 48 simulated viewers joining the actual game lobby, followed
 by normal-speed excerpts from a five-round Cup. A separately labeled inset shows
 the actual Twitch EventSub join rehearsal with iamyanbo in Peg Fever.
 The channel was offline during that test. Simulated viewers are labeled. No public broadcast or native point payout is claimed.
 This is a standard channel: native Predictions require Affiliate/Partner status.
 
-${time(0)} Chaos Factory and real Twitch chat
+${time(0)} Chaos Factory
+${time(first(row => row.source === 'setup'))} Connected dashboard and Cup controls
+${time(first(row => row.source === 'crowd'))} Joining the show
 ${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the Cup
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
 Each game uses its actual name and short rules over gameplay.
 The opening title credits the project: Implemented with Codex.
+During Marble Race, edited excerpts of my real Codex conversation and its verified
+Git patch show the feedback-to-fix workflow. This is a rendered build record,
+not a recording of the Codex app UI.
 
 Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
@@ -114,11 +121,11 @@ The finished story cut is **${time(Math.round(edit.duration))}**, 1920x1080 H.26
 4. Confirm the project appears as Submitted before Nov 2, 2026, 5 pm Eastern.
 
 There is no authenticated YouTube/Devpost API connector available to this agent.
-These account steps were not performed. No browser UI or desktop recording was used.
+These account steps were not performed. The dashboard is a headless recording of our own app, without desktop capture.
 The video accurately labels real API-connected Twitch chat while the channel is offline;
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v7.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v8.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

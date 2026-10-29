@@ -114,3 +114,17 @@ test('missing game, standings or champion footage cannot be replaced with fabric
     expect(() => submissionVideoPlan(missing, live, crowd())).toThrow(message);
   }
 });
+
+
+test('actual host workflow precedes joins and build evidence stays on the resulting race', () => {
+  const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
+    actions: [{ at: 6, action: 'start-cup' }], media: { duration: 10 } };
+  const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
+  expect(plan[1]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
+  expect(plan[2].source).toBe('crowd');
+  expect(plan.filter(row => row.buildProof).map(row => row.gameId)).toEqual(['marble-race']);
+  expect(() => submissionVideoPlan(cup(), live, crowd(), false, { ...host, connected: false }))
+    .toThrow('Connected host workflow proof');
+  expect(() => submissionVideoPlan(cup(), live, crowd(), false, { ...host, media: { duration: 7.1 } }))
+    .toThrow('reading hold');
+});

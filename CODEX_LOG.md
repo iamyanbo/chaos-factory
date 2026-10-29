@@ -1332,3 +1332,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Made title graphics deterministic (105/75 frames), added a source-duration guard and rendered v7 at 107.720 s, 1080p/30 H.264/AAC. Reviewed nineteen final frames and the reading strip.
 - Fixed a loud transient with oversampled final limiting; decode/headroom/cut checks pass (-18.11 LUFS/-2.46 dBTP, 0.007 s cut drift). One licensed bed and original transition sounds remain.
 - Typecheck and all 361 tests/73 files pass, plus eight final focused plan/audio checks. No computer use, public broadcast or external upload/submission; account steps remain manual.
+
+## 2026-10-29 ? Submission setup and build evidence
+- Captured the actual connected dashboard: add games, drag queue, start Cup; headless app recording only.
+- Added verified public conversation excerpts and committed camera patch beside Marble Race, labeled edited build record.
+- Kept the entertaining gameplay cut and title holds; final v8 is 115.100 s with one music bed.
+- Fixed a concat timestamp warning with a 30 fps final picture; decode/DTS and audio checks pass.
+- Updated source/upload copy and provenance; no native Codex UI footage, broadcast, payout or account upload is claimed.
+- Validation: typecheck, 364 tests/74 files and eleven focused edit checks pass; refreshed submission pack.
