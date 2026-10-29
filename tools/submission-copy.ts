@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { submissionSchema } from './submission-readiness';
 
 const directory = 'qa/submission-video';
@@ -13,6 +13,7 @@ if (edit.draft) throw new Error('Upload copy requires a cut with verified real T
 const time = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 const first = (predicate: (row: typeof edit.timeline[number]) => boolean) => edit.timeline.find(predicate)?.start ?? 0;
 const title = 'Chaos Factory | Codex x TwitchCon Hackathon Demo';
+const videoName = basename(edit.output);
 const description = `One join. Five games. A whole stream competing.
 
 Chaos Factory is an automatic Twitch physics game show. Viewers type !join to
@@ -25,8 +26,8 @@ from simulated viewers. No public broadcast or native point payout is claimed.
 This is a standard channel: native Predictions require Affiliate/Partner status.
 
 ${time(0)} Chaos Factory and real Twitch chat
-${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the Cup
-${time(first(row => row.title === 'GRAND FINAL') - 6)} Standings and Grand Final
+${time(first(row => row.title === 'THE MACHINE TAKES OVER'))} Physics games and the Cup
+${time(first(row => row.title === 'FINAL ROUND') - 6)} Standings and Grand Final
 ${time(first(row => row.source === 'brief'))} How I used Codex
 
 Source and offline judge setup: ${fields.repositoryUrl}
@@ -98,8 +99,8 @@ Playwright, FFmpeg and OpenAI Codex.
 `);
 await writeFile(`${directory}/FINISH.md`, `# Finish the submission
 
-The finished normal-speed edit is **${time(edit.duration)}**, 1920x1080 H.264/AAC:
-[chaos-factory-demo.mp4](chaos-factory-demo.mp4).
+The finished story cut is **${time(Math.round(edit.duration))}**, 1920x1080 H.264/AAC:
+[${videoName}](${videoName}).
 
 1. Upload that MP4 at https://studio.youtube.com. Title/description are in youtube.txt.
    Choose Public or Unlisted so judges can view it. Wait for processing and check playback.

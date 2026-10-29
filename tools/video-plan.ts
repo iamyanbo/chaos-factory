@@ -18,15 +18,17 @@ export interface JoinVideo {
   media: { duration: number };
 }
 export interface VideoSegment {
-  source: 'cup' | 'live' | 'brief' | 'code' | 'review' | 'outro' | 'pending';
+  source: 'cup' | 'live' | 'title' | 'brief' | 'review' | 'outro' | 'pending';
   from: number;
   seconds: number;
   title: string;
   body: string;
   evidence: 'mock' | 'real-chat' | 'project-files' | 'pending';
   card?: boolean;
+  crop?: { x: number; y: number; width: number; height: number };
 }
 
+/** Editorial shot choices were reviewed against the original normal-speed captures. */
 export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, offlinePreview = false): VideoSegment[] {
   const segments: VideoSegment[] = [];
   function round(game: string) {
@@ -35,56 +37,57 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, offlinePrev
     if (!play || !result || result.wall <= play.wall) throw new Error(`Missing completed ${game} footage`);
     return { play: play.wall, result: result.wall, round: play.round };
   }
-  function clip(game: string, title: string, body: string, from: number, seconds: number, card = true) {
-    const available = cup.media.duration - from;
-    if (from < 0 || available < 1) throw new Error('Clip falls outside the actual recording');
-    segments.push({ source: 'cup', from, seconds: Math.min(seconds, available), title, body,
-      evidence: 'mock', card });
-  }
-  function ending(game: string, title: string, body: string, seconds: number) {
+  function shot(game: string, offset: number, seconds: number, title = '', crop?: VideoSegment['crop']) {
     const timing = round(game);
-    const from = Math.max(timing.play, timing.result - seconds + 3);
-    clip(game, title, body, from, Math.min(seconds, timing.result + 3 - from));
+    const latest = Math.min(timing.result + 3, cup.media.duration) - seconds;
+    if (latest < timing.play) throw new Error(`Insufficient real ${game} footage for the reviewed shot`);
+    const from = Math.max(timing.play, Math.min(timing.play + offset, latest));
+    if (from + seconds > timing.result + 3 || from + seconds > cup.media.duration) {
+      throw new Error(`Insufficient real ${game} footage for the reviewed shot`);
+    }
+    segments.push({ source: 'cup', from, seconds, title, body: '', evidence: 'mock', card: !!title, crop });
   }
-  const cascade = round('multiplier-cascade');
-  clip('multiplier-cascade', 'CHAOS\nFACTORY', 'One join. Five games.\nA whole stream competing.', cascade.play + 12, 6);
+  // Cold open: a multiplier landing, a fuse expiring, then a working machine.
+  shot('peg-fever', 39.55, 2, '', { x: 528, y: 552, width: 864, height: 486 });
+  shot('hot-potato', 54.1, 2, '', { x: 432, y: 250, width: 1056, height: 594 });
+  shot('multiplier-cascade', 30.2, 2, '', { x: 432, y: 280, width: 1056, height: 594 });
+  segments.push({ source: 'title', from: 0, seconds: 2.5, title: '', body: '', evidence: 'project-files' });
   if (live?.mode === 'live' && live.joinedAt !== undefined && live.startedAt !== undefined && live.member) {
-    const from = Math.max(0, live.joinedAt - 2);
-    const seconds = Math.min(24, live.media.duration - from);
-    if (seconds < 12) throw new Error('Real Twitch proof is too short');
-    segments.push({ source: 'live', from, seconds, title: 'REAL TWITCH\nJOIN',
-      body: `@${live.member.displayName ?? 'viewer'} sent !join.\nOne real player joined.\nHost start + countdown.\nStandard channel:\nNo channel-point wagers.`,
-      evidence: 'real-chat', card: true });
+    const choices = [
+      { from: Math.max(0, live.joinedAt - 1), seconds: 3.5, title: 'TYPE !JOIN' },
+      { from: live.startedAt + 2.8, seconds: 3.2, title: '' },
+      { from: live.startedAt + 6.5, seconds: 5.5, title: `@${live.member.displayName ?? 'viewer'} IS IN` }
+    ];
+    for (const choice of choices) {
+      if (choice.from + choice.seconds > live.media.duration) throw new Error('Real Twitch proof is too short');
+      segments.push({ source: 'live', ...choice, body: '', evidence: 'real-chat', card: !!choice.title });
+    }
   } else {
     if (!offlinePreview) throw new Error('Real Twitch join proof is missing; use --offline-preview for an explicitly labeled draft');
-    segments.push({ source: 'pending', from: 0, seconds: 24, title: 'TWITCH PROOF\nPENDING',
-      body: 'This cut uses simulated viewers.\nThe connector is implemented.\nA real !join rehearsal is still needed.\nThis is an offline preview.', evidence: 'pending' });
+    segments.push({ source: 'pending', from: 0, seconds: 12.2, title: 'TWITCH PROOF PENDING',
+      body: 'This is an offline preview. A real !join rehearsal is still needed.', evidence: 'pending' });
   }
-  const split = cup.transitions.find(row => row.game === 'multiplier-cascade'
-    && row.phase === 'PLAY' && row.stage === 1);
-  clip('multiplier-cascade', 'MULTIPLIER\nCASCADE', 'Split the stream.\nRoute through the machine.\nFirst team to five finishers wins.',
-    Math.min(split?.wall ?? cascade.play + 25, cascade.result - 14), 12);
-  ending('multiplier-cascade', 'FIRST TO\nFIVE', 'The finish line decides it.\nEvery crossing is physical.', 12);
-  ending('hot-potato', 'HOT\nPOTATO', 'The bomb passes on contact.\nKeep watching the fuse.\nLast survivor wins.', 18);
-  const peg = round('peg-fever');
-  const fever = cup.transitions.find(row => row.game === 'peg-fever' && row.phase === 'PLAY' && row.stage === 2);
-  clip('peg-fever', 'PEG\nFEVER', 'Three balls per viewer.\nPermanent multiplier slots.\nLast orange peg doubles them.',
-    Math.max(peg.play, Math.min((fever?.wall ?? peg.play + 20) + 1, peg.result - 13)), 12);
-  ending('peg-fever', 'EVERY BALL\nCOUNTS', 'Each landing pays its own run.\nThe final landing ends the round.', 8);
-  const race = round('marble-race');
-  clip('marble-race', 'MARBLE\nRACE', 'Multiple connected routes.\nLeaders break gates open\nfor the chasing pack.', race.play + 3, 8);
-  ending('marble-race', 'CHASE THE\nLEADER', 'The camera follows the leader.\nActual finish times decide places.', 14);
+  // One cause-and-payoff sequence, then brief contrasting physical moments.
+  shot('multiplier-cascade', 16, 7.5, 'THE MACHINE TAKES OVER');
+  shot('multiplier-cascade', 48, 11, 'FIRST TO FIVE');
+  shot('hot-potato', 60.4, 7.5, 'PASS THE FUSE');
+  shot('peg-fever', 6.8, 7, 'EVERY LANDING PAYS');
+  shot('marble-race', 71.5, 8, 'LEADERS OPEN THE WAY');
   const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
-  if (!standings) throw new Error('Fourth-round Cup standings are missing');
-  clip('marble-race', '', '', standings.wall + 1, 6, false);
-  ending('blade-brawl', 'GRAND\nFINAL', 'Four rounds earn Cup points.\nThe top eight face off.\nFinal survivor takes the Cup.', 14);
+  if (!standings || standings.wall + 7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
+  segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 6,
+    title: 'FOUR ROUNDS EARN CUP POINTS', body: '', evidence: 'mock', card: true });
+  // Show the field shrinking, then hold the actual final duel through its winner.
+  shot('blade-brawl', 44.4, 5, 'FINAL ROUND');
+  shot('blade-brawl', 64.9, 13, 'ONE CUP WINNER');
   const champion = cup.transitions.find(row => row.phase === 'CUP_RESULTS');
-  if (!champion) throw new Error('The actual Cup champion screen is missing');
-  clip('blade-brawl', '', '', champion.wall + .2, 5.4, false);
-  for (const [source, seconds] of [['brief', 7], ['code', 7], ['review', 8]] as const) {
-    segments.push({ source, seconds, from: 0, title: '', body: '', evidence: 'project-files' });
+  if (!champion || champion.wall + 4.2 > cup.media.duration) throw new Error('The actual Cup champion screen is missing');
+  segments.push({ source: 'cup', from: champion.wall + .2, seconds: 4,
+    title: '', body: '', evidence: 'mock', card: false });
+  for (const source of ['brief', 'review'] as const) {
+    segments.push({ source, seconds: 6, from: 0, title: '', body: '', evidence: 'project-files' });
   }
-  segments.push({ source: 'outro', from: 0, seconds: 6, title: '', body: '', evidence: 'project-files' });
-  if (segments.reduce((sum, row) => sum + row.seconds, 0) >= 180) throw new Error('Submission cut must stay under three minutes');
+  segments.push({ source: 'outro', from: 0, seconds: 4, title: '', body: '', evidence: 'project-files' });
+  if (segments.reduce((sum, row) => sum + row.seconds, 0) >= 120) throw new Error('This story cut must stay under two minutes');
   return segments;
 }

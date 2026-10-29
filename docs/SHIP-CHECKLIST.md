@@ -46,7 +46,7 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
 
-The completed local edit is `qa/submission-video/chaos-factory-demo.mp4` (2:47,
+The completed local edit is `qa/submission-video/chaos-factory-demo-v2.mp4` (about 1:46,
 1080p H.264/AAC). `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
 contain the upload title/description, form copy and remaining account actions.
 No authenticated YouTube/Devpost API connector is available to the agent; those

@@ -1288,3 +1288,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Saved the actual main thread ID and confirmed solo membership. Updated live rehearsal, credits and remaining submission steps; generated video/media stay outside Git.
 - Reviewed the contact sheet, opening and live-proof frames; fixed caption overflow and quiet audio. Final measured audio peak -1.8 dB; game physics/timings unchanged.
 - Typecheck and all 356 tests/72 files pass. YouTube upload and Devpost final submission remain blocked by unavailable authenticated API connectors under the user's no-computer-use constraint.
+
+## 2026-10-29 - Recut the submission video after feedback
+- Acknowledged the original edit was an overlong game catalog. Preserved v1 and its source-cut manifest for comparison.
+- Reviewed event-specific source contact sheets and built a 105.72s story cut: action hook, compact real join, machine payoff, brief contrasts, standings, one final duel and actual champion.
+- Removed loading/waiting, rule paragraphs and equal game blocks. Added three audited opening close-ups; gameplay speed, physics and actual results remain unchanged.
+- Replaced disconnected per-clip music with one continuous CC0 bed ducked by actual game audio; final export measures -18.1 LUFS and -4.0 dBTP. No fabricated effects or narration.
+- Shortened Codex evidence to two actual-source cards with user-direction/feedback copy. Updated versioned upload links and chapters; optional narration text stays local.
+- Typecheck and all 356 tests/72 files pass. Reviewed the new opening and contact sheet; user watchability feedback remains the standard. No computer-use or live broadcast actions.

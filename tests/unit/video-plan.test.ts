@@ -12,11 +12,17 @@ function cup(): CupVideo {
   return { transitions, wallSeconds: 493, media: { duration: 493 } };
 }
 
-test('normal-speed cut uses actual phases, includes all five games and fits the submission limit', () => {
+test('story cut uses real phases, compact join proof and a complete Cup payoff under two minutes', () => {
   const plan = submissionVideoPlan(cup(), { mode: 'live', joinedAt: 12, startedAt: 15,
     member: { displayName: 'iamyanbo' }, media: { duration: 42 } });
-  expect(plan.reduce((sum, row) => sum + row.seconds, 0)).toBeCloseTo(167.4);
-  expect(plan.find(row => row.evidence === 'real-chat')).toMatchObject({ source: 'live', from: 10 });
+  const duration = plan.reduce((sum, row) => sum + row.seconds, 0);
+  expect(duration).toBeGreaterThan(80);
+  expect(duration).toBeLessThan(120);
+  expect(plan.find(row => row.evidence === 'real-chat')).toMatchObject({ source: 'live', from: 11 });
+  expect(plan.filter(row => row.evidence === 'real-chat').reduce((sum, row) => sum + row.seconds, 0)).toBeLessThan(15);
+  expect(plan.filter(row => row.source === 'brief' || row.source === 'review')).toHaveLength(2);
+  expect(plan.slice(0, 3).every(row => row.crop && row.crop.x >= 0 && row.crop.y >= 0
+    && row.crop.x + row.crop.width <= 1920 && row.crop.y + row.crop.height <= 1080)).toBe(true);
   expect(plan.filter(row => row.source === 'cup').every(row => row.from >= 0
     && row.from + row.seconds <= cup().media.duration)).toBe(true);
 });

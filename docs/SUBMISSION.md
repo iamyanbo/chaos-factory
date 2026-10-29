@@ -62,21 +62,27 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Demo storyboard — 2 minutes 45 seconds
+## Current edit - about 1 minute 46 seconds
 
-Record only after the final broadcast rehearsal. This document does not stand
-in for the required Twitch footage. Label any offline footage as MOCK DEMO.
+The first 2:47 cut was rejected as a long catalog. The second cut uses an action
+hook, compact real join proof, a few contrasting physical moments, then one Cup
+payoff. Gameplay stays at its captured speed; only the cold open uses editorial
+close-ups. It has captions and music, with no recorded voiceover.
 
-| Time | Picture | Voiceover / point |
+| Time | Picture | Purpose |
 |---|---|---|
-| 0:00–0:12 | Strong Cascade multiplier burst, Peg ×10 landing, race gate break | “One join. Five games. A whole stream competing.” |
-| 0:12–0:35 | Actual Twitch chat `!join`, lobby count, host start and countdown | Show a real viewer entering; no reflex controls needed. |
-| 0:35–0:55 | Cascade's multiplication and first-to-five relay | Finite hopper supply becomes an actual shared physical race. |
-| 0:55–1:15 | Hot Potato handoff/fuse and Peg Fever landing stamp | Anticipation, a visible handoff, then a concrete payoff. |
-| 1:15–1:35 | Marble Race cracked gate and leader camera | Leaders open a route for the pack; all geometry is visible. |
-| 1:35–1:55 | Standings, top-eight final, champion and crown | The final survivor takes the Cup; profiles persist. |
-| 1:55–2:30 | AGENTS.md, game folders, CODEX_LOG.md, still comparisons, tests | Explain how feedback changed the build and how seeded replay checks it. |
-| 2:30–2:45 | Dashboard queue drag, OBS source and final payoff | Show how a streamer runs it, then finish on the clearest actual moment. |
+| 0:00-0:06 | Multiplier landing, fuse burst, moving machine | Lead with visible action |
+| 0:06-0:09 | Brief project title | Name the show |
+| 0:09-0:21 | Actual join count change, countdown and named player | Demonstrate the Twitch connection without the loading wait |
+| 0:21-0:39 | Cascade machinery and the real first-to-five payoff | Show one complete cause-and-payoff sequence |
+| 0:39-1:02 | Brief bomb, landing and broken-gate moments | Contrast the physical stakes without teaching every game |
+| 1:02-1:30 | Standings, field shrinking, final duel, actual champion | Explain why the Cup matters |
+| 1:30-1:42 | Two short actual-source cards | Explain user direction, Codex implementation and feedback |
+| 1:42-1:46 | Source link and offline invitation | End on the usable project |
+
+Latest local MP4: qa/submission-video/chaos-factory-demo-v2.mp4. The original is
+preserved as chaos-factory-demo-v1.mp4 for comparison. Upload copy and contact
+sheets are beside the videos; generated media is excluded from Git.
 
 Include native Prediction creation, lock and resolution only after a successful
 eligible-channel rehearsal. Otherwise describe the wagering limitation honestly
