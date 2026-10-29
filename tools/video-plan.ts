@@ -68,15 +68,15 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, offlinePrev
       body: 'This is an offline preview. A real !join rehearsal is still needed.', evidence: 'pending' });
   }
   // One cause-and-payoff sequence, then brief contrasting physical moments.
-  shot('multiplier-cascade', 16, 7.5, 'THE MACHINE TAKES OVER');
+  shot('multiplier-cascade', 16, 7.5, 'MULTIPLY');
   shot('multiplier-cascade', 48, 11, 'FIRST TO FIVE');
   shot('hot-potato', 60.4, 7.5, 'PASS THE FUSE');
-  shot('peg-fever', 6.8, 7, 'EVERY LANDING PAYS');
-  shot('marble-race', 71.5, 8, 'LEADERS OPEN THE WAY');
+  shot('peg-fever', 6.8, 7, 'SCORE THE DROP');
+  shot('marble-race', 71.5, 8, 'BREAK THROUGH');
   const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
   if (!standings || standings.wall + 7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
   segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 6,
-    title: 'FOUR ROUNDS EARN CUP POINTS', body: '', evidence: 'mock', card: true });
+    title: 'TOP EIGHT', body: '', evidence: 'mock', card: true });
   // Show the field shrinking, then hold the actual final duel through its winner.
   shot('blade-brawl', 44.4, 5, 'FINAL ROUND');
   shot('blade-brawl', 64.9, 13, 'ONE CUP WINNER');

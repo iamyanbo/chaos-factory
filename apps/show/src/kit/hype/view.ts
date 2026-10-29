@@ -118,10 +118,10 @@ export class HypeView {
     if (source !== this.source) { this.reset(); this.source = source; }
     for (const event of source?.drain() ?? []) if (active) this.receive(event);
     this.slowRemaining = Math.max(0, this.slowRemaining - dt);
-    const progress = 1 - this.slowRemaining / SLOW_SECONDS;
-    const envelope = this.slowRemaining ? Math.sin(Math.PI * progress) ** .7 : 0;
-    // Fixed machines stay completely in frame; Race retains its finish close-up.
-    this.focusedCamera.hypeFocus(this.slowFocus, this.gameId === 'marble-race' ? envelope : 0);
+    // The Race follow camera is already monotonic. A temporary finish zoom
+    // moved the course down and then back up as it relaxed, resembling a rewind.
+    // Keep live slow motion, but never displace or scale the gameplay camera.
+    this.focusedCamera.hypeFocus(this.slowFocus, 0);
     const calloutAge = this.clock - this.calloutAt;
     this.calloutText.visible = active && calloutAge < CALLOUT_LIFE;
     if (this.calloutText.visible) {

@@ -3,12 +3,14 @@ import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { submissionVideoPlan, type CupVideo, type JoinVideo } from './video-plan';
+import { assertEffectsOnly, type AudioCaptureProof } from './video-audio';
 
 const directory = 'qa/submission-video/edit';
 await mkdir(`${directory}/segments`, { recursive: true });
-const cupPath = 'qa/submission-video/full-cup';
+const cupPath = 'qa/submission-video/full-cup-sfx';
 const livePath = 'qa/submission-video/live-join';
-const cup = JSON.parse(await readFile(`${cupPath}/capture.json`, 'utf8')) as CupVideo;
+const cup = JSON.parse(await readFile(`${cupPath}/capture.json`, 'utf8')) as CupVideo & AudioCaptureProof;
+assertEffectsOnly(cup);
 const live = existsSync(`${livePath}/capture.json`)
   ? JSON.parse(await readFile(`${livePath}/capture.json`, 'utf8')) as JoinVideo : undefined;
 const plan = submissionVideoPlan(cup, live, process.argv.includes('--offline-preview'));
@@ -25,13 +27,18 @@ for (const [index, segment] of plan.entries()) {
   const gameplay = segment.source === 'cup' || segment.source === 'live';
   const inputs = gameplay
     ? ['-ss', String(segment.from), '-i', `${segment.source === 'cup' ? cupPath : livePath}/${segment.source === 'cup' ? 'full-cup' : 'live-join'}.webm`,
-      '-loop', '1', '-framerate', '30', '-i', `${directory}/cards/overlay-${index}.png`]
-    : ['-loop', '1', '-framerate', '30', '-i', `${directory}/cards/${segment.source}.png`,
+      '-loop', '1', '-framerate', '30', '-i', `${directory}/cards/badge-${index}.png`,
+      '-loop', '1', '-framerate', '30', '-i', `${directory}/cards/caption-${index}.png`,
+      ...(segment.source === 'live' ? ['-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo'] : [])]
+    : [...(['title', 'brief', 'review', 'outro'].includes(segment.source)
+      ? ['-i', `${directory}/cards/${segment.source}-motion.webm`]
+      : ['-loop', '1', '-framerate', '30', '-i', `${directory}/cards/${segment.source}.png`]),
       '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo'];
   const output = `${directory}/segments/${String(index).padStart(2, '0')}.mp4`;
   const reframing = segment.crop ? `crop=${segment.crop.width}:${segment.crop.height}:${segment.crop.x}:${segment.crop.y},scale=1920:1080,` : '';
   const video = gameplay
-    ? ['-filter_complex', `[0:v]${reframing}fps=30,format=rgba[v];[v][1:v]overlay=0:0:format=auto,format=yuv420p[out]`, '-map', '[out]', '-map', '0:a']
+    ? ['-filter_complex', `[0:v]${reframing}fps=30,format=rgba[v];[v][1:v]overlay=0:0:format=auto[badged];[2:v]fade=t=in:st=0:d=0.12:alpha=1[caption];[badged][caption]overlay=x=0:y='28*exp(-10*t)*cos(12*t)':eval=frame:format=auto,format=yuv420p[out]`,
+      '-map', '[out]', '-map', segment.source === 'live' ? '3:a' : '0:a']
     : ['-vf', 'fps=30,format=yuv420p', '-map', '0:v', '-map', '1:a'];
   run([...inputs, '-t', String(segment.seconds), ...video,
     '-af', `volume=${gameplay ? 1.4 : 1},afade=t=in:d=0.025,afade=t=out:st=${Math.max(0, segment.seconds - .04)}:d=0.04`,
@@ -47,7 +54,7 @@ await writeFile(`${directory}/segments/concat.txt`, files.join('\n') + '\n');
 const draft = !plan.some(row => row.evidence === 'real-chat');
 const picture = `${directory}/story-picture.mp4`;
 run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments/concat.txt`, '-c', 'copy', picture]);
-const output = resolve(`qa/submission-video/${draft ? 'chaos-factory-offline-preview-v2' : 'chaos-factory-demo-v2'}.mp4`);
+const output = resolve(`qa/submission-video/${draft ? 'chaos-factory-offline-preview-v3' : 'chaos-factory-demo-v3'}.mp4`);
 // One continuous licensed bed, ducked by actual captured game audio. No fake hits.
 run(['-i', picture, '-stream_loop', '-1', '-i', 'apps/show/public/music/adventure-2.ogg',
   '-filter_complex', `[0:a]asplit=2[game][key];[1:a]volume=0.22,afade=t=in:d=0.2,afade=t=out:st=${elapsed - 1.2}:d=1.2[bed];[bed][key]sidechaincompress=threshold=0.035:ratio=4:attack=8:release=180[duck];[game][duck]amix=inputs=2:normalize=0,alimiter=limit=0.89:level=false,loudnorm=I=-18:TP=-1.5:LRA=9[audio]`,
@@ -60,7 +67,8 @@ const duration = Number(media.format.duration);
 if (!(duration > 0 && duration < 180) || !media.streams.some((stream: { codec_type: string }) => stream.codec_type === 'audio')) {
   throw new Error('Final MP4 must have audio and stay under three minutes');
 }
-await writeFile('qa/submission-video/edit.json', JSON.stringify({ output, edition: 2, draft, duration,
+await writeFile('qa/submission-video/edit.json', JSON.stringify({ output, edition: 3, draft, duration,
+  audio: { musicBeds: 1, music: 'adventure-2.ogg', cupAudio: 'verified sfx-only', liveAudio: 'muted original mix' },
   normalSpeedGameplay: true, desktopCaptured: false, realBroadcast: false,
   footage: 'Story cut: action hook, real join, short physical moments, Cup payoff, and actual project-file evidence. Normal-speed excerpts.', timeline, media }, null, 2));
 if (!draft) {

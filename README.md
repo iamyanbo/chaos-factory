@@ -111,13 +111,15 @@ team details and owner-confirmed access/rehearsal checks in
 Optional recording needs Chrome and FFmpeg on PATH. With the mock demo running:
 
 ```sh
-npx tsx tools/capture-cup.ts --out qa/submission-video/full-cup
+npx tsx tools/capture-cup.ts --sfx-only --out qa/submission-video/full-cup-sfx
 # With npm run twitch running separately, capture an actual chat !join:
 npx tsx tools/capture-live-join.ts
 npm run video
 ```
 
-The recorder captures the game canvas and its audio mix only. The edit uses
+The recorder captures the game canvas and sound effects with in-game music disabled.
+The edit adds one continuous music bed and mutes the older mixed-audio live clip.
+A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
 and shows actual project files when explaining Codex. It does not start a public
 broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain

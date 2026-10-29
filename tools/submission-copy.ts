@@ -26,7 +26,7 @@ from simulated viewers. No public broadcast or native point payout is claimed.
 This is a standard channel: native Predictions require Affiliate/Partner status.
 
 ${time(0)} Chaos Factory and real Twitch chat
-${time(first(row => row.title === 'THE MACHINE TAKES OVER'))} Physics games and the Cup
+${time(first(row => row.title === 'MULTIPLY'))} Physics games and the Cup
 ${time(first(row => row.title === 'FINAL ROUND') - 6)} Standings and Grand Final
 ${time(first(row => row.source === 'brief'))} How I used Codex
 
@@ -34,7 +34,7 @@ Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
 
 Built with TypeScript, PixiJS, Rapier, Fastify, WebSockets and Twurple, using Codex.
-Music: Juhani Junkala (Chiptune Adventures) and Fupi (Empacotatron), CC0.
+Music in this edit: Juhani Junkala, Chiptune Adventures Stage 2, CC0.
 Credits and full notices: ${fields.repositoryUrl}/blob/main/ASSETS.md
 `;
 await writeFile(`${directory}/youtube.txt`, `TITLE\n${title}\n\nDESCRIPTION\n${description}`);
@@ -115,7 +115,7 @@ These account steps were not performed. No browser UI or desktop recording was u
 The video accurately labels real API-connected Twitch chat while the channel is offline;
 it does not claim a public live broadcast or a native Prediction payout.
 
-Full Cup: full-cup/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet.png is the visual review.
+Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
+edit.json records source cuts and evidence labels. contact-sheet-v3.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

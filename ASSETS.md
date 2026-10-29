@@ -51,7 +51,8 @@ Rejected prototypes, unused fonts and historical reference footage are excluded
 from this submission repository. Dependency licenses remain with their packages.
 
 The submission video uses captures of our own game canvas and actual project-file
-excerpts. Its Toy chapter/caption cards are original HTML/CSS using the bundled
-fonts. It reuses the CC0 music above and original game effects. No microphone,
+excerpts. Its Toy title animation and chapter/caption cards are original canvas
+and HTML/CSS work using the bundled fonts. The v3 film uses only Chiptune Adventures
+Stage 2 as one continuous CC0 bed over original game effects. No microphone,
 desktop footage, external artwork or additional audio is used. Generated media
 stays outside Git under qa/submission-video/.

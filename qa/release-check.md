@@ -40,7 +40,20 @@ MIT notices are credited in ASSETS.md.
 ## Remaining limits
 
 The current Blade Brawl streamer balance FAIL remains in qa/blade-boss-balance.md
-and its JSON provenance. Authenticated !join/Prediction/native payout rehearsal,
-the actual main Codex session ID, team details, video and final Devpost submission
-remain owner steps. No recording or live Twitch action was performed in this pass.
-See qa/known-issues.md and docs/SHIP-CHECKLIST.md.
+and its JSON provenance. Eligible-channel Prediction/native payout rehearsal,
+the final YouTube URL and final Devpost submission remain owner steps. The actual
+main Codex session ID, solo membership and real EventSub !join are now prepared.
+A standard channel cannot rehearse native Predictions. The latest v3 film uses a
+fresh normal-speed five-round Cup, four standings and actual champion with game
+music disabled at capture; one continuous licensed track is mixed afterward.
+See qa/submission-video-review.md, qa/known-issues.md and docs/SHIP-CHECKLIST.md.
+
+
+## Finish-camera and film audio pass ? October 29
+
+Typecheck and all 357 unit tests across 73 files pass. The production browser pass
+adds 16 passing checks across eight games, offline/results views, music controls
+and the first Race finish. The finish regression failed on the old temporary zoom
+and passes with the monotonic camera. A fresh normal-speed Cup and final MP4 decode
+also pass; the film's clean audio provenance and frame review are recorded in
+qa/submission-video-review.md. Older test totals above describe the cleanup snapshot.

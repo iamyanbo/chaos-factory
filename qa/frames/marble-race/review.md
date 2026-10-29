@@ -53,3 +53,10 @@ Opened `feedback-audit/frame-12.png` and normal-speed stills beside `docs/refs/t
 5. Type/cards: local Lilita/Fredoka, bold numbers and the existing Toy cards remain; the global combo HUD is removed.
 6. Callouts: only actual rules/scores/danger/finishes remain. No generic DOUBLE KILL, COMBO, UPSET or invented jackpot overlay; true landing arithmetic is retained.
 7. Verification: whole-round event-contract and feedback invariance tests, browser round completion, and still review cover this game's changed feedback. No new hidden force or random winner bias.
+
+
+## 2026-10-29 finish camera correction
+
+The temporary finish zoom relaxed back into the follow camera, making the track appear to rewind. Removed that camera displacement/scale while retaining live slow motion, leader follow, physics and the finish result. The new browser regression first failed on zoom 1.0445, then passed with zoom 1 and nondecreasing camera Y/game time throughout the finish. Reviewed normal-speed full-cup-sfx frames at 427?434s beside the Toy reference: the finish geometry stays steady after the first crossing. No replay or hidden impulse was added.
+
+Also ran `npm run frames -- --game marble-race --seed 5 --exact --bots 24 --from 65 --label finish-camera-v3` and opened its ten-frame sheet: zoom remains 1 across the first finish, time never decreases, approximately 60 FPS, zero browser errors. The same Toy matte actors, filled blue course, white rim and local type remain.

@@ -6,6 +6,7 @@ import { finalizeRecording } from './drama/capture-media';
 const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4182';
 const outputIndex = process.argv.indexOf('--out');
 const directory = resolve(outputIndex < 0 ? 'qa/cup' : process.argv[outputIndex + 1]);
+const sfxOnly = process.argv.includes('--sfx-only');
 const health = await (await fetch(`${base}/api/health`)).json();
 if (health.application !== 'chaos-factory' || health.mode !== 'mock') {
   throw new Error('Cup capture requires an explicitly mock Chaos Factory server.');
@@ -40,8 +41,12 @@ try {
   });
   await page.waitForTimeout(500);
   await page.mouse.click(960, 540);
+  if (sfxOnly) {
+    await page.evaluate(() => window.__chaos.command('music', false));
+    await page.waitForFunction(() => !window.__chaos.audio.musicEnabled && !window.__chaos.audio.playing);
+  }
   const download = page.waitForEvent('download', { timeout: 1_200_000 });
-  const recording = await page.evaluate(async () => {
+  const recording = await page.evaluate(async (sfxOnly) => {
     const stream = await window.__chaos.captureStream(30);
     const recorder = new MediaRecorder(stream, {
       mimeType: 'video/webm;codecs=vp8,opus', videoBitsPerSecond: 8_000_000
@@ -49,7 +54,7 @@ try {
     const chunks: Blob[] = [];
     const transitions: { wall: number; phase: string; round: number; game: string;
       entrants: string[]; qualified: string[]; stage: number }[] = [];
-    const samples: { wall: number; game: number; fps: number }[] = [];
+    const samples: { wall: number; game: number; fps: number; musicEnabled: boolean; musicPlaying: boolean }[] = [];
     let previous = '';
     let nextSample = 0;
     recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
@@ -74,7 +79,8 @@ try {
         }
         if (wall >= nextSample) {
           nextSample = wall + 1;
-          samples.push({ wall, game: current.inspect().time, fps: current.fps });
+          samples.push({ wall, game: current.inspect().time, fps: current.fps,
+            musicEnabled: current.audio.musicEnabled, musicPlaying: Boolean(current.audio.playing) });
         }
         if (current.phase === 'CUP_RESULTS' && show.phaseTime >= 6 || wall > 1100) {
           clearInterval(timer);
@@ -88,9 +94,10 @@ try {
     anchor.download = 'full-cup-raw.webm';
     anchor.click();
     stream.getVideoTracks().forEach(track => track.stop());
-    return { normalSpeed: 1, fast: false, wallSeconds: (performance.now() - start) / 1000,
+    return { normalSpeed: 1, fast: false, audioMode: sfxOnly ? 'sfx-only' : 'mixed',
+      wallSeconds: (performance.now() - start) / 1000,
       transitions, samples, results: window.__chaos.results, final: window.__chaos.show };
-  });
+  }, sfxOnly);
   const raw = resolve(directory, 'full-cup-raw.webm');
   await (await download).saveAs(raw);
   const media = finalizeRecording(raw, resolve(directory, 'full-cup.webm'));
@@ -101,7 +108,9 @@ try {
   if (errors.length || recording.results.length !== 5 || standings.length !== 4
     || !final || final.game !== 'blade-brawl' || final.entrants.length > 8
     || final.entrants.some(id => !final.qualified.includes(id)) || !recording.final?.championId
-    || !media.audioTracks) throw new Error('Cup capture validation failed; inspect qa/cup/capture.json');
+    || !media.audioTracks || sfxOnly && recording.samples.some(sample => sample.musicEnabled || sample.musicPlaying)) {
+    throw new Error('Cup capture validation failed; inspect the capture.json in the output directory');
+  }
   console.log(JSON.stringify({ video: resolve(directory, 'full-cup.webm'), duration: media.duration,
     rounds: recording.results.length, standings: standings.length, champion: recording.final.championId, errors }, null, 2));
 } finally {

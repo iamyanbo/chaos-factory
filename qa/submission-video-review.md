@@ -1,11 +1,10 @@
-# Submission video editorial revision - October 29, 2026
+# Submission video revision ? October 29, 2026
 
-- User rejected v1's 2:47 assembly as a game catalog. It is retained as chaos-factory-demo-v1.mp4 with edit-v1.json.
-- Latest local cut: qa/submission-video/chaos-factory-demo-v2.mp4, 105.721s, 1080p H.264/AAC. Caption-led; no voiceover is recorded. The default filename also points to v2.
-- Reviewed per-event source sheets: actual multiplier landings, fuse expiry, dense early Peg play, gate break and final eliminations. Corrected opening crops to exclude partial HUD and include real payoff stamps.
-- The story is action hook, compact real join/countdown, machine payoff, brief contrasting physical moments, standings, final duel and actual champion. Loading is cut; no equal-length game tour or paragraph overlays remain.
-- Codex's section is two short actual-source cards about user direction and feedback. One continuous CC0 music bed ducks under captured game audio; measured loudness is -18.1 LUFS and true peak -4.0 dBFS. No fake hits are added.
-- Normal-speed gameplay, no desktop/microphone capture, and no game physics or timing changes. Three editorial cold-open crops are recorded in edit.json.
-- Source Cup is 594.002s with five rounds, four standings and a real top-eight final. Real Twitch EventSub admitted iamyanbo into Peg Fever and host start reached PLAY. Standard channel: zero Predictions, wagers N/A, no public broadcast claimed.
-- Simulated viewers and real chat on an offline channel remain labeled. Reviewed the current opening and 12-frame contact sheet. Typecheck and 356 tests/72 files pass; that is not an entertainment-quality claim.
-- YouTube upload and Devpost final submission remain undone because authenticated API access is unavailable under the no-computer-use constraint.
+- Current local film: `qa/submission-video/chaos-factory-demo-v3.mp4`, 105.735 s, 1920?1080 H.264, 30 fps, AAC stereo 48 kHz. Previous v1/v2 remain available. No voiceover is recorded.
+- Fixed the real Marble Race finish-camera rebound: the temporary focus/zoom released against the monotonic follow camera. Live slow motion remains; physics and scoring are unchanged. The regression failed on the old build and passes on the new build.
+- Earlier edits accidentally added a second music bed to already mixed source footage. Recaptured the entire Cup with music disabled and effects retained. Every sampled music flag is false; the renderer rejects mixed Cup sources and mutes the older real-join clip. Exactly one continuous CC0 Stage 2 track is added after the picture edit.
+- Fresh normal-speed Cup: 592.312 s, five rounds, four standings, actual top-eight final/champion, zero browser errors and sampled median 60 FPS. Simulated viewers remain labeled; real Twitch EventSub join is labeled separately with the channel offline. Standard channel: native wagers N/A, no public broadcast or native payout claimed.
+- Added original animated Toy title/confetti, settling source cards and short yellow impact captions. Gameplay remains at its captured speed; only the three cold-open crops reframe the source. No fake hit sounds or fabricated results.
+- Opened the 16-frame v3 contact sheet and the eight-frame normal-speed Race finish strip. Checked caption placement, the actual multiplier landing, real join, standings and champion. Full MP4 decoding passes; measured final loudness is -18.18 LUFS with -2.83 dBFS true peak, without clipping.
+- Browser pass: 16 tests pass across all eight games, offline views, result screens, music controls/fallback and the Race finish. Typecheck and all 357 unit tests across 73 files pass. Normal-speed npm run frames stills independently confirm the steady Race finish at approximately 60 FPS with zero errors.
+- YouTube upload and final Devpost submission remain manual because no authenticated API connector is available under the user's no-computer-use constraint.

@@ -64,10 +64,13 @@ external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
 ## Current edit - about 1 minute 46 seconds
 
-The first 2:47 cut was rejected as a long catalog. The second cut uses an action
+The first 2:47 cut was rejected as a long catalog. The latest cut adds animated
+Toy titles and short impact captions to an action
 hook, compact real join proof, a few contrasting physical moments, then one Cup
 payoff. Gameplay stays at its captured speed; only the cold open uses editorial
-close-ups. It has captions and music, with no recorded voiceover.
+close-ups. One continuous music bed accompanies effects-only Cup footage; the older
+live clip is muted to avoid stacking its original background music. There is no
+recorded voiceover.
 
 | Time | Picture | Purpose |
 |---|---|---|
@@ -80,9 +83,10 @@ close-ups. It has captions and music, with no recorded voiceover.
 | 1:30-1:42 | Two short actual-source cards | Explain user direction, Codex implementation and feedback |
 | 1:42-1:46 | Source link and offline invitation | End on the usable project |
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v2.mp4. The original is
-preserved as chaos-factory-demo-v1.mp4 for comparison. Upload copy and contact
-sheets are beside the videos; generated media is excluded from Git.
+Latest local MP4: qa/submission-video/chaos-factory-demo-v3.mp4. The earlier cuts
+remain as chaos-factory-demo-v1.mp4 and chaos-factory-demo-v2.mp4 for comparison.
+Upload copy and contact sheets are beside the videos; generated media is excluded
+from Git.
 
 Include native Prediction creation, lock and resolution only after a successful
 eligible-channel rehearsal. Otherwise describe the wagering limitation honestly

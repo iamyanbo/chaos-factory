@@ -1296,3 +1296,10 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Replaced disconnected per-clip music with one continuous CC0 bed ducked by actual game audio; final export measures -18.1 LUFS and -4.0 dBTP. No fabricated effects or narration.
 - Shortened Codex evidence to two actual-source cards with user-direction/feedback copy. Updated versioned upload links and chapters; optional narration text stays local.
 - Typecheck and all 356 tests/72 files pass. Reviewed the new opening and contact sheet; user watchability feedback remains the standard. No computer-use or live broadcast actions.
+
+## 2026-10-29 - Race finish and stronger film presentation
+- Reproduced the Race finish rebound: temporary zoom released against leader follow. Removed camera focus/scale changes while retaining actual live slow motion, physics and results; failing-before/passing-after browser coverage proves it.
+- Corrected earlier edits stacking a music bed over already mixed music. Recaptured a 592.312s normal-speed Cup with music disabled and effects retained; every sampled music flag is false. The renderer now rejects mixed sources and mutes the older live-join mix.
+- Rendered v3 (105.735s, 1080p/30 H.264/AAC) with one continuous CC0 track, animated Toy title/confetti, moving source cards and brief yellow impact captions. Retained previous cuts; no fake hits or results.
+- Reviewed the 16-frame film sheet, normal-speed Race finish strip and npm run frames stills beside the Toy reference. Final MP4 decode passes; measured -18.18 LUFS/-2.83 dBTP. Updated credits, reproduction steps and upload copy.
+- Typecheck and all 357 tests/73 files pass; 16 browser checks pass across all eight games, music, results and the Race finish. No computer-use tools or public broadcast. YouTube upload/Devpost submission remain owner account actions.
