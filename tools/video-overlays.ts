@@ -70,8 +70,9 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
       }
       function rule(time: number) {
         if (!segment.title) return;
+        const entry = segment.chapter ? time - .65 : time;
         const lifetime = Math.min(7.5, segment.seconds - .3);
-        const alpha = Math.min(1, time / .2, (lifetime - time) / .3);
+        const alpha = Math.min(1, entry / .2, (lifetime - time) / .3);
         if (alpha <= 0) return;
         ctx.save();
         ctx.globalAlpha = alpha;
@@ -83,8 +84,8 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
           ctx.restore();
           return;
         }
-        const scale = 1 + Math.sin(time * 16) * Math.exp(-time * 5) * .07;
-        ctx.translate(42 - (1 - ease(time)) * 440, 655);
+        const scale = 1 + Math.sin(entry * 16) * Math.exp(-entry * 5) * .07;
+        ctx.translate(42 - (1 - ease(entry)) * 440, 655);
         ctx.scale(scale, scale);
         box(0, 0, 380, 370);
         const next = lines(segment.title, 23, 21, 334, 51, true, INK);
@@ -92,6 +93,108 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.fillRect(23, next + 7, 80 + Math.min(250, time * 180), 7);
         lines(segment.body, 23, next + 34, 334, 32);
         ctx.restore();
+      }
+      function display(text: string, x: number, y: number, size: number, color = '#ffde3b') {
+        ctx.font = `${size}px Lilita`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.lineJoin = 'round';
+        const small = size < 45;
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = small ? 5 : 12;
+        ctx.strokeText(text, x + (small ? 2 : 5), y + (small ? 3 : 7));
+        ctx.strokeStyle = small ? INK : 'white';
+        ctx.lineWidth = small ? 3 : 6;
+        ctx.strokeText(text, x, y);
+        ctx.fillStyle = color;
+        ctx.fillText(text, x, y);
+      }
+      function chapter(time: number) {
+        const AGE_START = .12;
+        const LIFE = .98;
+        const age = time - AGE_START;
+        if (!segment.chapter || age < 0 || age > LIFE) return;
+        const leave = Math.max(0, Math.min(1, (age - .48) / .5));
+        const pop = 1 - Math.exp(-age * 24) * Math.cos(age * 20);
+        ctx.save();
+        ctx.globalAlpha = Math.min(1, age * 12) * (1 - leave);
+        ctx.translate(960 - leave * 650, 490 + leave * 230);
+        ctx.rotate(-.055 * (1 - leave));
+        ctx.scale(pop * (1 - leave * .5), pop * (1 - leave * .5));
+        const words = segment.title.split(' ');
+        display(segment.chapter === 5 ? 'GRAND FINAL' : `ROUND ${segment.chapter} / 5`, 0, -158, 30, 'white');
+        words.forEach((word, index) => display(word, 0, -50 + index * 132, 128));
+        ctx.restore();
+      }
+      function impacts(time: number) {
+        for (const cue of segment.cues ?? []) {
+          const age = time - cue.at;
+          if (age < 0 || age > cue.seconds) continue;
+          const progress = age / cue.seconds;
+          const opacity = Math.min(1, age * 18, (cue.seconds - age) * 5);
+          const pop = 1 - Math.exp(-age * 18) * Math.cos(age * 22);
+          ctx.save();
+          ctx.globalAlpha = opacity;
+          ctx.translate(1670, 730);
+          ctx.rotate(-.07 + Math.sin(age * 18) * Math.exp(-age * 7) * .07);
+          ctx.scale(pop, pop);
+          ctx.beginPath();
+          for (let point = 0; point < 24; point++) {
+            const angle = point * Math.PI / 12;
+            const radius = point % 2 ? 94 : 135;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            if (point) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+          }
+          ctx.closePath();
+          ctx.fillStyle = cue.kind === 'burst' ? '#ff4f7b' : '#3a8ee6';
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 5;
+          ctx.fill();
+          ctx.stroke();
+          const words = cue.title.split(' ');
+          words.forEach((word, index) => display(word, 0, (index - (words.length - 1) / 2) * 74,
+            cue.kind === 'score' ? 86 : words.length > 1 ? 66 : 82));
+          if (cue.detail) display(cue.detail, 0, 124, 28, 'white');
+          ctx.restore();
+          // Short editorial edge streaks stay outside the physics and HUD cards.
+          ctx.save();
+          ctx.globalAlpha = opacity * (1 - progress) * .8;
+          ctx.strokeStyle = '#ffde3b';
+          ctx.lineWidth = 7;
+          for (let corner = 0; corner < 4; corner++) {
+            const x = corner % 2 ? 1910 : 10;
+            const y = corner < 2 ? 10 : 1070;
+            const direction = corner % 2 ? -1 : 1;
+            const vertical = corner < 2 ? 1 : -1;
+            ctx.beginPath();
+            ctx.moveTo(x, y + vertical * 58);
+            ctx.lineTo(x + direction * 45, y + vertical * 12);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+      }
+      function celebration(time: number) {
+        if (!segment.celebrate) return;
+        const colors = ['#ff4f7b', '#ffde3b', '#3a8ee6', '#2ecc71'];
+        for (let index = 0; index < 22; index++) {
+          const age = time + (index % 7) * .12;
+          const left = index % 2 === 0;
+          const x = (left ? 30 : 1890) + (left ? 1 : -1) * (age * 28 + index % 5 * 24);
+          const y = (index * 107 + age * 130) % 1090;
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(age * 2 + index);
+          ctx.fillStyle = colors[index % colors.length];
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(-8, -4, 28, 12, 4);
+          ctx.fill();
+          ctx.stroke();
+          ctx.restore();
+        }
       }
       function credit(time: number) {
         if (!segment.credit) return;
@@ -143,6 +246,9 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         rule(time);
         credit(time);
         crowdFeed(time);
+        chapter(time);
+        impacts(time);
+        celebration(time);
         output.push(canvas.toDataURL().split(',')[1]);
       }
       return output;

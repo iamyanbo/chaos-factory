@@ -1,3 +1,5 @@
+import { durationToBeat } from './video-rhythm';
+
 export interface VideoTransition {
   wall: number;
   phase: string;
@@ -32,6 +34,10 @@ export interface VideoSegment {
   title: string;
   body: string;
   credit?: string;
+  gameId?: string;
+  chapter?: number;
+  celebrate?: boolean;
+  cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string }[];
   evidence: 'mock' | 'project-files';
   inset?: { from: number; at: number; seconds: number; name: string; evidence: 'real-chat' };
 }
@@ -71,7 +77,8 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     const latest = Math.min(timing.result + 2, cup.media.duration) - seconds;
     if (latest < timing.play) throw new Error(`Insufficient real ${game} footage`);
     segments.push({ source: 'cup', from: Math.max(timing.play, Math.min(timing.play + offset, latest)),
-      seconds, title, body, credit, evidence: 'mock' });
+      seconds, title, body, credit, gameId: game, chapter: segments.filter(row => row.gameId).length + 1,
+      evidence: 'mock' });
   }
   shot('multiplier-cascade', 35.2, 24, 'MULTIPLIER CASCADE',
     'Grow your team.\nFirst to five finishers wins.',
@@ -94,8 +101,31 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   const champion = cup.transitions.find(row => row.phase === 'CUP_RESULTS');
   if (!champion || champion.wall + 4.2 > cup.media.duration) throw new Error('The actual Cup champion screen is missing');
   segments.push({ source: 'cup', from: champion.wall + .2, seconds: 4,
-    title: '', body: '', evidence: 'mock' });
+    title: '', body: '', celebrate: true, evidence: 'mock' });
   segments.push({ source: 'outro', from: 0, seconds: 2.5, title: '', body: '', evidence: 'project-files' });
+  let elapsed = 0;
+  for (const segment of segments) {
+    if (segment.source !== 'title' && segment.source !== 'outro') {
+      segment.seconds = durationToBeat(elapsed, segment.seconds);
+      if (segment.gameId) {
+        segment.from = Math.min(segment.from, round(segment.gameId).result + 2 - segment.seconds);
+      }
+    }
+    // These are annotations of reviewed events in the retained source, never invented events.
+    if (segment.gameId === 'hot-potato') segment.cues = [
+      { at: round('hot-potato').play + 11.91 - segment.from, seconds: .9, kind: 'burst', title: 'BOOM!' },
+      { at: round('hot-potato').play + 22.28 - segment.from, seconds: 1.1, kind: 'burst', title: 'RIM BREAK!' }
+    ];
+    if (segment.gameId === 'peg-fever') segment.cues = [
+      { at: round('peg-fever').play + 11.65 - segment.from, seconds: 1.2,
+        kind: 'score', title: '2,960', detail: '1,480 x 2' }
+    ];
+    if (segment.gameId === 'marble-race') segment.cues = [
+      { at: round('marble-race').play + 79.24 - segment.from, seconds: 1.15,
+        kind: 'finish', title: 'FINISH!', detail: 'FIRST HOME' }
+    ];
+    elapsed += segment.seconds;
+  }
   if (segments.reduce((sum, row) => sum + row.seconds, 0) >= 120) throw new Error('Story cut must stay under two minutes');
   return segments;
 }

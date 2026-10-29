@@ -1,13 +1,15 @@
 import { expect, test } from 'vitest';
 import { submissionVideoPlan, type CupVideo, type CrowdVideo } from '../../tools/video-plan';
+import { EDIT_BEAT_SECONDS, INTRO_SECONDS } from '../../tools/video-rhythm';
 
 function cup(): CupVideo {
   const transitions = ['multiplier-cascade', 'hot-potato', 'peg-fever', 'marble-race', 'blade-brawl']
     .flatMap((game, index) => [
       { game, round: index + 1, phase: 'PLAY', stage: 0, wall: index * 100 + 5 },
       { game, round: index + 1, phase: 'PLAY', stage: 1, wall: index * 100 + 30 },
-      { game, round: index + 1, phase: 'RESULT', stage: 2, wall: index * 100 + 80 },
-      { game, round: index + 1, phase: index === 4 ? 'CUP_RESULTS' : 'STANDINGS', stage: 2, wall: index * 100 + 86 }
+      { game, round: index + 1, phase: 'RESULT', stage: 2, wall: index * 100 + (game === 'marble-race' ? 90 : 80) },
+      { game, round: index + 1, phase: index === 4 ? 'CUP_RESULTS' : 'STANDINGS', stage: 2,
+        wall: index * 100 + (game === 'marble-race' ? 96 : 86) }
     ]);
   return { transitions, wallSeconds: 493, media: { duration: 493 } };
 }
@@ -32,6 +34,32 @@ test('populated join stays continuous; the actual Twitch test is a separately la
   expect(join.inset!.at + join.inset!.seconds).toBeLessThanOrEqual(join.seconds);
   expect(join.from).toBeLessThan(crowd().joins[0].wall);
   expect(join.from + join.seconds).toBeGreaterThan(crowd().playAt! + 4);
+});
+
+test('chapter boundaries land on the measured music pulse without shortening reviewed gameplay', () => {
+  const plan = submissionVideoPlan(cup(), live, crowd());
+  let elapsed = 0;
+  for (const segment of plan.slice(0, -1)) {
+    elapsed += segment.seconds;
+    const beat = Math.round((elapsed - INTRO_SECONDS) / EDIT_BEAT_SECONDS);
+    const exact = INTRO_SECONDS + beat * EDIT_BEAT_SECONDS;
+    expect(Math.abs(elapsed - exact)).toBeLessThanOrEqual(1 / 60 + 1e-7);
+  }
+  expect(plan.filter(row => row.chapter).map(row => row.chapter)).toEqual([1, 2, 3, 4, 5]);
+  expect(plan.find(row => row.title === 'HOT POTATO')!.seconds).toBeGreaterThanOrEqual(20);
+  expect(plan.find(row => row.title === 'MARBLE RACE')!.seconds).toBeGreaterThanOrEqual(12);
+});
+
+test('editorial impacts stay within the retained source shot and never carry across a cut', () => {
+  const plan = submissionVideoPlan(cup(), live, crowd());
+  const cues = plan.flatMap(segment => (segment.cues ?? []).map(cue => ({ segment, cue })));
+  expect(cues).toHaveLength(4);
+  for (const { segment, cue } of cues) {
+    expect(cue.at).toBeGreaterThan(1);
+    expect(cue.at + cue.seconds).toBeLessThan(segment.seconds - .2);
+    expect(segment.source).toBe('cup');
+  }
+  expect(plan.find(row => row.cues?.some(cue => cue.kind === 'score'))?.title).toBe('PEG FEVER');
 });
 
 test('all five games use their actual names and rules; the whole-project credit appears once', () => {

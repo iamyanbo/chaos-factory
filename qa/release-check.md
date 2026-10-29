@@ -77,3 +77,13 @@ actual game names; one credit states Codex implemented the entire project, with
 user direction/review. Typecheck and all 359 tests/73 files pass, including six
 focused film-plan/audio tests. Final decoding and audio checks pass; gameplay
 code and timings are unchanged. See qa/submission-video-review.md.
+
+
+## Motion edit revision - October 29
+
+The latest film is v6, 110.975 seconds: kinetic chapter titles, source-timed comic
+accents, original stereo transition sounds, champion confetti and animated closing
+branding. The approved intro, physical payoffs, whole-project Codex attribution and
+honest simulated/real-chat labels remain. The 154 BPM cut grid extends gameplay
+windows; actual encoded drift is under one frame. Full decoding and audio checks
+pass. Typecheck and all 361 tests/73 files pass, plus eight final focused checks.

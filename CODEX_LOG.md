@@ -1317,3 +1317,10 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Replaced selective feature credits with one fitted whole-project credit: Codex implemented the entire project; the user directed and reviewed it. Updated project and upload copy accordingly.
 - Rendered v5 at 109.415 s, 1080p/30 H.264/AAC. Reviewed the final sixteen-frame sheet and full-resolution credit, landing and finish frames. Full decoding and one-bed audio checks pass (-18.08 LUFS/-4.82 dBTP); no fabricated explosions, gameplay changes or computer use.
 - Typecheck and all 359 tests/73 files pass, including six focused plan/audio tests protecting Hot Potato's reviewed blast window, canonical names and single full-project attribution. Account upload/submission remain owner actions.
+
+## 2026-10-29 - Kinetic video edit and music synchronization
+- Added animated chapter titles that settle toward the rules, source-timed comic blast/score/finish accents, edge streaks and champion confetti. Preserved the approved intro, long gameplay payoffs, real/mock labels and whole-project Codex credit.
+- Measured the CC0 Stage 2 track at 154 BPM and aligned cut boundaries to its pulse by extending shots. Actual encoded cut drift is 0.0127 s, below one frame; no simulation speed, camera, scoring or game code changed.
+- Synthesized original soft stereo transition whooshes around nine cuts; the track is silent elsewhere. Kept one continuous music bed and captured effects, with no invented gameplay hits or explosions. Credited the new procedural audio.
+- Built an animated closing logo/URL matching the intro and rendered v6 at 110.975 s, 1080p/30 H.264/AAC. Reviewed eighteen final frames and full-resolution effects; fixed unreadable small-label outlines.
+- Full decode/audio checks pass (-18.07 LUFS/-4.50 dBTP). Typecheck and all 361 tests/73 files pass, plus eight final focused plan/audio checks. Restarted only the local mock demo; no computer use or external upload/submission.

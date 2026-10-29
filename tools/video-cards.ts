@@ -128,14 +128,27 @@ try {
           ctx.fillText('YOUR CHAT IS THE CAST', 960, 760);
           ctx.globalAlpha = 1;
         } else {
-          const scale = 1 - enter * .035 + bounce * .006;
-          ctx.save();
-          ctx.translate(960, 540 + enter * 34);
-          ctx.scale(scale, scale);
-          ctx.drawImage(image, -960, -540);
-          ctx.restore();
-          ctx.fillStyle = '#ff4f7b';
-          ctx.fillRect(80, 200, Math.min(1760, time * 1760 / seconds), 8);
+          lettering('CHAOS', 960 - enter * 350, 345 + bounce * 20, 154, -.055);
+          lettering('FACTORY', 960 + enter * 350, 520 - bounce * 18, 154, -.055);
+          ctx.textAlign = 'center';
+          ctx.font = '38px Fredoka';
+          ctx.fillStyle = '#1b1b3a';
+          ctx.fillText('YOUR CHAT IS THE CAST', 960, 650);
+          const offset = Math.exp(-Math.max(0, time - .15) * 9) * 300;
+          ctx.fillStyle = '#1b1b3a33';
+          ctx.beginPath();
+          ctx.roundRect(387, 759 + offset, 1160, 110, 26);
+          ctx.fill();
+          ctx.fillStyle = 'white';
+          ctx.strokeStyle = '#1b1b3a';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.roundRect(380, 750 + offset, 1160, 110, 26);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = '#1b1b3a';
+          ctx.font = '40px Fredoka';
+          ctx.fillText('github.com/iamyanbo/chaos-factory', 960, 818 + offset);
         }
       }
       draw(0);

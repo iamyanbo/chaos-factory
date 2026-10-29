@@ -119,6 +119,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v5.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v6.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);
