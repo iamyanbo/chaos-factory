@@ -19,16 +19,17 @@ const description = `One join. Five games. A whole stream competing.
 Chaos Factory is an automatic Twitch physics game show. Viewers type !join to
 become named marbles. Four Cup rounds lead into a top-eight Blade Brawl final.
 
-This video combines normal-speed excerpts from a simulated five-round Cup with
-an actual Twitch EventSub !join on iamyanbo, followed by the host starting Peg Fever.
-The channel was offline during capture. The real-chat clip is labeled separately
-from simulated viewers. No public broadcast or native point payout is claimed.
+This video shows 48 simulated viewers joining the actual game lobby, followed
+by normal-speed excerpts from a five-round Cup. A separately labeled inset shows
+the actual Twitch EventSub join rehearsal with iamyanbo in Peg Fever.
+The channel was offline during that test. Simulated viewers are labeled. No public broadcast or native point payout is claimed.
 This is a standard channel: native Predictions require Affiliate/Partner status.
 
 ${time(0)} Chaos Factory and real Twitch chat
 ${time(first(row => row.title === 'MULTIPLY'))} Physics games and the Cup
-${time(first(row => row.title === 'FINAL ROUND') - 6)} Standings and Grand Final
-${time(first(row => row.source === 'brief'))} How I used Codex
+${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
+
+Short rule and Codex-build notes accompany each game instead of a separate explainer.
 
 Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
@@ -79,8 +80,8 @@ usable offline and keeping manual starts available for a real channel rehearsal.
 
 ## What is verified and what remains
 The demo includes a real Twitch EventSub !join admitting iamyanbo into Peg Fever,
-followed by host start and gameplay without wagers. The Cup excerpts use simulated
-viewers and are labeled. The channel was offline during capture, and no public
+with gameplay without wagers, shown as a labeled inset. The main join sequence
+uses 48 simulated viewers, and Cup excerpts use a labeled simulated audience. The channel was offline during capture, and no public
 broadcast is claimed. Native Prediction payout remains untested because this is
 a standard channel, not Affiliate/Partner. The streamer-versus-chat Blade Brawl
 balance still favors the streamer; the known failure is disclosed in the repository.
@@ -116,6 +117,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v3.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v4.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

@@ -62,31 +62,26 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 1 minute 46 seconds
+## Current edit - about 1 minute 35 seconds
 
-The first 2:47 cut was rejected as a long catalog. The latest cut adds animated
-Toy titles and short impact captions to an action
-hook, compact real join proof, a few contrasting physical moments, then one Cup
-payoff. Gameplay stays at its captured speed; only the cold open uses editorial
-close-ups. One continuous music bed accompanies effects-only Cup footage; the older
-live clip is muted to avoid stacking its original background music. There is no
-recorded voiceover.
+The film opens with the animated Chaos Factory intro. A continuous mock lobby
+fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
+inset separately labels the real Twitch test with iamyanbo while the channel
+was offline. The main audience is simulated; no real crowd is implied.
 
-| Time | Picture | Purpose |
-|---|---|---|
-| 0:00-0:06 | Multiplier landing, fuse burst, moving machine | Lead with visible action |
-| 0:06-0:09 | Brief project title | Name the show |
-| 0:09-0:21 | Actual join count change, countdown and named player | Demonstrate the Twitch connection without the loading wait |
-| 0:21-0:39 | Cascade machinery and the real first-to-five payoff | Show one complete cause-and-payoff sequence |
-| 0:39-1:02 | Brief bomb, landing and broken-gate moments | Contrast the physical stakes without teaching every game |
-| 1:02-1:30 | Standings, field shrinking, final duel, actual champion | Explain why the Cup matters |
-| 1:30-1:42 | Two short actual-source cards | Explain user direction, Codex implementation and feedback |
-| 1:42-1:46 | Source link and offline invitation | End on the usable project |
+Five continuous gameplay excerpts lead through the Cup standings, final duel and
+actual champion. Animated Toy plate wipes cover changes between source scenes.
+Short rules and Codex-build notes enter beside each game, then clear away. The
+standings note stays above the table. There is no separate explanation section
+at the end: the champion leads directly to a brief logo/source link.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v3.mp4. The earlier cuts
-remain as chaos-factory-demo-v1.mp4 and chaos-factory-demo-v2.mp4 for comparison.
-Upload copy and contact sheets are beside the videos; generated media is excluded
-from Git.
+One continuous music bed accompanies effects-only footage; the old real-chat
+mix is muted. Gameplay stays at its captured speed. No voiceover is recorded.
+
+Latest local MP4: qa/submission-video/chaos-factory-demo-v4.mp4. Previous cuts
+remain for comparison. edit.json records exact source windows and the real-test
+inset. Upload copy, contact sheet and transition review are beside the videos;
+generated media is excluded from Git.
 
 Include native Prediction creation, lock and resolution only after a successful
 eligible-channel rehearsal. Otherwise describe the wagering limitation honestly

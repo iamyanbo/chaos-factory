@@ -1,78 +1,81 @@
-import { spawnSync } from 'node:child_process';
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { submissionVideoPlan, type CupVideo, type JoinVideo } from './video-plan';
+import { existsSync } from 'node:fs';
+import { command } from './drama/capture-media';
+import { submissionVideoPlan, type CupVideo, type JoinVideo, type CrowdVideo } from './video-plan';
 import { assertEffectsOnly, type AudioCaptureProof } from './video-audio';
 
 const directory = 'qa/submission-video/edit';
-await mkdir(`${directory}/segments`, { recursive: true });
-const cupPath = 'qa/submission-video/full-cup-sfx';
-const livePath = 'qa/submission-video/live-join';
-const cup = JSON.parse(await readFile(`${cupPath}/capture.json`, 'utf8')) as CupVideo & AudioCaptureProof;
+const root = 'qa/submission-video';
+await mkdir(`${directory}/segments-v4`, { recursive: true });
+const cup = JSON.parse(await readFile(`${root}/full-cup-sfx/capture.json`, 'utf8')) as CupVideo & AudioCaptureProof;
+const crowd = JSON.parse(await readFile(`${root}/join-crowd/capture.json`, 'utf8')) as CrowdVideo & AudioCaptureProof;
+const live = existsSync(`${root}/live-join/capture.json`)
+  ? JSON.parse(await readFile(`${root}/live-join/capture.json`, 'utf8')) as JoinVideo : undefined;
 assertEffectsOnly(cup);
-const live = existsSync(`${livePath}/capture.json`)
-  ? JSON.parse(await readFile(`${livePath}/capture.json`, 'utf8')) as JoinVideo : undefined;
-const plan = submissionVideoPlan(cup, live, process.argv.includes('--offline-preview'));
-function run(args: string[]) {
-  const result = spawnSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args],
-    { encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 });
-  if (result.error || result.status !== 0) throw new Error(result.error?.message ?? result.stderr);
-}
+assertEffectsOnly(crowd);
+const plan = submissionVideoPlan(cup, live, crowd, process.argv.includes('--offline-preview'));
+const run = (args: string[]) => command('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args]);
 const files: string[] = [];
-const timeline: { start: number; end: number; source: string; sourceFrom: number; evidence: string; title: string;
-  crop?: { x: number; y: number; width: number; height: number } }[] = [];
+const timeline: object[] = [];
 let elapsed = 0;
 for (const [index, segment] of plan.entries()) {
-  const gameplay = segment.source === 'cup' || segment.source === 'live';
-  const inputs = gameplay
-    ? ['-ss', String(segment.from), '-i', `${segment.source === 'cup' ? cupPath : livePath}/${segment.source === 'cup' ? 'full-cup' : 'live-join'}.webm`,
-      '-loop', '1', '-framerate', '30', '-i', `${directory}/cards/badge-${index}.png`,
-      '-loop', '1', '-framerate', '30', '-i', `${directory}/cards/caption-${index}.png`,
-      ...(segment.source === 'live' ? ['-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo'] : [])]
-    : [...(['title', 'brief', 'review', 'outro'].includes(segment.source)
-      ? ['-i', `${directory}/cards/${segment.source}-motion.webm`]
-      : ['-loop', '1', '-framerate', '30', '-i', `${directory}/cards/${segment.source}.png`]),
-      '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo'];
-  const output = `${directory}/segments/${String(index).padStart(2, '0')}.mp4`;
-  const reframing = segment.crop ? `crop=${segment.crop.width}:${segment.crop.height}:${segment.crop.x}:${segment.crop.y},scale=1920:1080,` : '';
-  const video = gameplay
-    ? ['-filter_complex', `[0:v]${reframing}fps=30,format=rgba[v];[v][1:v]overlay=0:0:format=auto[badged];[2:v]fade=t=in:st=0:d=0.12:alpha=1[caption];[badged][caption]overlay=x=0:y='28*exp(-10*t)*cos(12*t)':eval=frame:format=auto,format=yuv420p[out]`,
-      '-map', '[out]', '-map', segment.source === 'live' ? '3:a' : '0:a']
-    : ['-vf', 'fps=30,format=yuv420p', '-map', '0:v', '-map', '1:a'];
-  run([...inputs, '-t', String(segment.seconds), ...video,
-    '-af', `volume=${gameplay ? 1.4 : 1},afade=t=in:d=0.025,afade=t=out:st=${Math.max(0, segment.seconds - .04)}:d=0.04`,
+  const gameplay = segment.source === 'cup' || segment.source === 'crowd';
+  const source = segment.source === 'cup' ? `${root}/full-cup-sfx/full-cup.webm`
+    : segment.source === 'crowd' ? `${root}/join-crowd/crowd.webm`
+    : `${directory}/cards/${segment.source}-motion.webm`;
+  const inputs = ['-ss', String(segment.from), '-i', source,
+    '-loop', '1', '-framerate', '30', '-i', `${directory}/cards/wipe.png`,
+    ...(gameplay ? ['-i', `${directory}/overlays/${index}/overlay.mov`]
+      : ['-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo']),
+    ...(segment.inset ? ['-ss', String(segment.inset.from), '-i', `${root}/live-join/live-join.webm`] : [])];
+  const filters = ['[0:v]fps=30,setpts=PTS-STARTPTS,format=rgba[base]',
+    '[1:v]format=rgba,split=2[wi][wo]'];
+  let video = 'base';
+  if (gameplay) {
+    filters.push('[base][2:v]overlay=0:0:format=auto[decorated]');
+    video = 'decorated';
+  }
+  if (segment.inset) {
+    const { at, seconds } = segment.inset;
+    filters.push(`[3:v]crop=1024:1024:448:24,scale=376:376,setsar=1,setpts=PTS-STARTPTS+${at}/TB[real]`);
+    filters.push(`[${video}][real]overlay=x=1492:y=500:enable='between(t,${at},${at + seconds})':format=auto[inset]`);
+    video = 'inset';
+  }
+  // Both sides meet on the same solid plate at the edit: no abrupt source jump.
+  filters.push(`[${video}][wi]overlay=x='-200+12000*t':y=0:enable='${index ? 'lt(t,0.2)' : '0'}':format=auto[arrived]`);
+  filters.push(`[arrived][wo]overlay=x='-2600+12000*(t-${segment.seconds - .2})':y=0:enable='${index < plan.length - 1 ? `gte(t,${segment.seconds - .2})` : '0'}':format=auto,format=yuv420p[out]`);
+  const output = `${directory}/segments-v4/${String(index).padStart(2, '0')}.mp4`;
+  run([...inputs, '-t', String(segment.seconds), '-filter_complex', filters.join(';'),
+    '-map', '[out]', '-map', gameplay ? '0:a' : '2:a',
+    '-af', `volume=${gameplay ? 1.4 : 1},afade=t=in:d=0.025,afade=t=out:st=${segment.seconds - .04}:d=0.04`,
     '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-threads', '2',
     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-movflags', '+faststart', output]);
   files.push(`file '${String(index).padStart(2, '0')}.mp4'`);
-  timeline.push({ start: elapsed, end: elapsed + segment.seconds, source: segment.source,
-    sourceFrom: segment.from, evidence: segment.evidence, title: segment.title.replaceAll('\n', ' '), crop: segment.crop });
+  timeline.push({ start: elapsed, end: elapsed + segment.seconds, ...segment, sourceFrom: segment.from });
   elapsed += segment.seconds;
-  console.log(`Rendered ${index + 1}/${plan.length}: ${segment.title.replaceAll('\n', ' ') || segment.source}`);
+  console.log(`Rendered ${index + 1}/${plan.length}: ${segment.title || segment.source}`);
 }
-await writeFile(`${directory}/segments/concat.txt`, files.join('\n') + '\n');
-const draft = !plan.some(row => row.evidence === 'real-chat');
-const picture = `${directory}/story-picture.mp4`;
-run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments/concat.txt`, '-c', 'copy', picture]);
-const output = resolve(`qa/submission-video/${draft ? 'chaos-factory-offline-preview-v3' : 'chaos-factory-demo-v3'}.mp4`);
-// One continuous licensed bed, ducked by actual captured game audio. No fake hits.
+await writeFile(`${directory}/segments-v4/concat.txt`, files.join('\n') + '\n');
+const picture = `${directory}/story-picture-v4.mp4`;
+run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments-v4/concat.txt`, '-c', 'copy', picture]);
+const draft = !plan.some(row => row.inset?.evidence === 'real-chat');
+const output = resolve(`${root}/${draft ? 'chaos-factory-offline-preview-v4' : 'chaos-factory-demo-v4'}.mp4`);
 run(['-i', picture, '-stream_loop', '-1', '-i', 'apps/show/public/music/adventure-2.ogg',
   '-filter_complex', `[0:a]asplit=2[game][key];[1:a]volume=0.22,afade=t=in:d=0.2,afade=t=out:st=${elapsed - 1.2}:d=1.2[bed];[bed][key]sidechaincompress=threshold=0.035:ratio=4:attack=8:release=180[duck];[game][duck]amix=inputs=2:normalize=0,alimiter=limit=0.89:level=false,loudnorm=I=-18:TP=-1.5:LRA=9[audio]`,
-  '-t', String(elapsed), '-map', '0:v', '-map', '[audio]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-movflags', '+faststart', output]);
-const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration:stream=codec_type,width,height',
-  '-of', 'json', output], { encoding: 'utf8' });
-if (probe.status !== 0) throw new Error('Could not verify the final MP4');
-const media = JSON.parse(probe.stdout);
+  '-t', String(elapsed), '-map', '0:v', '-map', '[audio]', '-c:v', 'copy',
+  '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-ac', '2', '-movflags', '+faststart', output]);
+const media = JSON.parse(command('ffprobe', ['-v', 'error', '-show_entries',
+  'format=duration:stream=codec_type,width,height', '-of', 'json', output]));
 const duration = Number(media.format.duration);
 if (!(duration > 0 && duration < 180) || !media.streams.some((stream: { codec_type: string }) => stream.codec_type === 'audio')) {
   throw new Error('Final MP4 must have audio and stay under three minutes');
 }
-await writeFile('qa/submission-video/edit.json', JSON.stringify({ output, edition: 3, draft, duration,
-  audio: { musicBeds: 1, music: 'adventure-2.ogg', cupAudio: 'verified sfx-only', liveAudio: 'muted original mix' },
+await writeFile(`${root}/edit.json`, JSON.stringify({ output, edition: 4, draft, duration,
+  audio: { musicBeds: 1, music: 'adventure-2.ogg', cupAudio: 'verified sfx-only',
+    crowdAudio: 'verified sfx-only', liveAudio: 'muted original mix' },
   normalSpeedGameplay: true, desktopCaptured: false, realBroadcast: false,
-  footage: 'Story cut: action hook, real join, short physical moments, Cup payoff, and actual project-file evidence. Normal-speed excerpts.', timeline, media }, null, 2));
-if (!draft) {
-  try { await copyFile(output, resolve('qa/submission-video/chaos-factory-demo.mp4')); }
-  catch { console.warn('The versioned MP4 is ready; the older default filename is currently locked.'); }
-}
+  footage: 'Continuous physical sequences with animated rule/Codex overlays; 48 mock joins and separately labeled real Twitch inset.',
+  transitions: '0.4 second Toy plate wipes', timeline, media }, null, 2));
+if (!draft) await copyFile(output, resolve(`${root}/chaos-factory-demo.mp4`));
 console.log(JSON.stringify({ output, duration, draft }, null, 2));

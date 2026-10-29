@@ -57,3 +57,12 @@ and the first Race finish. The finish regression failed on the old temporary zoo
 and passes with the monotonic camera. A fresh normal-speed Cup and final MP4 decode
 also pass; the film's clean audio provenance and frame review are recorded in
 qa/submission-video-review.md. Older test totals above describe the cleanup snapshot.
+
+
+## Film flow revision - October 29
+
+The latest film is v4, 95.430 seconds, with 48 simulated joins and a separately
+labeled real Twitch-test inset. Rules/Codex notes accompany the five game clips;
+there is no separate explanation ending. Typecheck and all 358 tests/73 files
+pass; the five focused film-plan/audio checks also pass after the final overlay
+fixes. Final H.264/AAC decoding and audio-level checks pass. Gameplay was unchanged.

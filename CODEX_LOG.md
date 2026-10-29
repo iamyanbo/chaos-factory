@@ -1303,3 +1303,10 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Rendered v3 (105.735s, 1080p/30 H.264/AAC) with one continuous CC0 track, animated Toy title/confetti, moving source cards and brief yellow impact captions. Retained previous cuts; no fake hits or results.
 - Reviewed the 16-frame film sheet, normal-speed Race finish strip and npm run frames stills beside the Toy reference. Final MP4 decode passes; measured -18.18 LUFS/-2.83 dBTP. Updated credits, reproduction steps and upload copy.
 - Typecheck and all 357 tests/73 files pass; 16 browser checks pass across all eight games, music, results and the Race finish. No computer-use tools or public broadcast. YouTube upload/Devpost submission remain owner account actions.
+
+## 2026-10-29 - Continuous film flow and populated joins
+- Preserved the approved animated intro, put it first and reduced 19 shots to ten continuous source sequences with matching Toy plate wipes.
+- Recorded 48 real mock-bridge arrivals with 2-5 s delays, countdown and 144-ball Peg Fever field. Arrival graphics use actual recorded names/timestamps; simulated viewers remain labeled. Real Twitch proof is a separately labeled, muted four-second inset.
+- Moved short rules and Codex-build notes into animated overlays for all five Cup games. Removed the explanation tail; champion leads directly to the brief logo/source ending. Positioned standings copy above its table after frame review.
+- Rendered v4 at 95.430 s, 1080p/30 H.264/AAC. One continuous CC0 music bed remains; source music guards, full decoding and -18.11 LUFS/-4.12 dBTP checks pass. Gameplay/physics unchanged.
+- Reviewed the 16-frame film sheet, transition strip and full-resolution join, game and standings frames. Typecheck and 358 tests/73 files pass, plus the five final focused plan/audio checks. No computer use; external upload/submission remain owner actions.

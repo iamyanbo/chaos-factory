@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { submissionVideoPlan, type CupVideo } from '../../tools/video-plan';
+import { submissionVideoPlan, type CupVideo, type CrowdVideo } from '../../tools/video-plan';
 
 function cup(): CupVideo {
   const transitions = ['multiplier-cascade', 'hot-potato', 'peg-fever', 'marble-race', 'blade-brawl']
@@ -12,33 +12,55 @@ function cup(): CupVideo {
   return { transitions, wallSeconds: 493, media: { duration: 493 } };
 }
 
-test('story cut uses real phases, compact join proof and a complete Cup payoff under two minutes', () => {
-  const plan = submissionVideoPlan(cup(), { mode: 'live', joinedAt: 12, startedAt: 15,
-    member: { displayName: 'iamyanbo' }, media: { duration: 42 } });
+function crowd(): CrowdVideo {
+  return { mode: 'mock', viewers: 48, startedAt: 11, playAt: 14,
+    joins: Array.from({ length: 48 }, (_, index) => ({ wall: 2 + index / 8, name: `viewer_${index}`, color: '#ff4f7b' })),
+    media: { duration: 23 } };
+}
+const live = { mode: 'live', joinedAt: 12, startedAt: 15,
+  member: { displayName: 'iamyanbo' }, media: { duration: 42 } };
+
+test('populated join stays continuous; the actual Twitch test is a separately labeled inset', () => {
+  const plan = submissionVideoPlan(cup(), live, crowd());
   const duration = plan.reduce((sum, row) => sum + row.seconds, 0);
   expect(duration).toBeGreaterThan(80);
   expect(duration).toBeLessThan(120);
-  expect(plan.find(row => row.evidence === 'real-chat')).toMatchObject({ source: 'live', from: 11 });
-  expect(plan.filter(row => row.evidence === 'real-chat').reduce((sum, row) => sum + row.seconds, 0)).toBeLessThan(15);
-  expect(plan.filter(row => row.source === 'brief' || row.source === 'review')).toHaveLength(2);
-  expect(plan.slice(0, 3).every(row => row.crop && row.crop.x >= 0 && row.crop.y >= 0
-    && row.crop.x + row.crop.width <= 1920 && row.crop.y + row.crop.height <= 1080)).toBe(true);
+  expect(plan[0].source).toBe('title');
+  const join = plan.find(row => row.source === 'crowd')!;
+  expect(join.evidence).toBe('mock');
+  expect(join.inset).toMatchObject({ evidence: 'real-chat', name: 'iamyanbo', seconds: 4 });
+  expect(join.inset!.at + join.inset!.seconds).toBeLessThanOrEqual(join.seconds);
+  expect(join.from).toBeLessThan(crowd().joins[0].wall);
+  expect(join.from + join.seconds).toBeGreaterThan(crowd().playAt! + 4);
+});
+
+test('all five game explanations accompany gameplay; no explanation block follows the champion', () => {
+  const plan = submissionVideoPlan(cup(), live, crowd());
+  const explanations = plan.filter(row => row.credit);
+  expect(explanations).toHaveLength(5);
+  expect(explanations.every(row => row.source === 'cup' && row.body && row.credit?.includes('Codex'))).toBe(true);
+  expect(plan.slice(-2).map(row => row.source)).toEqual(['cup', 'outro']);
+  expect(plan.at(-2)?.title).toBe('');
   expect(plan.filter(row => row.source === 'cup').every(row => row.from >= 0
     && row.from + row.seconds <= cup().media.duration)).toBe(true);
 });
 
-test('never labels missing or mock chat proof as real Twitch', () => {
-  expect(() => submissionVideoPlan(cup())).toThrow('Real Twitch join proof is missing');
-  const draft = submissionVideoPlan(cup(), undefined, true);
-  expect(draft.some(row => row.evidence === 'real-chat')).toBe(false);
-  expect(draft.find(row => row.source === 'pending')?.body).toContain('offline preview');
+test('sparse joins and mock chat cannot be passed off as real Twitch evidence', () => {
+  expect(() => submissionVideoPlan(cup(), live, { ...crowd(), joins: crowd().joins.slice(0, 1) })).toThrow('populated mock lobby');
+  expect(() => submissionVideoPlan(cup(), { ...live, mode: 'mock' }, crowd())).toThrow('Real Twitch join proof');
+  const draft = submissionVideoPlan(cup(), undefined, crowd(), true);
+  expect(draft.some(row => row.inset)).toBe(false);
+  expect(draft.find(row => row.source === 'crowd')?.evidence).toBe('mock');
 });
 
-test('incomplete games or missing standings cannot be replaced with fabricated results', () => {
-  const missing = cup();
-  missing.transitions = missing.transitions.filter(row => row.game !== 'peg-fever');
-  expect(() => submissionVideoPlan(missing, undefined, true)).toThrow('Missing completed peg-fever');
-  const noStandings = cup();
-  noStandings.transitions = noStandings.transitions.filter(row => row.phase !== 'STANDINGS');
-  expect(() => submissionVideoPlan(noStandings, undefined, true)).toThrow('standings are missing');
+test('missing game, standings or champion footage cannot be replaced with fabricated results', () => {
+  for (const [phase, game, message] of [
+    ['PLAY', 'peg-fever', 'Missing completed peg-fever'],
+    ['STANDINGS', 'marble-race', 'standings'],
+    ['CUP_RESULTS', 'blade-brawl', 'champion']
+  ]) {
+    const missing = cup();
+    missing.transitions = missing.transitions.filter(row => row.phase !== phase || row.game !== game);
+    expect(() => submissionVideoPlan(missing, live, crowd())).toThrow(message);
+  }
 });
