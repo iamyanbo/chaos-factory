@@ -22,7 +22,7 @@
   docs/SUBMISSION.md; docs/SHIP-CHECKLIST.md now collects the remaining owner
   steps. `npm run submission` packages the committed handoff without publishing
   it, and `npm run submission:check` reports missing fields/confirmations from
-  docs/submission-fields.json. The revised 1:51 MP4 and upload/form copy are
+  docs/submission-fields.json. The revised 1:48 MP4 and upload/form copy are
   local in qa/submission-video/. YouTube upload and final Devpost submission
   still require account access; neither has been performed.
 

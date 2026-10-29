@@ -30,7 +30,7 @@ ${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the 
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
 Each game uses its actual name and short rules over gameplay.
-Codex implemented the entire project; I directed the design and reviewed the work.
+The opening title credits the project: Implemented with Codex.
 
 Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
@@ -119,6 +119,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v6.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v7.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

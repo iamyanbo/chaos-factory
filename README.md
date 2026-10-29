@@ -124,9 +124,9 @@ source-timed comic accents. Major cuts use the measured music grid; gameplay
 continues at its captured speed. The older mixed-audio live inset is muted.
 A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
-and overlays each game's actual name and short rules during gameplay. A single
-whole-project credit identifies Codex as the implementer and the user as design
-director/reviewer. The animated lobby feed uses actual recorded mock arrivals; a
+and overlays each game's actual name and short rules during gameplay. The opening
+title says "Implemented with Codex"; the game shots contain only rules and event
+accents. Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
 separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
 local under `qa/submission-video/`; they are excluded from Git. Account uploads
 and final Devpost submission are not automated.

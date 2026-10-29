@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
 import { submissionVideoPlan, type CupVideo, type CrowdVideo } from '../../tools/video-plan';
 import { EDIT_BEAT_SECONDS, INTRO_SECONDS } from '../../tools/video-rhythm';
+import { CHAPTER_TIMING, TITLE_CREDIT } from '../../tools/video-titles';
 
 function cup(): CupVideo {
   const transitions = ['multiplier-cascade', 'hot-potato', 'peg-fever', 'marble-race', 'blade-brawl']
@@ -46,7 +47,7 @@ test('chapter boundaries land on the measured music pulse without shortening rev
     expect(Math.abs(elapsed - exact)).toBeLessThanOrEqual(1 / 60 + 1e-7);
   }
   expect(plan.filter(row => row.chapter).map(row => row.chapter)).toEqual([1, 2, 3, 4, 5]);
-  expect(plan.find(row => row.title === 'HOT POTATO')!.seconds).toBeGreaterThanOrEqual(20);
+  expect(plan.filter(row => row.gameId === 'hot-potato').reduce((sum, row) => sum + row.seconds, 0)).toBeGreaterThanOrEqual(15);
   expect(plan.find(row => row.title === 'MARBLE RACE')!.seconds).toBeGreaterThanOrEqual(12);
 });
 
@@ -62,30 +63,36 @@ test('editorial impacts stay within the retained source shot and never carry acr
   expect(plan.find(row => row.cues?.some(cue => cue.kind === 'score'))?.title).toBe('PEG FEVER');
 });
 
-test('all five games use their actual names and rules; the whole-project credit appears once', () => {
+test('all game names remain canonical; the short Codex credit appears only on the opening title', () => {
   const plan = submissionVideoPlan(cup(), live, crowd());
   const games = plan.filter(row => row.source === 'cup' && row.title !== 'TOP EIGHT' && row.body);
   expect(games.map(row => row.title)).toEqual([
     'MULTIPLIER CASCADE', 'HOT POTATO', 'PEG FEVER', 'MARBLE RACE', 'BLADE BRAWL'
   ]);
-  const credits = plan.filter(row => row.credit);
-  expect(credits).toHaveLength(1);
-  expect(credits[0].credit).toBe('Codex implemented the entire project.\nI directed and reviewed it.');
+  expect(plan[0].subtitle).toBe(TITLE_CREDIT);
+  expect(TITLE_CREDIT).toBe('Implemented with Codex');
+  expect(plan.slice(1).every(row => !row.subtitle && !row.body.includes('Codex') && !Object.hasOwn(row, 'credit'))).toBe(true);
+  expect(CHAPTER_TIMING.hold).toBeGreaterThanOrEqual(2);
+  expect(CHAPTER_TIMING.rulesAt).toBeGreaterThan(2);
   expect(plan.slice(-2).map(row => row.source)).toEqual(['cup', 'outro']);
   expect(plan.at(-2)?.title).toBe('');
   expect(plan.filter(row => row.source === 'cup').every(row => row.from >= 0
     && row.from + row.seconds <= cup().media.duration)).toBe(true);
 });
 
-test('Hot Potato includes the reviewed fuse expiries and aftermath instead of only two quiet survivors', () => {
+test('tighter Hot Potato cuts retain each fuse expiry and aftermath, with title-reading room', () => {
   const plan = submissionVideoPlan(cup(), live, crowd());
-  const potato = plan.find(row => row.title === 'HOT POTATO')!;
+  const clips = plan.filter(row => row.gameId === 'hot-potato');
   const play = cup().transitions.find(row => row.game === 'hot-potato' && row.phase === 'PLAY')!.wall;
-  const firstBlast = play + 11.83;
-  const secondBlast = play + 22.13;
-  expect(potato.from).toBeLessThan(firstBlast - 1);
-  expect(potato.from + potato.seconds).toBeGreaterThan(secondBlast + 3);
-  expect(potato.seconds).toBeGreaterThanOrEqual(20);
+  const blasts = [play + 11.83, play + 22.13];
+  expect(clips).toHaveLength(2);
+  for (const [index, blast] of blasts.entries()) {
+    expect(clips[index].from).toBeLessThan(blast - (index === 0 ? 3 : 2));
+    expect(clips[index].from + clips[index].seconds).toBeGreaterThan(blast + 2);
+  }
+  expect(clips[0].chapter).toBe(2);
+  expect(clips[1].chapter).toBeUndefined();
+  expect(clips.every(row => row.from + row.seconds <= cup().media.duration)).toBe(true);
 });
 
 test('sparse joins and mock chat cannot be passed off as real Twitch evidence', () => {

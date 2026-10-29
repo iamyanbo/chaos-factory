@@ -87,3 +87,13 @@ branding. The approved intro, physical payoffs, whole-project Codex attribution 
 honest simulated/real-chat labels remain. The 154 BPM cut grid extends gameplay
 windows; actual encoded drift is under one frame. Full decoding and audio checks
 pass. Typecheck and all 361 tests/73 files pass, plus eight final focused checks.
+
+
+## Reading holds and focused action - October 29
+
+The latest film is v7, 107.720 seconds. Titles hold for two seconds before a
+slower exit; only the 3.5-second opening says "Implemented with Codex". Quiet
+scroll/fuse sections are cut while both explosions and other physical payoffs
+remain. Deterministic title frames and a source-duration guard preserve reading
+time in the export. Typecheck, all 361 tests/73 files and eight final focused
+checks pass. Full decoding, cut timing and final audio headroom checks pass.

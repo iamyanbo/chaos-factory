@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { command } from './drama/capture-media';
 import type { CrowdVideo, VideoSegment } from './video-plan';
+import { CHAPTER_TIMING } from './video-titles';
 
 const FPS = 30;
 const BATCH = 20;
@@ -13,7 +14,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
   await mkdir(directory, { recursive: true });
   const frames = Math.ceil(segment.seconds * FPS);
   for (let start = 0; start < frames; start += BATCH) {
-    const batch = await page.evaluate(async ({ segment, crowd, start, count, fps }) => {
+    const batch = await page.evaluate(async ({ segment, crowd, start, count, fps, chapterTiming }) => {
       await document.fonts.load('60px Lilita');
       await document.fonts.load('32px Fredoka');
       const canvas = document.createElement('canvas');
@@ -70,7 +71,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
       }
       function rule(time: number) {
         if (!segment.title) return;
-        const entry = segment.chapter ? time - .65 : time;
+        const entry = segment.chapter ? time - chapterTiming.rulesAt : time;
         const lifetime = Math.min(7.5, segment.seconds - .3);
         const alpha = Math.min(1, entry / .2, (lifetime - time) / .3);
         if (alpha <= 0) return;
@@ -110,11 +111,11 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.fillText(text, x, y);
       }
       function chapter(time: number) {
-        const AGE_START = .12;
-        const LIFE = .98;
+        const AGE_START = chapterTiming.start;
+        const LIFE = chapterTiming.hold + chapterTiming.exit;
         const age = time - AGE_START;
         if (!segment.chapter || age < 0 || age > LIFE) return;
-        const leave = Math.max(0, Math.min(1, (age - .48) / .5));
+        const leave = Math.max(0, Math.min(1, (age - chapterTiming.hold) / chapterTiming.exit));
         const pop = 1 - Math.exp(-age * 24) * Math.cos(age * 20);
         ctx.save();
         ctx.globalAlpha = Math.min(1, age * 12) * (1 - leave);
@@ -196,19 +197,6 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
           ctx.restore();
         }
       }
-      function credit(time: number) {
-        if (!segment.credit) return;
-        const age = time - 2.4;
-        const alpha = Math.min(1, age / .2, (Math.min(8.4, segment.seconds - .35) - time) / .3);
-        if (alpha <= 0) return;
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        const x = 1480 + (1 - ease(age)) * 460;
-        box(x, 720, 400, 245);
-        lines('IMPLEMENTED BY CODEX', x + 24, 744, 350, 25, true, PINK);
-        lines(segment.credit, x + 24, 788, 350, 28);
-        ctx.restore();
-      }
       function crowdFeed(time: number) {
         if (segment.source !== 'crowd') return;
         const sourceTime = segment.from + time;
@@ -244,7 +232,6 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.clearRect(0, 0, 1920, 1080);
         badge();
         rule(time);
-        credit(time);
         crowdFeed(time);
         chapter(time);
         impacts(time);
@@ -252,7 +239,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         output.push(canvas.toDataURL().split(',')[1]);
       }
       return output;
-    }, { segment, crowd, start, count: Math.min(BATCH, frames - start), fps: FPS });
+    }, { segment, crowd, start, count: Math.min(BATCH, frames - start), fps: FPS, chapterTiming: CHAPTER_TIMING });
     await Promise.all(batch.map((data, offset) => writeFile(
       resolve(directory, `${String(start + offset).padStart(4, '0')}.png`), Buffer.from(data, 'base64'))));
   }

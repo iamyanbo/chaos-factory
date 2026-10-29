@@ -1324,3 +1324,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Synthesized original soft stereo transition whooshes around nine cuts; the track is silent elsewhere. Kept one continuous music bed and captured effects, with no invented gameplay hits or explosions. Credited the new procedural audio.
 - Built an animated closing logo/URL matching the intro and rendered v6 at 110.975 s, 1080p/30 H.264/AAC. Reviewed eighteen final frames and full-resolution effects; fixed unreadable small-label outlines.
 - Full decode/audio checks pass (-18.07 LUFS/-4.50 dBTP). Typecheck and all 361 tests/73 files pass, plus eight final focused plan/audio checks. Restarted only the local mock demo; no computer use or external upload/submission.
+
+## 2026-10-29 - Readable titles, opening credit and focused action
+- Held game titles centrally for 2.05 s with a slower 0.8 s exit, and added lead-in before the key explosions, landing and finishes. Reviewed the actual title-reading strip.
+- Put only "Implemented with Codex" on the 3.5 s opening and removed all gameplay credit fields/cards. Preserved the approved Toy branding and animated ending.
+- Removed Cascade's quiet scroll and part of Hot Potato's fuse wait using forward cuts; retained both fuse/blast/aftermath sequences and the real score, Race finish and Cup champion. No gameplay/physics/camera changes.
+- Made title graphics deterministic (105/75 frames), added a source-duration guard and rendered v7 at 107.720 s, 1080p/30 H.264/AAC. Reviewed nineteen final frames and the reading strip.
+- Fixed a loud transient with oversampled final limiting; decode/headroom/cut checks pass (-18.11 LUFS/-2.46 dBTP, 0.007 s cut drift). One licensed bed and original transition sounds remain.
+- Typecheck and all 361 tests/73 files pass, plus eight final focused plan/audio checks. No computer use, public broadcast or external upload/submission; account steps remain manual.

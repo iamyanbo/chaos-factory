@@ -2,8 +2,9 @@ import { chromium } from '@playwright/test';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
-import { finalizeRecording } from './drama/capture-media';
+import { command } from './drama/capture-media';
 import { gameplayOverlay } from './video-overlays';
+import { TITLE_CREDIT, TITLE_SCREEN_SECONDS } from './video-titles';
 import { submissionVideoPlan, type CrowdVideo, type CupVideo, type JoinVideo } from './video-plan';
 
 const directory = resolve('qa/submission-video/edit/cards');
@@ -23,12 +24,7 @@ try {
     h1{font:148px Lilita;margin:270px 0 20px}p{font-size:36px;margin:24px}
     .url{display:inline-block;padding:20px 34px;border:5px solid #1b1b3a;border-radius:24px;
     background:white;box-shadow:8px 10px #1b1b3a33;font-size:38px}</style>`;
-  for (const id of ['title', 'outro']) {
-    await page.setContent(`${css}<h1>CHAOS FACTORY</h1><p>Your chat is the cast.</p>
-      ${id === 'outro' ? '<div class="url">github.com/iamyanbo/chaos-factory</div>' : ''}`);
-    await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: resolve(directory, `${id}.png`) });
-  }
+  await page.setContent(css);
   const wipe = await page.evaluate(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 2400;
@@ -54,15 +50,10 @@ try {
     return canvas.toDataURL().split(',')[1];
   });
   await writeFile(resolve(directory, 'wipe.png'), Buffer.from(wipe, 'base64'));
-  for (const [id, seconds] of [['title', 2.5], ['outro', 2.5]] as const) {
-    const background = (await readFile(resolve(directory, `${id}.png`))).toString('base64');
-    const download = page.waitForEvent('download');
-    await page.evaluate(async ({ id, seconds, background }) => {
+  for (const [id, seconds] of [['title', TITLE_SCREEN_SECONDS], ['outro', 2.5]] as const) {
+    const frames = await page.evaluate(async ({ id, seconds, credit }) => {
       await document.fonts.load('190px Lilita');
       await document.fonts.load('38px Fredoka');
-      const image = new Image();
-      image.src = `data:image/png;base64,${background}`;
-      await image.decode();
       const canvas = document.createElement('canvas');
       canvas.width = 1920;
       canvas.height = 1080;
@@ -126,6 +117,17 @@ try {
           ctx.textAlign = 'center';
           ctx.fillStyle = '#1b1b3a';
           ctx.fillText('YOUR CHAT IS THE CAST', 960, 760);
+          ctx.globalAlpha = Math.min(1, Math.max(0, (time - .6) * 5));
+          ctx.fillStyle = 'white';
+          ctx.strokeStyle = '#1b1b3a';
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.roundRect(675, 825, 570, 70, 22);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = '#1b1b3a';
+          ctx.font = '34px Fredoka';
+          ctx.fillText(credit, 960, 870);
           ctx.globalAlpha = 1;
         } else {
           lettering('CHAOS', 960 - enter * 350, 345 + bounce * 20, 154, -.055);
@@ -151,32 +153,23 @@ try {
           ctx.fillText('github.com/iamyanbo/chaos-factory', 960, 818 + offset);
         }
       }
-      draw(0);
-      const stream = canvas.captureStream(30);
-      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8', videoBitsPerSecond: 8_000_000 });
-      const chunks: Blob[] = [];
-      recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
-      await new Promise<void>(done => {
-        recorder.onstop = () => done();
-        const start = performance.now();
-        recorder.start(100);
-        const frame = () => {
-          const elapsed = (performance.now() - start) / 1000;
-          draw(Math.min(seconds, elapsed));
-          if (elapsed >= seconds + .08) recorder.stop();
-          else requestAnimationFrame(frame);
-        };
-        requestAnimationFrame(frame);
-      });
-      const anchor = document.createElement('a');
-      anchor.href = URL.createObjectURL(new Blob(chunks, { type: recorder.mimeType }));
-      anchor.download = `${id}-motion.webm`;
-      anchor.click();
-      stream.getTracks().forEach(track => track.stop());
-    }, { id, seconds, background });
-    const raw = resolve(directory, `${id}-motion-raw.webm`);
-    await (await download).saveAs(raw);
-    finalizeRecording(raw, resolve(directory, `${id}-motion.webm`));
+      const images: string[] = [];
+      for (let frame = 0; frame < Math.round(seconds * 30); frame++) {
+        draw(frame / 30);
+        images.push(canvas.toDataURL().split(',')[1]);
+      }
+      return images;
+    }, { id, seconds, credit: TITLE_CREDIT });
+    const frameDirectory = resolve(directory, `${id}-frames`);
+    await mkdir(frameDirectory, { recursive: true });
+    await Promise.all(frames.map((data, index) => writeFile(
+      resolve(frameDirectory, `${String(index).padStart(4, '0')}.png`), Buffer.from(data, 'base64'))));
+    await writeFile(resolve(directory, `${id}.png`), Buffer.from(frames[Math.floor(frames.length / 2)], 'base64'));
+    command('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-framerate', '30',
+      '-i', resolve(frameDirectory, '%04d.png'), '-frames:v', String(frames.length),
+      '-c:v', 'libvpx', '-pix_fmt', 'yuv420p', '-deadline', 'realtime', '-cpu-used', '6', '-b:v', '8M', '-threads', '2',
+      resolve(directory, `${id}-motion.webm`)]);
+    console.log(`${id}: ${frames.length} deterministic frames / ${seconds}s`);
   }
   await page.setContent(css);
   const cup = JSON.parse(await readFile('qa/submission-video/full-cup-sfx/capture.json', 'utf8')) as CupVideo;
@@ -188,7 +181,8 @@ try {
   const overlay = selected < 0 ? undefined : Number(process.argv[selected + 1]);
   if (overlay !== undefined && (!Number.isInteger(overlay) || !plan[overlay])) throw new Error('Invalid overlay index');
   for (const [index, segment] of plan.entries()) {
-    if ((overlay === undefined || overlay === index) && (segment.source === 'cup' || segment.source === 'crowd')) {
+    if (!process.argv.includes('--cards-only') && (overlay === undefined || overlay === index)
+      && (segment.source === 'cup' || segment.source === 'crowd')) {
       await gameplayOverlay(page, segment, index, crowd);
     }
   }
