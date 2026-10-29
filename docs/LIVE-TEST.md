@@ -80,8 +80,16 @@ Mock data and manually created Twitch Predictions are left alone.
 
 The automated suite tests the actual Twurple clients against local OAuth,
 Helix and EventSub fixtures, including public-client refresh and restart recovery.
-It also tests the setup UI. **A real authenticated broadcast and native point
-payout remain untested until you complete this connection and rehearsal.**
+It also tests the setup UI.
+
+Verified October 29, 2026: iamyanbo's saved public-client authorization reconnected
+to real Twitch EventSub. An actual `!join` admitted the named account into Peg
+Fever, and host start/countdown led to PLAY with one real participant. No mock chat
+or Prediction was used. The account is a standard channel, so the no-wager flow
+was verified and native Prediction payout is not applicable on this account.
+The local capture contains game audio and records the API-connected show while
+the Twitch channel is offline. A public broadcast and eligible-channel native
+point payout have not been performed or claimed.
 
 Existing Confidential apps may still use `.env`, `npm run dev:live` and
 `http://localhost:4174/auth/callback`; that older development path is unchanged.

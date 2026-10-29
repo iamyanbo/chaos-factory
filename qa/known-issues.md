@@ -10,18 +10,21 @@
   edits during/after the long audit also prevent its source-hash acceptance;
   no balance PASS is claimed. See qa/blade-boss-balance.md and JSON provenance.
   Do not add an undisclosed population curve or select takes by who wins.
-- **Real Twitch proof:** authorization/chat have previously been connected,
-  but a complete live broadcast, eligible-channel Prediction resolution and
-  native point payout still require the user's rehearsal. This offline pass
-  does not claim that testing. Native wagering needs an eligible broadcaster.
+- **Twitch rehearsal:** a real EventSub `!join` admitted iamyanbo to Peg Fever,
+  and host start/countdown led to gameplay without wagers on October 29. The
+  connected channel is standard, so native Predictions are not applicable on
+  this account. A public broadcast and eligible-channel native point payout
+  remain unperformed and are not claimed by the recorded chat proof.
 - **Submission account steps:** the public repository is
-  https://github.com/iamyanbo/chaos-factory. The final YouTube demo URL and actual
-  main Codex session ID still need to be supplied. The copy and storyboard are in
+  https://github.com/iamyanbo/chaos-factory. The actual main Codex session ID is
+  prepared; the final YouTube URL is still missing.
+  Solo membership is recorded as iamyanbo. The copy and storyboard are in
   docs/SUBMISSION.md; docs/SHIP-CHECKLIST.md now collects the remaining owner
   steps. `npm run submission` packages the committed handoff without publishing
   it, and `npm run submission:check` reports missing fields/confirmations from
-  docs/submission-fields.json. Publish/share the repo and enter the real values
-  before submitting. No live or mock video was recorded in this pass.
+  docs/submission-fields.json. The finished 2:47 MP4 and upload/form copy are
+  local in qa/submission-video/. YouTube upload and final Devpost submission
+  still require account access; neither has been performed.
 
 ## Expected behavior
 

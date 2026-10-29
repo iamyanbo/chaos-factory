@@ -30,22 +30,28 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    Keep the public repository available for judging. Check its URL signed out
    again before submitting; no judge invitation is required while it is public.
    Never upload `.env` or `.data`; the source ZIP excludes them.
-2. **Confirm a real Twitch round.** Your earlier connection is not a completed
-   payout rehearsal. Run `npm run twitch`, open
-   http://localhost:4181/show?manual=1, and use the dashboard on **4181**.
-   Follow [LIVE-TEST.md](LIVE-TEST.md): real `!join`, host start, Prediction open,
-   lock, correct resolution, native point payout and a no-wager fallback.
-   Use an eligible channel for wagering. No live actions were taken by this setup task.
-3. **Enter the actual main Codex session ID and team members.** Use the main
-   build thread's ID; the organizer FAQ above explains where to find it.
-4. **Fill [submission-fields.json](submission-fields.json).** Enter the repository,
-   actual session ID and team now; add the YouTube URL after recording. Set the
+2. **Real Twitch round verified October 29.** A real `!join` from iamyanbo
+   entered Peg Fever; host start/countdown and no-wager gameplay were captured.
+   This is a standard channel, so native Predictions are not applicable. No
+   public broadcast or native point payout is claimed. Details: [LIVE-TEST.md](LIVE-TEST.md).
+3. **Session ID and solo membership prepared.** The actual main thread ID and
+   iamyanbo's solo membership are saved in submission-fields.json. Check the
+   display name and eligibility details in your own Devpost form.
+4. **Finish [submission-fields.json](submission-fields.json).** The repository,
+   actual session ID and team are prepared; add the YouTube URL after uploading. Set the
    verification booleans only after observing the corresponding real behavior.
    These are owner confirmations, not claims that the tool verified external services.
 5. **Create the Devpost project draft.** Paste [SUBMISSION.md](SUBMISSION.md)'s
    description and the real links/ID. Check team membership in Devpost. Local JSON
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
+
+The completed local edit is `qa/submission-video/chaos-factory-demo.mp4` (2:47,
+1080p H.264/AAC). `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
+contain the upload title/description, form copy and remaining account actions.
+No authenticated YouTube/Devpost API connector is available to the agent; those
+uploads/form submissions have not been performed. The video, generated media
+and real-chat capture metadata remain local rather than bloating the Git repo.
 
 ## Rebuild the handoff
 

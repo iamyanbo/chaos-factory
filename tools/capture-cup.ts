@@ -3,8 +3,13 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { finalizeRecording } from './drama/capture-media';
 
-const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4180';
-const directory = resolve('qa/cup');
+const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4182';
+const outputIndex = process.argv.indexOf('--out');
+const directory = resolve(outputIndex < 0 ? 'qa/cup' : process.argv[outputIndex + 1]);
+const health = await (await fetch(`${base}/api/health`)).json();
+if (health.application !== 'chaos-factory' || health.mode !== 'mock') {
+  throw new Error('Cup capture requires an explicitly mock Chaos Factory server.');
+}
 await mkdir(directory, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -50,7 +55,7 @@ try {
     recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
     const start = performance.now();
     recorder.start(1000);
-    window.__chaos.command('queue', ['ring-escape', 'pong-wars', 'marble-race', 'multiplier-cascade']);
+    window.__chaos.command('queue', ['multiplier-cascade', 'hot-potato', 'peg-fever', 'marble-race']);
     window.__chaos.command('start', 5);
     await new Promise<void>((done, fail) => {
       recorder.onerror = event => fail(new Error(String(event)));

@@ -14,7 +14,7 @@ const readiness = submissionReadiness(fields);
 const commit = git('rev-parse', 'HEAD');
 const dirty = git('status', '--porcelain', '--untracked-files=no').length > 0;
 console.log(`Submission readiness for ${commit.slice(0, 8)}:`);
-for (const item of readiness) console.log(`${item.ready ? 'READY' : 'PENDING'}  ${item.label}`);
+for (const item of readiness) console.log(`${item.notApplicable ? 'N/A' : item.ready ? 'READY' : 'PENDING'}  ${item.label}`);
 console.log('URL checks validate syntax only. Rehearsal/access flags are owner confirmations, not automated proof.');
 
 if (process.argv.includes('--check')) {

@@ -1279,3 +1279,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Added pinned GitHub Actions for Node 22 install, typecheck, tests and build; source packaging now refuses archive/legacy paths.
 - Typecheck/build, 352 tests/71 files and 13 production browser checks pass, including all eight games, replay, result actions, local fonts and a full accelerated Cup. Credential-pattern scan passes.
 - No game mechanics, live Twitch actions or videos added. Streamer balance and the remaining owner submission/rehearsal fields stay disclosed.
+
+## 2026-10-29 - Scripted submission video and real chat proof
+- Recorded the full 594s five-game Cup and actual champion at normal speed, then built a 167.42s 1080p H.264/AAC edit with licensed audio and actual project-file Codex walkthrough cards.
+- Real Twitch EventSub admitted iamyanbo into Peg Fever after !join; recorded host start/countdown and gameplay with one real entrant. No chat message, result or wager was mocked in that proof.
+- Standard-channel eligibility is recorded explicitly: Predictions are N/A, not a fabricated payout PASS. The video labels the channel offline and mock Cup viewers separately; no public broadcast is claimed.
+- Added reproducible headless canvas/audio capture, timestamp-based edits, fitted Toy captions and paste-ready YouTube/Devpost copy. No desktop, microphone or computer-use tools used in the completed capture/edit.
+- Saved the actual main thread ID and confirmed solo membership. Updated live rehearsal, credits and remaining submission steps; generated video/media stay outside Git.
+- Reviewed the contact sheet, opening and live-proof frames; fixed caption overflow and quiet audio. Final measured audio peak -1.8 dB; game physics/timings unchanged.
+- Typecheck and all 356 tests/72 files pass. YouTube upload and Devpost final submission remain blocked by unavailable authenticated API connectors under the user's no-computer-use constraint.

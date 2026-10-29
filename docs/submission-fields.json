@@ -1,10 +1,13 @@
 {
   "repositoryUrl": "https://github.com/iamyanbo/chaos-factory",
   "videoUrl": "",
-  "codexSessionId": "",
-  "teamMembers": [],
+  "codexSessionId": "01a16c49-a9d1-7be0-ad67-5ade6d912abe",
+  "teamMembers": [
+    "iamyanbo"
+  ],
   "repositoryAccessChecked": true,
-  "liveJoinVerified": false,
+  "liveJoinVerified": true,
   "livePredictionPayoutVerified": false,
-  "noWagerFallbackVerified": false
+  "noWagerFallbackVerified": true,
+  "broadcasterType": "standard"
 }

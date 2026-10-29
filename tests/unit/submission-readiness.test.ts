@@ -33,3 +33,10 @@ test('source packaging refuses credential/data/dependency paths while preserving
   expect(excludedSourcePath('.env.example')).toBe(false);
   expect(excludedSourcePath('apps/server/src/twitch/auth.ts')).toBe(false);
 });
+
+test('a standard channel records ineligible Predictions as not applicable without claiming a payout', () => {
+  const fields = { ...empty, broadcasterType: 'standard' as const };
+  expect(submissionReadiness(fields)[6]).toMatchObject({ ready: true, notApplicable: true });
+  expect(fields.livePredictionPayoutVerified).toBe(false);
+  expect(submissionReadiness({ ...empty, broadcasterType: 'affiliate' })[6].ready).toBe(false);
+});

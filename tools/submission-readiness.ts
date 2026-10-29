@@ -5,6 +5,7 @@ export const submissionSchema = z.object({
   videoUrl: z.string(),
   codexSessionId: z.string(),
   teamMembers: z.array(z.string()),
+  broadcasterType: z.enum(['unknown', 'standard', 'affiliate', 'partner']).optional(),
   repositoryAccessChecked: z.boolean(),
   liveJoinVerified: z.boolean(),
   livePredictionPayoutVerified: z.boolean(),
@@ -12,7 +13,7 @@ export const submissionSchema = z.object({
 }).strict();
 
 export type SubmissionFields = z.infer<typeof submissionSchema>;
-export interface ReadinessItem { label: string; ready: boolean }
+export interface ReadinessItem { label: string; ready: boolean; notApplicable?: boolean }
 
 function publicUrl(value: string): URL | undefined {
   try {
@@ -42,7 +43,9 @@ export function submissionReadiness(fields: SubmissionFields): ReadinessItem[] {
     { label: 'Team members entered', ready: fields.teamMembers.length > 0
       && fields.teamMembers.every(name => name.trim().length > 0) },
     { label: 'Real Twitch !join rehearsal confirmed by owner', ready: fields.liveJoinVerified },
-    { label: 'Native Prediction lock, resolution and payout confirmed by owner', ready: fields.livePredictionPayoutVerified },
+    fields.broadcasterType === 'standard'
+      ? { label: 'Native Predictions unavailable on the verified standard channel', ready: true, notApplicable: true }
+      : { label: 'Native Prediction lock, resolution and payout confirmed by owner', ready: fields.livePredictionPayoutVerified },
     { label: 'No-wager fallback rehearsal confirmed by owner', ready: fields.noWagerFallbackVerified }
   ];
 }

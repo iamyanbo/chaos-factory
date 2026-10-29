@@ -32,6 +32,12 @@ on the server. Native wagering requires an eligible broadcaster, and API
 failures fall back to a round without wagers. An offline demo includes delayed
 simulated viewers and works without a Twitch account.
 
+The real chat and no-wager flow were rehearsed on the standard channel iamyanbo:
+an actual Twitch `!join` admitted the named viewer and the host started Peg Fever.
+The submission video labels this real API-connected chat separately from the
+simulated Cup audience. No public broadcast or native point payout is claimed.
+Prediction payout remains untested because this channel is not Affiliate/Partner.
+
 Codex helped implement the engine, games, connector, dashboard, Cup structure,
 replay checks, tests and frame-capture workflow. The project was shaped through
 repeated user feedback: several technically functioning games were rejected,

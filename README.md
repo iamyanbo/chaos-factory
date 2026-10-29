@@ -96,11 +96,30 @@ or which side wins.
 - [Toy theme](docs/24-toy-theme.md), [frozen lineup](docs/23-ship.md)
 
 Streamer-versus-chat Blade Brawl favors the streamer in the last diagnostic sample;
-no balanced 50/50 claim is made. Authenticated native point payout still needs the
-owner's rehearsal. Mock tests do not establish live Twitch success.
+no balanced 50/50 claim is made. Real Twitch chat admission and the no-wager flow
+were rehearsed on the standard channel iamyanbo. Native point payout requires an
+eligible channel and remains untested; mock wagers do not establish payout success.
 
 `npm run submission` creates a source ZIP, commit/hash manifest, copy, credits and
 five existing game images in `qa/submission/`. Commit reviewed changes first.
 `npm run submission:check` flags missing links, the actual main Codex session ID,
 team details and owner-confirmed access/rehearsal checks in
 `docs/submission-fields.json`. It does not publish or submit the Devpost entry.
+
+## Demo recording without desktop capture
+
+Optional recording needs Chrome and FFmpeg on PATH. With the mock demo running:
+
+```sh
+npx tsx tools/capture-cup.ts --out qa/submission-video/full-cup
+# With npm run twitch running separately, capture an actual chat !join:
+npx tsx tools/capture-live-join.ts
+npm run video
+```
+
+The recorder captures the game canvas and its audio mix only. The edit uses
+normal-speed clips, labels simulated viewers and real Twitch chat separately,
+and shows actual project files when explaining Codex. It does not start a public
+broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
+local under `qa/submission-video/`; they are excluded from Git. Account uploads
+and final Devpost submission are not automated.
