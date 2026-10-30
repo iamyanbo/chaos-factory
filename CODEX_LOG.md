@@ -1340,3 +1340,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Fixed a concat timestamp warning with a 30 fps final picture; decode/DTS and audio checks pass.
 - Updated source/upload copy and provenance; no native Codex UI footage, broadcast, payout or account upload is claimed.
 - Validation: typecheck, 364 tests/74 files and eleven focused edit checks pass; refreshed submission pack.
+
+## 2026-10-29 ? Smoother demo motion and editorial zooms
+- Re-recorded host controls with timed curved cursor travel, eased stops and a slower drag.
+- Fixed recording-only focus scrolling and drag-ghost scaling so the card stays under the cursor.
+- Added queue/action reframing, playfield punch-ins and impact rings/rays; preserved readable static HUDs.
+- Kept title holds, real event timing, Race framing and one music bed; added final AAC peak headroom.
+- Reviewed the film/queue motion sheets and corrected detached dragging and cropped labels.
+- Validation: typecheck, all 368 tests/75 files and fifteen focused checks pass; decode/DTS/audio checks pass.
+- Final v9: 117.033 s; refreshed upload copy, public source and source ZIP. Upload/submission remain manual.

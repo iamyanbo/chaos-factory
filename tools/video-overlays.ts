@@ -61,7 +61,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         return at;
       }
       function badge() {
-        const label = segment.source === 'setup' ? 'TWITCH CONNECTED ? HOST CONTROLS' : 'SIMULATED AUDIENCE';
+        const label = segment.source === 'setup' ? 'TWITCH CONNECTED | HOST CONTROLS' : 'SIMULATED AUDIENCE';
         ctx.font = '21px Fredoka';
         const width = ctx.measureText(label).width + 24;
         ctx.fillStyle = INK;
@@ -136,8 +136,27 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
           const opacity = Math.min(1, age * 18, (cue.seconds - age) * 5);
           const pop = 1 - Math.exp(-age * 18) * Math.cos(age * 22);
           ctx.save();
+          // A brief editorial exposure lift and expanding ring underline the recorded payoff.
+          ctx.fillStyle = `rgba(255,244,210,${Math.max(0, 1 - age / .12) * .07})`;
+          ctx.fillRect(0, 0, 1920, 1080);
           ctx.globalAlpha = opacity;
           ctx.translate(segment.buildProof ? 210 : 1670, 730);
+          ctx.save();
+          ctx.globalAlpha *= (1 - progress) * .7;
+          ctx.strokeStyle = '#ffde3b';
+          ctx.lineWidth = 9 * (1 - progress) + 2;
+          ctx.beginPath();
+          ctx.arc(0, 0, 100 + progress * 100, 0, Math.PI * 2);
+          ctx.stroke();
+          for (let ray = 0; ray < 10; ray++) {
+            const angle = ray * Math.PI / 5;
+            const radius = 145 + progress * 65;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+            ctx.lineTo(Math.cos(angle) * (radius + 25), Math.sin(angle) * (radius + 25));
+            ctx.stroke();
+          }
+          ctx.restore();
           ctx.rotate(-.07 + Math.sin(age * 18) * Math.exp(-age * 7) * .07);
           ctx.scale(pop, pop);
           ctx.beginPath();

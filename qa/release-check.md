@@ -108,3 +108,15 @@ Full decode and strict video DTS checks pass, with zero planned/export drift.
 Final audio is -18.09 LUFS/-1.44 dBTP. The twenty-frame review and actual source
 provenance are recorded in qa/submission-video/v8-review/ and edit.json.
 Typecheck and all 364 tests across 74 files pass; eleven focused edit checks pass.
+
+
+## Smoother cursor and framed punch-ins ? October 29
+
+The latest film is v9, about 117.033 seconds. Timed curved mouse input and queue
+reframing replace the jumpy setup take. Playfield zooms protect the original HUD
+columns; impact rings/rays accent actual recorded events. Source timing, Race
+framing and the one-bed soundtrack remain intact. The film and queue-motion
+contact sheets record the visual review in qa/submission-video/v9-review/.
+Typecheck and all 368 tests/75 files pass (full rerun with two workers), plus
+fifteen focused checks. Final decode/DTS checks pass with under 0.001 s drift;
+audio measures -19.20 LUFS/-5.42 dBTP. No external upload was performed.

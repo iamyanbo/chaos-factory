@@ -1,6 +1,7 @@
 import { chromium } from '@playwright/test';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { VideoPointer } from './video-pointer';
 import { finalizeRecording } from './drama/capture-media';
 
 const base = 'http://127.0.0.1:4181';
@@ -32,13 +33,28 @@ try {
   await page.goto(`${base}/dashboard`);
   await page.waitForFunction(() => document.querySelector('#bridge-mode')?.getAttribute('data-connected') === 'true'
     && document.querySelector('#live-title')?.textContent !== 'No show open');
-  await page.evaluate(async () => { await document.fonts.ready; document.documentElement.style.zoom = '.75'; });
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    document.documentElement.style.zoom = '.75';
+    // Keep focus rings without CSS-zoom focus scrolling during the recorded drag.
+    const original = HTMLElement.prototype.focus;
+    HTMLElement.prototype.focus = function(options) { original.call(this, { ...options, preventScroll: true }); };
+  });
   await page.addStyleTag({ content: `#edit-pointer{position:fixed;width:25px;height:32px;z-index:99999;
-    pointer-events:none;left:1600px;top:220px;filter:drop-shadow(2px 3px 0 #1b1b3a44)}
+    pointer-events:none;left:1600px;top:293.333px;filter:drop-shadow(2px 3px 0 #1b1b3a44)}
     .edit-click{position:fixed;width:50px;height:50px;border:4px solid #ff4f7b;border-radius:50%;
     pointer-events:none;z-index:99998;animation:edit-click .5s ease-out forwards}
+    .queue-drag-preview{zoom:1.3333333333;transform:scale(.75) rotate(-1deg);transform-origin:0 0}
     @keyframes edit-click{from{transform:scale(.3);opacity:1}to{transform:scale(1.4);opacity:0}}` });
   await page.evaluate(() => {
+    // The drag portal uses viewport coordinates; cancel the recording-only page scale.
+    new MutationObserver(records => {
+      for (const record of records) for (const node of record.addedNodes) {
+        if (node instanceof HTMLElement && node.classList.contains('queue-drag-preview')) {
+          node.style.width = `${parseFloat(node.style.width) / .75}px`;
+        }
+      }
+    }).observe(document.body, { childList: true });
     const cursor = document.createElement('div');
     cursor.id = 'edit-pointer';
     cursor.innerHTML = '<svg viewBox="0 0 25 32"><path d="M3 2L22 18L13 19L9 29Z" fill="white" stroke="#1b1b3a" stroke-width="3"/></svg>';
@@ -52,37 +68,40 @@ try {
       setTimeout(() => ring.remove(), 550);
     });
   });
+  const pointer = new VideoPointer(page, { x: 1200, y: 220 });
+  await page.mouse.move(1200, 220);
   const readyAt = (Date.now() - start) / 1000;
   const actions: { at: number; action: string }[] = [];
   const mark = (action: string) => actions.push({ at: (Date.now() - start) / 1000, action });
   await page.screenshot({ path: resolve(directory, 'ready.png') });
-  await page.waitForTimeout(900);
+  await page.waitForTimeout(500);
   for (const id of ['hot-potato', 'multiplier-cascade']) {
     const button = page.locator(`[data-add="${id}"]`);
-    const box = await button.boundingBox();
-    if (!box) throw new Error('Queue button is not visible');
-    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 12 });
-    await button.click();
+    await pointer.click(button, id === 'hot-potato' ? 720 : 820);
     mark(`queue:${id}`);
-    await page.waitForTimeout(750);
+    await page.waitForTimeout(280);
   }
   const first = await page.locator('#queue .queue-grip').nth(0).boundingBox();
   const second = await page.locator('#queue .queue-grip').nth(1).boundingBox();
   if (!first || !second) throw new Error('Queue did not update');
-  await page.mouse.move(second.x + 12, second.y + 18, { steps: 8 });
+  await pointer.move({ x: second.x + second.width / 2, y: second.y + second.height / 2 }, 720, -26);
+  await page.waitForTimeout(100);
   await page.mouse.down();
-  await page.mouse.move(first.x + 12, first.y + 5, { steps: 18 });
+  await page.waitForTimeout(120);
+  await pointer.move({ x: first.x + first.width / 2, y: first.y + 5 }, 650, 5);
+  await page.waitForTimeout(100);
   await page.mouse.up();
   mark('drag-reorder');
-  await page.waitForTimeout(700);
+  await page.waitForTimeout(320);
   const queue = await page.locator('#queue .queue-row').evaluateAll(rows => rows.map(row => (row as HTMLElement).dataset.game));
   if (queue.join(',') !== 'multiplier-cascade,hot-potato') throw new Error('Actual drag reorder failed');
-  await page.locator('#start').click();
+  await pointer.click(page.locator('#start'), 740);
   mark('start-cup');
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
   await page.waitForFunction(() => document.querySelector('#live-title')?.textContent === 'MULTIPLIER CASCADE'
     && !(document.querySelector('[data-cmd="pause"]') as HTMLElement).hidden);
-  await page.waitForTimeout(2200);
+  await pointer.move({ x: 1510, y: 410 }, 600, 12);
+  await page.waitForTimeout(1700);
   await page.screenshot({ path: resolve(directory, 'started.png') });
   await context.close();
   const raw = resolve(directory, 'dashboard-raw.webm');
@@ -91,7 +110,7 @@ try {
   await show.close();
   await writeFile(resolve(directory, 'capture.json'), JSON.stringify({ mode: 'live', channel: status.channel,
     authenticated: true, connected: true, nativeWagers: false, desktopCaptured: false,
-    pointerOverlay: true, readyAt, actions, queue, media, errors }, null, 2));
+    pointerOverlay: true, pointerMotion: '60 Hz wall-clock-paced minimum-jerk curves', readyAt, actions, queue, media, errors }, null, 2));
   if (errors.length) throw new Error('Host capture had browser errors');
   console.log(JSON.stringify({ readyAt, actions, duration: media.duration, errors }));
 } finally { await browser.close(); }

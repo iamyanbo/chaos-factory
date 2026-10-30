@@ -63,10 +63,11 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 1 minute 55 seconds
+## Current edit - about 1 minute 57 seconds
 
 The film opens with the animated Chaos Factory intro, then an actual connected
-Twitch dashboard capture shows queue ordering and Start Cup. A continuous mock lobby
+Twitch dashboard capture shows queue ordering and Start Cup. Timed curved cursor
+movement and eased pans make the controls readable. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
 inset separately labels the real Twitch test with iamyanbo while the channel
 was offline. The main audience is simulated; no real crowd is implied.
@@ -85,10 +86,10 @@ multiplied landings; Marble Race holds through two finishes. The title lead-ins
 leave the key payoffs visible. The champion leads directly to the animated ending.
 
 One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
-the scenes. Comic accents mark real recorded events. Gameplay stays at its
+the scenes. Eased punch-ins, expanding rings and comic accents mark real recorded events. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v8.mp4. Previous cuts
+Latest local MP4: qa/submission-video/chaos-factory-demo-v9.mp4. Previous cuts
 remain for comparison. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.

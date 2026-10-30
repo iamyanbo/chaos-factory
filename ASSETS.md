@@ -53,7 +53,7 @@ from this submission repository. Dependency licenses remain with their packages.
 The submission video uses captures of our own game canvas and original motion
 graphics describing the game rules and Codex implementation work. Its Toy title
 animation, animated arrival feed, plate wipes and gameplay overlays are original
-canvas and HTML/CSS work using the bundled fonts. The v8 film uses only Chiptune
+canvas and HTML/CSS work using the bundled fonts. The v9 film uses only Chiptune
 Adventures Stage 2 as one continuous CC0 bed over original game effects. Its new
 transition whooshes are original seeded noise synthesis in tools/video-edit-audio.ts,
 with no third-party samples. Comic accents label real recorded events. No microphone,
@@ -66,3 +66,8 @@ uses only selected public user/assistant messages and the actual committed patch
 listed in docs/build-evidence.json. It is a rendered transcript/diff viewer, not
 a recording of the Codex app UI. No private reasoning, credentials or raw session
 logs are included. tools/video-proof.ts validates the code against Git.
+
+The v9 edit adds original eased framing, impact rings/rays and a brief warm
+exposure accent. The headless dashboard cursor uses timed curved input rather
+than instantaneous mouse steps. These are editorial presentation effects; the
+recorded gameplay timeline and underlying physics remain unchanged.

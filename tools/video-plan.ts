@@ -66,7 +66,7 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     const start = host.actions.find(row => row.action === 'start-cup');
     if (host.mode !== 'live' || !host.authenticated || !host.connected || !start
       || start.at + 1 > host.media.duration) throw new Error('Connected host workflow proof is incomplete');
-    segments.push({ source: 'setup', from: host.readyAt, seconds: 7.3,
+    segments.push({ source: 'setup', from: host.readyAt, seconds: 9.3,
       title: '', body: '', evidence: 'host-ui' });
   }
   const from = Math.max(0, crowd.joins[0].wall - .7);
