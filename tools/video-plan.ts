@@ -37,12 +37,14 @@ export interface HostVideo {
   media: { duration: number };
 }
 export interface VideoSegment {
-  source: 'cup' | 'crowd' | 'setup' | 'title' | 'outro';
+  source: 'cup' | 'crowd' | 'setup' | 'section' | 'title' | 'outro';
   from: number;
   seconds: number;
   title: string;
   body: string;
   subtitle?: string;
+  sectionIntro?: string;
+  captions?: { from: number; to: number; step: number; label: string; text: string }[];
   gameId?: string;
   chapter?: number;
   celebrate?: boolean;
@@ -64,16 +66,24 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   ];
   if (host) {
     const start = host.actions.find(row => row.action === 'start-cup');
-    if (host.mode !== 'live' || !host.authenticated || !host.connected || !start
+    if (!host.actions.some(row => row.action === 'queue:multiplier-cascade')
+      || !host.actions.some(row => row.action === 'drag-reorder') || host.mode !== 'live' || !host.authenticated || !host.connected || !start
       || start.at + 1 > host.media.duration) throw new Error('Connected host workflow proof is incomplete');
     segments.push({ source: 'setup', from: host.readyAt, seconds: 9.3,
-      title: '', body: '', evidence: 'host-ui' });
+      title: '', body: '', evidence: 'host-ui', captions: [
+        { from: .35, to: host.actions.find(row => row.action === 'queue:multiplier-cascade')!.at - host.readyAt + .2,
+          step: 1, label: 'ADD GAMES', text: 'Click "+ Queue" to add games.' },
+        { from: host.actions.find(row => row.action === 'queue:multiplier-cascade')!.at - host.readyAt + .2,
+          to: start.at - host.readyAt - 1, step: 2, label: 'CHANGE THE ORDER', text: 'Drag the grip to change the order.' },
+        { from: start.at - host.readyAt - 1, to: 9.05, step: 3, label: 'START THE SHOW',
+          text: 'Click "Start a Cup" to begin.' }
+      ] });
   }
   const from = Math.max(0, crowd.joins[0].wall - .7);
   const seconds = Math.floor((crowd.playAt + 5 - from) * 30) / 30;
   if (from + seconds > crowd.media.duration) throw new Error('Crowd recording ends before gameplay.');
   const lobby: VideoSegment = { source: 'crowd', from, seconds, title: 'TYPE !JOIN',
-    body: 'One message. Your marble is in.', evidence: 'mock' };
+    body: 'One message. Your marble is in.', sectionIntro: 'CHAT JOINS', evidence: 'mock' };
   if (live?.mode === 'live' && live.joinedAt !== undefined && live.startedAt !== undefined && live.member) {
     const insetFrom = live.startedAt + 6.5;
     if (insetFrom + 4 > live.media.duration) throw new Error('Real Twitch proof is too short.');
@@ -99,6 +109,8 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
         : new Set(segments.map(row => row.gameId).filter(Boolean)).size + 1,
       evidence: 'mock' });
   }
+  segments.push({ source: 'section', from: 0, seconds: 2.2, title: 'MINIGAMES',
+    body: 'FIVE GAMES. ONE CUP.', evidence: 'project-files' });
   // Keep the multiplier stream and the finish race; omit the quiet course scroll.
   shot('multiplier-cascade', 26.2, 8, 'MULTIPLIER CASCADE',
     'Grow your team.\nFirst to five finishers wins.');
@@ -117,6 +129,8 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   if (!standings || standings.wall + 5.7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
   segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 4.5,
     title: 'TOP EIGHT', body: 'Four rounds earn points.\nEight finalists. One Cup.', evidence: 'mock' });
+  segments.push({ source: 'section', from: 0, seconds: 2, title: 'GRAND FINAL',
+    body: 'TOP EIGHT. ONE WINNER.', evidence: 'project-files' });
   const final = round('blade-brawl');
   shot('blade-brawl', final.result - final.play - 17.5, 18, 'BLADE BRAWL',
     'The arena closes.\nLast fighter takes the Cup.');
@@ -152,6 +166,6 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     if (segment.gameId === 'marble-race') cue(79.24, 1.15, 'finish', 'FINISH!', 'FIRST HOME');
     elapsed += segment.seconds;
   }
-  if (segments.reduce((sum, row) => sum + row.seconds, 0) >= 120) throw new Error('Story cut must stay under two minutes');
+  if (segments.reduce((sum, row) => sum + row.seconds, 0) >= 180) throw new Error('Story cut must stay under three minutes');
   return segments;
 }

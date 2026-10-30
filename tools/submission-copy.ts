@@ -20,7 +20,7 @@ Chaos Factory is an automatic Twitch physics game show. Viewers type !join to
 become named marbles. Four Cup rounds lead into a top-eight Blade Brawl final.
 
 The opening shows the connected Twitch dashboard, queue reordering and Start Cup,
-with smooth cursor movement and editorial zooms.
+with animated queue instructions and stationary close-ups.
 
 This video shows 48 simulated viewers joining the actual game lobby, followed
 by normal-speed excerpts from a five-round Cup. A separately labeled inset shows
@@ -34,6 +34,7 @@ ${time(first(row => row.source === 'crowd'))} Joining the show
 ${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the Cup
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
+MINIGAMES and GRAND FINAL title stingers introduce the game sections.
 Each game uses its actual name and short rules over gameplay.
 The opening title credits the project: Implemented with Codex.
 During Marble Race, edited excerpts of my real Codex conversation and its verified
@@ -127,6 +128,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v9.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v10.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

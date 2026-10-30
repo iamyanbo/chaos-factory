@@ -63,16 +63,16 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 1 minute 57 seconds
+## Current edit - about 2 minutes 2 seconds
 
 The film opens with the animated Chaos Factory intro, then an actual connected
-Twitch dashboard capture shows queue ordering and Start Cup. Timed curved cursor
-movement and eased pans make the controls readable. A continuous mock lobby
+Twitch dashboard capture shows queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
+Close-ups hold still, with cuts between compositions. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
 inset separately labels the real Twitch test with iamyanbo while the channel
 was offline. The main audience is simulated; no real crowd is implied.
 
-Five game chapters lead through the Cup standings, final duel and actual
+Bold MINIGAMES and GRAND FINAL stingers separate the sections. Five game chapters lead through the Cup standings, final duel and actual
 champion. Titles hold still for two seconds before a slower move into the corner.
 The opening title says "Implemented with Codex"; Marble Race includes a build-record panel with edited excerpts of the real user
 feedback, Codex reply and committed camera fix. The panel is a rendered record
@@ -86,10 +86,10 @@ multiplied landings; Marble Race holds through two finishes. The title lead-ins
 leave the key payoffs visible. The champion leads directly to the animated ending.
 
 One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
-the scenes. Eased punch-ins, expanding rings and comic accents mark real recorded events. Gameplay stays at its
+the scenes. Held close-up cuts, expanding rings and comic accents mark real recorded events. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v9.mp4. Previous cuts
+Latest local MP4: qa/submission-video/chaos-factory-demo-v10.mp4. Previous cuts
 remain for comparison. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.

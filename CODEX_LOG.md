@@ -1349,3 +1349,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed the film/queue motion sheets and corrected detached dragging and cropped labels.
 - Validation: typecheck, all 368 tests/75 files and fifteen focused checks pass; decode/DTS/audio checks pass.
 - Final v9: 117.033 s; refreshed upload copy, public source and source ZIP. Upload/submission remain manual.
+
+## 2026-10-29 ? Held cuts, queue dialogue and section titles
+- Replaced travelling pan/zoom paths with stationary close-up cuts and centered action cut-ins.
+- Added timed, numbered captions explaining + Queue, drag-to-reorder and Start a Cup; text only as requested.
+- Built bold MINIGAMES/GRAND FINAL stingers and setup/join section labels using the Toy palette and bundled fonts.
+- Reviewed 23 film frames and nine instruction frames; verified stationary framing and unobscured controls.
+- Validation: typecheck, 369 tests/75 files and sixteen focused checks pass; decode/DTS/audio checks pass.
+- Final v10 is 121.700 s; refreshed source, upload copy and ZIP. External upload/submission remain manual.

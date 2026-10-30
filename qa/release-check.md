@@ -120,3 +120,13 @@ contact sheets record the visual review in qa/submission-video/v9-review/.
 Typecheck and all 368 tests/75 files pass (full rerun with two workers), plus
 fifteen focused checks. Final decode/DTS checks pass with under 0.001 s drift;
 audio measures -19.20 LUFS/-5.42 dBTP. No external upload was performed.
+
+
+## Held cuts, queue captions and section titles ? October 29
+
+The latest film is v10, 121.700 seconds. Moving pan/zoom paths are replaced by
+held close-up cuts. Three numbered animated captions explain queuing, dragging
+and starting; MINIGAMES and GRAND FINAL stingers introduce the game sections.
+Reviewed 23 film frames and nine instruction/cut frames against the Toy style.
+Typecheck and all 369 tests/75 files pass, plus sixteen focused checks. Decode
+and video DTS checks pass with zero duration drift; audio is -19.18 LUFS/-2.49 dBTP.

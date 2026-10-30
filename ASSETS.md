@@ -53,7 +53,7 @@ from this submission repository. Dependency licenses remain with their packages.
 The submission video uses captures of our own game canvas and original motion
 graphics describing the game rules and Codex implementation work. Its Toy title
 animation, animated arrival feed, plate wipes and gameplay overlays are original
-canvas and HTML/CSS work using the bundled fonts. The v9 film uses only Chiptune
+canvas and HTML/CSS work using the bundled fonts. The v10 film uses only Chiptune
 Adventures Stage 2 as one continuous CC0 bed over original game effects. Its new
 transition whooshes are original seeded noise synthesis in tools/video-edit-audio.ts,
 with no third-party samples. Comic accents label real recorded events. No microphone,
@@ -71,3 +71,8 @@ The v9 edit adds original eased framing, impact rings/rays and a brief warm
 exposure accent. The headless dashboard cursor uses timed curved input rather
 than instantaneous mouse steps. These are editorial presentation effects; the
 recorded gameplay timeline and underlying physics remain unchanged.
+
+The v10 edit replaces moving pan/zoom paths with stationary close-up cuts. Its
+numbered queue captions and MINIGAMES/GRAND FINAL stingers are original canvas
+typography and geometry using the same bundled fonts. The captions are text only;
+no speech synthesis or additional music/third-party samples are used.

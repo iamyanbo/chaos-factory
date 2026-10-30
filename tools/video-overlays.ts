@@ -4,13 +4,13 @@ import { resolve } from 'node:path';
 import { command } from './drama/capture-media';
 import type { CrowdVideo, VideoSegment } from './video-plan';
 import type { BuildProof } from './video-proof';
+import { drawVideoDialogue } from './video-dialogue';
 import { CHAPTER_TIMING } from './video-titles';
-
 const FPS = 30;
 const BATCH = 20;
-
 /** Deterministic transparent motion graphics, separate from the untouched game canvas. */
 export async function gameplayOverlay(page: Page, segment: VideoSegment, index: number, crowd: CrowdVideo, proof: BuildProof): Promise<string> {
+  await page.addScriptTag({ content: `window.drawVideoDialogue = ${drawVideoDialogue.toString()};` });
   const directory = resolve('qa/submission-video/edit/overlays', String(index));
   await mkdir(directory, { recursive: true });
   const frames = Math.ceil(segment.seconds * FPS);
@@ -72,7 +72,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
       }
       function rule(time: number) {
         if (!segment.title) return;
-        const entry = segment.chapter ? time - chapterTiming.rulesAt : time;
+        const entry = segment.sectionIntro ? time - 1.85 : segment.chapter ? time - chapterTiming.rulesAt : time;
         const lifetime = Math.min(7.5, segment.seconds - .3);
         const alpha = Math.min(1, entry / .2, (lifetime - time) / .3);
         if (alpha <= 0) return;
@@ -283,6 +283,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         buildRecord(time);
         impacts(time);
         celebration(time);
+        window.drawVideoDialogue(ctx, segment, time);
         output.push(canvas.toDataURL().split(',')[1]);
       }
       return output;

@@ -118,7 +118,8 @@ test('missing game, standings or champion footage cannot be replaced with fabric
 
 test('actual host workflow precedes joins and build evidence stays on the resulting race', () => {
   const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
-    actions: [{ at: 6, action: 'start-cup' }], media: { duration: 12 } };
+    actions: [{ at: 2.5, action: 'queue:hot-potato' }, { at: 4, action: 'queue:multiplier-cascade' },
+      { at: 5, action: 'drag-reorder' }, { at: 6, action: 'start-cup' }], media: { duration: 12 } };
   const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
   expect(plan[1]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
   expect(plan[2].source).toBe('crowd');
@@ -127,4 +128,21 @@ test('actual host workflow precedes joins and build evidence stays on the result
     .toThrow('Connected host workflow proof');
   expect(() => submissionVideoPlan(cup(), live, crowd(), false, { ...host, media: { duration: 7.1 } }))
     .toThrow('reading hold');
+});
+
+
+test('queue instructions explain actual actions; bold section cards separate games and the final', () => {
+  const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
+    actions: [{ at: 2.7, action: 'queue:hot-potato' }, { at: 4.1, action: 'queue:multiplier-cascade' },
+      { at: 6.4, action: 'drag-reorder' }, { at: 7.7, action: 'start-cup' }], media: { duration: 12 } };
+  const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
+  const captions = plan.find(row => row.source === 'setup')!.captions!;
+  expect(captions.map(row => row.text)).toEqual([
+    'Click "+ Queue" to add games.', 'Drag the grip to change the order.', 'Click "Start a Cup" to begin.'
+  ]);
+  expect(captions.every(row => row.to > row.from && row.to <= 9.3)).toBe(true);
+  expect(plan.filter(row => row.source === 'section').map(row => row.title)).toEqual(['MINIGAMES', 'GRAND FINAL']);
+  expect(plan.findIndex(row => row.title === 'MINIGAMES')).toBeLessThan(plan.findIndex(row => row.gameId === 'multiplier-cascade'));
+  expect(plan.findIndex(row => row.title === 'GRAND FINAL')).toBeLessThan(plan.findIndex(row => row.gameId === 'blade-brawl'));
+  expect(plan.reduce((sum, row) => sum + row.seconds, 0)).toBeLessThan(180);
 });

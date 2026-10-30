@@ -122,8 +122,9 @@ npm run video
 
 The recorder captures the game canvas and sound effects with in-game music disabled.
 The edit adds one continuous music bed, original transition whooshes and
-source-timed comic accents, eased editorial punch-ins and impact rings. The
-dashboard capture uses timed curved pointer movement and smooth reframing. Major cuts use the measured music grid; gameplay
+source-timed comic accents, held close-up cuts and impact rings. The
+dashboard capture uses timed curved pointer movement and animated queue instructions.
+MINIGAMES and GRAND FINAL title cards introduce the game sections. Major cuts use the measured music grid; gameplay
 continues at its captured speed. The older mixed-audio live inset is muted.
 A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
