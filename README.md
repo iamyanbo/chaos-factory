@@ -132,13 +132,17 @@ A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
 and overlays each game's actual name and short rules during gameplay. The opening
 title says "Implemented with Codex". The connected dashboard shows queue ordering
-and Start Cup. A brief actual Peg Fever scoring excerpt stays beside the opening
-credit, replacing the feedback/fix conversation. It is a project-source presentation,
-rather than a native Codex UI recording. Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
+and Start Cup. The opening flows straight into the connected dashboard, with the
+GitHub link on the closing card. There is no separate code excerpt or build card.
+Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
 separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
 local under `qa/submission-video/`; they are excluded from Git. Account uploads
 and final Devpost submission are not automated.
 
 Video history cleanup: `powershell -NoProfile -File tools/clean-video-history.ps1`
 prints an inventory. Add `-Apply` to remove old exports and regenerable edit files
-after reviewing it. The v13 final, review and required source captures are protected.
+after reviewing it. The v14 final, review and required source captures are protected.
+
+Editorial reactions follow each event: PogChamp for big scores and Fever,
+SeemsGood for finishes and the champion, NotLikeThis for eliminations, and LUL
+only for the reviewed comic rim spill. Kappa is not used in the current film.

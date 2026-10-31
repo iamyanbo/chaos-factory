@@ -35,19 +35,19 @@ ${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the 
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
 MINIGAMES and GRAND FINAL title stingers introduce the game sections.
-Centered payoff captions remain text-only. PogChamp, Kappa, LUL and NotLikeThis
+Centered payoff captions remain text-only. PogChamp, SeemsGood, LUL and NotLikeThis
 pop independently around events; these editorial reactions are not captured chat messages.
 Each game uses its actual name and short rules over gameplay.
 The opening title credits the project: Implemented with Codex.
-A brief source glimpse beside the opening credit shows the actual Peg Fever scoring code.
-This is an edited project-source presentation, not a recording of the Codex app UI.
+There is no standalone code excerpt. The submission text explains the build workflow;
+the closing card links the source repository. No Codex app recording is claimed.
 
 Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
 
 Built with TypeScript, PixiJS, Rapier, Fastify, WebSockets and Twurple, using Codex.
 Music in this edit: Juhani Junkala, Chiptune Adventures Stage 2, CC0.
-Twitch emote stickers: PogChamp, Kappa, LUL, NotLikeThis and SeemsGood from the official Twitch
+Twitch emote stickers: PogChamp, SeemsGood, LUL and NotLikeThis from the official Twitch
 global emote API/CDN. Rights remain with Twitch/the respective rights holders.
 Credits and full notices: ${fields.repositoryUrl}/blob/main/ASSETS.md
 `;
@@ -131,6 +131,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v13.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v14.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

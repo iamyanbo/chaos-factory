@@ -1383,3 +1383,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Typecheck/22 edit checks pass; full run had 374 passes/one camera timeout; unchanged camera file passed its rerun.
 - Automatic review blocked deletion; supplied a protected preview/apply cleanup script covering 3.55 GiB. No files deleted.
 - Refreshed credits, upload text and source handoff; external upload/submission remain manual.
+
+## 2026-10-31 - Remove the build card and match emotes to events
+- Removed the entire code excerpt, its renderer/tests and the inserted build segment; opening credit/GitHub link remain.
+- Corrected the requirement interpretation: the rules recommend build footage but do not prescribe a code excerpt/card.
+- Added explicit event context: celebrations for scores/Fever/wins, dismay for eliminations, laughter only for the comic spill.
+- Removed Kappa from all events and LUL from scoring/champion moments; reduced simultaneous sticker counts.
+- Reviewed 27 film, 33 gameplay and nine queue frames; 132.233 s export passes decode/DTS/audio checks.
+- Validation: typecheck, 22 focused edit checks and all 375 tests/77 files pass, including the unchanged camera audit.
+- Refreshed upload/source handoff and protected cleanup script for v14; no old media deletion or account uploads performed.

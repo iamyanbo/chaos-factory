@@ -5,16 +5,16 @@ param([switch]$Apply)
 $ErrorActionPreference = 'Stop'
 $workspace = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $videoRoot = (Resolve-Path -LiteralPath (Join-Path $workspace 'qa/submission-video')).Path
-$latest = Join-Path $videoRoot 'chaos-factory-demo-v13.mp4'
+$latest = Join-Path $videoRoot 'chaos-factory-demo-v14.mp4'
 if (!(Test-Path -LiteralPath $latest -PathType Leaf)) {
-    throw 'The finished v13 video must exist before cleaning its older exports.'
+    throw 'The finished v14 video must exist before cleaning its older exports.'
 }
 $edit = Get-Content -LiteralPath (Join-Path $videoRoot 'edit.json') -Raw | ConvertFrom-Json
-if ($edit.edition -ne 13 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
-    throw 'Wait for the v13 export and its validated edit manifest to finish.'
+if ($edit.edition -ne 14 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
+    throw 'Wait for the v14 export and its validated edit manifest to finish.'
 }
 $protected = @(
-    'chaos-factory-demo-v13.mp4', 'chaos-factory-demo.mp4', 'edit.json',
+    'chaos-factory-demo-v14.mp4', 'chaos-factory-demo.mp4', 'edit.json',
     'full-cup-sfx/full-cup.webm', 'full-cup-sfx/capture.json',
     'join-crowd/crowd.webm', 'join-crowd/capture.json',
     'live-join/live-join.webm', 'live-join/capture.json',
@@ -25,7 +25,7 @@ foreach ($file in $protected) {
 }
 
 $candidates = [Collections.Generic.List[string]]::new()
-foreach ($version in 1..12) {
+foreach ($version in 1..13) {
     $candidates.Add((Join-Path $videoRoot "chaos-factory-demo-v$version.mp4"))
     $candidates.Add((Join-Path $videoRoot "chaos-factory-offline-preview-v$version.mp4"))
     $candidates.Add((Join-Path $videoRoot "contact-sheet-v$version.png"))
@@ -33,7 +33,7 @@ foreach ($version in 1..12) {
     $candidates.Add((Join-Path $videoRoot "v$version-review"))
 }
 # Regenerable edit frames/segments, superseded music-mixed Cup, redundant raw captures.
-foreach ($relative in @('edit', 'full-cup', 'host-setup-v8', 'selection-v13',
+foreach ($relative in @('edit', 'full-cup', 'host-setup-v8', 'selection-v13', 'selection-v14',
     'full-cup-sfx/full-cup-raw.webm', 'live-join/live-join-raw.webm',
     'join-crowd/crowd-raw.webm', 'host-setup/dashboard-raw.webm')) {
     $candidates.Add((Join-Path $videoRoot $relative))
@@ -64,7 +64,7 @@ $manifest = foreach ($candidate in ($candidates | Select-Object -Unique)) {
 }
 $manifest | Format-Table @{Name='MiB';Expression={[math]::Round($_.Bytes / 1MB, 1)}}, Path -AutoSize
 $bytes = ($manifest | Measure-Object Bytes -Sum).Sum
-Write-Host ('Total: {0:N2} GiB; originals, v13 final and v13 review are retained.' -f ($bytes / 1GB))
+Write-Host ('Total: {0:N2} GiB; originals, v14 final and v14 review are retained.' -f ($bytes / 1GB))
 if (!$Apply) { Write-Host 'Preview only. Add -Apply to remove exactly these paths.'; return }
 foreach ($entry in $manifest) {
     if ($PSCmdlet.ShouldProcess($entry.Path, 'Remove obsolete video or regenerable edit files')) {

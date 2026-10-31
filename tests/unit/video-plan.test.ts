@@ -116,16 +116,14 @@ test('missing game, standings or champion footage cannot be replaced with fabric
 });
 
 
-test('brief build evidence stays with the opening before host workflow and joins', () => {
+test('opening goes directly to host workflow without an inserted build segment', () => {
   const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
     actions: [{ at: 2.5, action: 'queue:hot-potato' }, { at: 4, action: 'queue:multiplier-cascade' },
       { at: 5, action: 'drag-reorder' }, { at: 6, action: 'start-cup' }], media: { duration: 12 } };
   const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
-  expect(plan[1].source).toBe('build');
-  expect(plan[1].seconds).toBeLessThan(4.2);
-  expect(plan[2]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
-  expect(plan[3].source).toBe('crowd');
-  expect(plan.filter(row => row.source === 'build')).toHaveLength(1);
+  expect(plan[1]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
+  expect(plan[2].source).toBe('crowd');
+  expect(plan.some(row => String(row.source) === 'build')).toBe(false);
   expect(plan.filter(row => row.source === 'cup').every(row => !Object.hasOwn(row, 'buildProof'))).toBe(true);
   expect(() => submissionVideoPlan(cup(), live, crowd(), false, { ...host, connected: false }))
     .toThrow('Connected host workflow proof');

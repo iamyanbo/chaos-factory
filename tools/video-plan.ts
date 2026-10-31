@@ -38,7 +38,7 @@ export interface HostVideo {
   media: { duration: number };
 }
 export interface VideoSegment {
-  source: 'cup' | 'crowd' | 'setup' | 'build' | 'section' | 'title' | 'outro';
+  source: 'cup' | 'crowd' | 'setup' | 'section' | 'title' | 'outro';
   from: number;
   seconds: number;
   title: string;
@@ -50,7 +50,8 @@ export interface VideoSegment {
   chapter?: number;
   celebrate?: boolean;
   reactions?: VideoReaction[];
-  cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string; reactionsOnly?: boolean }[];
+  cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string;
+    reactionsOnly?: boolean; moment?: 'spill' | 'elimination' | 'score' | 'fever' | 'finish' }[];
   evidence: 'mock' | 'project-files' | 'host-ui';
   inset?: { from: number; at: number; seconds: number; name: string; evidence: 'real-chat' };
 }
@@ -63,8 +64,7 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     throw new Error('Capture a populated mock lobby first: tools/capture-join-crowd.ts');
   }
   const segments: VideoSegment[] = [
-    { source: 'title', from: 0, seconds: INTRO_SECONDS, title: '', body: '', subtitle: TITLE_CREDIT, evidence: 'project-files' },
-    { source: 'build', from: 0, seconds: 3.6, title: 'BUILT WITH CODEX', body: '', evidence: 'project-files' }
+    { source: 'title', from: 0, seconds: INTRO_SECONDS, title: '', body: '', subtitle: TITLE_CREDIT, evidence: 'project-files' }
   ];
   if (host) {
     const start = host.actions.find(row => row.action === 'start-cup');
@@ -156,21 +156,22 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     }
     // These are annotations of reviewed events in the retained source, never invented events.
     const cue = (sourceOffset: number, seconds: number, kind: 'burst' | 'score' | 'finish',
-      title: string, detail?: string, reactionsOnly = false) => {
+      title: string, detail?: string, reactionsOnly = false,
+      moment?: NonNullable<VideoSegment['cues']>[number]['moment']) => {
       const at = round(segment.gameId!).play + sourceOffset - segment.from;
       if (at >= 0 && at + seconds <= segment.seconds - .2) {
-        (segment.cues ??= []).push({ at, seconds, kind, title, detail, reactionsOnly });
+        (segment.cues ??= []).push({ at, seconds, kind, title, detail, reactionsOnly, moment });
       }
     };
     if (segment.gameId === 'hot-potato') {
-      cue(22.28, 1.1, 'burst', 'RIM BREAK!');
-      cue(38.5, 1.1, 'burst', '', undefined, true);
+      cue(22.28, 1.1, 'burst', 'RIM BREAK!', undefined, false, 'spill');
+      cue(38.5, 1.1, 'burst', '', undefined, true, 'elimination');
     }
     if (segment.gameId === 'peg-fever') {
-      cue(11.65, 1.2, 'score', '2,960', '1,480 x 2');
-      cue(33.6, 1.2, 'score', '', undefined, true);
+      cue(11.65, 1.2, 'score', '2,960', '1,480 x 2', false, 'score');
+      cue(33.6, 1.2, 'score', '', undefined, true, 'fever');
     }
-    if (segment.gameId === 'marble-race') cue(79.24, 1.15, 'finish', 'FINISH!', 'FIRST HOME');
+    if (segment.gameId === 'marble-race') cue(79.24, 1.15, 'finish', 'FINISH!', 'FIRST HOME', false, 'finish');
     segment.reactions = eventReactions(segment);
     elapsed += segment.seconds;
   }

@@ -170,3 +170,16 @@ three-test file passed on rerun in 137.28 seconds after rendering finished.
 Cleanup preview identifies 3.55 GiB of old exports/render artifacts. Automatic review
 blocked deletion, so no reclaimed space is claimed. The protected cleanup script
 is provided for manual execution. Originals/current final and review are retained.
+
+## No build card and context-aware reactions - October 31
+
+v14 is 132.233 seconds. The intro now goes straight into the connected dashboard;
+the code excerpt, renderer and obsolete tests are removed. The original opening
+credit and closing GitHub link remain. The rules recommend build footage but do
+not prescribe a code excerpt or separate card; the written submission explains
+the Codex workflow without claiming app footage.
+PogChamp/SeemsGood celebrate scores, Fever and wins; NotLikeThis marks losses;
+LUL appears only at the comic rim spill. Kappa is removed from every event.
+Reviewed 27 film, 33 gameplay and nine queue frames. Decode/DTS/duration checks
+pass; audio is -19.20 LUFS/-3.46 dBTP. Typecheck, all 22 video checks and all
+375 tests across 77 files pass, including the unchanged camera audit.

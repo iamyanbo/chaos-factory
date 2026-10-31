@@ -65,7 +65,7 @@ external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
 ## Current edit - under three minutes
 
-The film opens with the animated Chaos Factory intro and a brief actual scoring-source glimpse. An actual connected
+The film opens with the animated Chaos Factory intro, followed directly by an actual connected
 Twitch dashboard capture shows queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
 Close-ups hold still, with cuts between compositions. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
@@ -74,10 +74,11 @@ was offline. The main audience is simulated; no real crowd is implied.
 
 Bold MINIGAMES and GRAND FINAL stingers separate the sections. Five game chapters lead through the Cup standings, final duel and actual
 champion. Titles hold still for two seconds before a slower move into the corner.
-The opening title says "Implemented with Codex". The four-second build glimpse
-uses actual project source without the previous suggestion-and-fix story. It is an
-edited presentation, not native Codex UI footage. The [official FAQ](https://twitchcon-codex.devpost.com/resources)
-asks for footage showing how the project was built with Codex.
+The opening title says "Implemented with Codex"; the closing card links GitHub.
+The standalone code excerpt is removed. The [official rules](https://twitchcon-codex.devpost.com/rules)
+say the video should show how the project was built with Codex; they do not prescribe
+a code excerpt or separate build card. This edit uses the credit and repository link,
+with the workflow explained in the written submission; no Codex app footage is claimed.
 Short rules remain beside each game, and the standings note stays above its table.
 
 Cascade shows the large x3 volley and the five-finisher win. Hot Potato includes
@@ -94,7 +95,7 @@ in varied parts of the frame around events; they are editorial reactions, not
 actual chat messages. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v13.mp4. A protected cleanup script is provided
+Latest local MP4: qa/submission-video/chaos-factory-demo-v14.mp4. A protected cleanup script is provided
 for obsolete exports and generated edit files; deletion was blocked by automatic review. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.
