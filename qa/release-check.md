@@ -155,3 +155,18 @@ NotLikeThis pop independently around events; captions stay centered and text-onl
 Reviewed 25 film frames plus the instruction strip. Decode/DTS checks pass with
 zero duration drift; audio is -19.19 LUFS/-5.49 dBTP. Typecheck, all 373 tests/78
 files and twenty focused checks pass, including the unchanged camera audit.
+
+
+## Gameplay selection and shorter build evidence - October 31
+
+v13 is 136.533 seconds. Reviewed the full source games, then retained the multiplier
+volley, mass eliminations, Fever, gate breach, pack launch and final knockouts.
+The feedback/fix story is removed; the required build evidence is a 3.9-second
+actual project-source glimpse beside the opening credit. Scattered emotes remain.
+Reviewed 28 film frames, 33 gameplay frames and nine queue frames. Decode/DTS pass;
+audio is -19.20 LUFS/-1.25 dBTP. Typecheck and 22 edit checks pass. The full test run
+passed 374 tests with one existing camera-audit timeout during encoding; its unchanged
+three-test file passed on rerun in 137.28 seconds after rendering finished.
+Cleanup preview identifies 3.55 GiB of old exports/render artifacts. Automatic review
+blocked deletion, so no reclaimed space is claimed. The protected cleanup script
+is provided for manual execution. Originals/current final and review are retained.

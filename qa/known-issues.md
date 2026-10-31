@@ -3,9 +3,10 @@
 ## Still open
 
 - **Validation runtime:** earlier October 31 full runs completed the existing
-  200-course camera audit but exceeded its 240 s time limit. The latest v12 full
-  run passes all 373 tests across 78 files, including that audit, without game,
-  assertion or timeout changes. The earlier timeout remains a machine-load warning.
+  200-course camera audit but exceeded its 240 s time limit. The v13 full run
+  during encoding passed 374 tests with that one timeout. Its unchanged three-test
+  file passed after rendering in 137.28 s. The earlier v12 full run passed all
+  373 tests. No game, assertion or timeout changes; machine load affects the audit.
 
 - **Blade Brawl Boss balance:** the requested rage power is implemented; the
   200-seed-per-size rerun favors the Boss (78.5%, 89.0%, 67.5% at 8/16/32
@@ -27,7 +28,7 @@
   docs/SUBMISSION.md; docs/SHIP-CHECKLIST.md now collects the remaining owner
   steps. `npm run submission` packages the committed handoff without publishing
   it, and `npm run submission:check` reports missing fields/confirmations from
-  docs/submission-fields.json. The revised 2:02 MP4 and upload/form copy are
+  docs/submission-fields.json. The revised 2:17 MP4 and upload/form copy are
   local in qa/submission-video/. YouTube upload and final Devpost submission
   still require account access; neither has been performed.
 

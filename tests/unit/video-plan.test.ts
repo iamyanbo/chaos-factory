@@ -8,11 +8,11 @@ function cup(): CupVideo {
     .flatMap((game, index) => [
       { game, round: index + 1, phase: 'PLAY', stage: 0, wall: index * 100 + 5 },
       { game, round: index + 1, phase: 'PLAY', stage: 1, wall: index * 100 + 30 },
-      { game, round: index + 1, phase: 'RESULT', stage: 2, wall: index * 100 + (game === 'marble-race' ? 90 : 80) },
+      { game, round: index + 1, phase: 'RESULT', stage: 2, wall: index * 100 + (['marble-race', 'blade-brawl'].includes(game) ? 96 : 80) },
       { game, round: index + 1, phase: index === 4 ? 'CUP_RESULTS' : 'STANDINGS', stage: 2,
-        wall: index * 100 + (game === 'marble-race' ? 96 : 86) }
+        wall: index * 100 + (['marble-race', 'blade-brawl'].includes(game) ? 102 : 86) }
     ]);
-  return { transitions, wallSeconds: 493, media: { duration: 493 } };
+  return { transitions, wallSeconds: 510, media: { duration: 510 } };
 }
 
 function crowd(): CrowdVideo {
@@ -48,13 +48,13 @@ test('chapter boundaries land on the measured music pulse without shortening rev
   }
   expect(plan.filter(row => row.chapter).map(row => row.chapter)).toEqual([1, 2, 3, 4, 5]);
   expect(plan.filter(row => row.gameId === 'hot-potato').reduce((sum, row) => sum + row.seconds, 0)).toBeGreaterThanOrEqual(15);
-  expect(plan.find(row => row.title === 'MARBLE RACE')!.seconds).toBeGreaterThanOrEqual(12);
+  expect(plan.filter(row => row.gameId === 'marble-race').reduce((sum, row) => sum + row.seconds, 0)).toBeGreaterThanOrEqual(18);
 });
 
 test('editorial impacts stay within the retained source shot and never carry across a cut', () => {
   const plan = submissionVideoPlan(cup(), live, crowd());
   const cues = plan.flatMap(segment => (segment.cues ?? []).map(cue => ({ segment, cue })));
-  expect(cues).toHaveLength(4);
+  expect(cues).toHaveLength(5);
   for (const { segment, cue } of cues) {
     expect(cue.at).toBeGreaterThan(1);
     expect(cue.at + cue.seconds).toBeLessThan(segment.seconds - .2);
@@ -84,7 +84,7 @@ test('tighter Hot Potato cuts retain each fuse expiry and aftermath, with title-
   const plan = submissionVideoPlan(cup(), live, crowd());
   const clips = plan.filter(row => row.gameId === 'hot-potato');
   const play = cup().transitions.find(row => row.game === 'hot-potato' && row.phase === 'PLAY')!.wall;
-  const blasts = [play + 11.83, play + 22.13];
+  const blasts = [play + 22.13, play + 38.3];
   expect(clips).toHaveLength(2);
   for (const [index, blast] of blasts.entries()) {
     expect(clips[index].from).toBeLessThan(blast - (index === 0 ? 3 : 2));
@@ -116,13 +116,14 @@ test('missing game, standings or champion footage cannot be replaced with fabric
 });
 
 
-test('actual host workflow precedes the dedicated build clip and joins', () => {
+test('brief build evidence stays with the opening before host workflow and joins', () => {
   const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
     actions: [{ at: 2.5, action: 'queue:hot-potato' }, { at: 4, action: 'queue:multiplier-cascade' },
       { at: 5, action: 'drag-reorder' }, { at: 6, action: 'start-cup' }], media: { duration: 12 } };
   const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
-  expect(plan[1]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
-  expect(plan[2].source).toBe('build');
+  expect(plan[1].source).toBe('build');
+  expect(plan[1].seconds).toBeLessThan(4.2);
+  expect(plan[2]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
   expect(plan[3].source).toBe('crowd');
   expect(plan.filter(row => row.source === 'build')).toHaveLength(1);
   expect(plan.filter(row => row.source === 'cup').every(row => !Object.hasOwn(row, 'buildProof'))).toBe(true);
@@ -147,4 +148,21 @@ test('queue instructions explain actual actions; bold section cards separate gam
   expect(plan.findIndex(row => row.title === 'MINIGAMES')).toBeLessThan(plan.findIndex(row => row.gameId === 'multiplier-cascade'));
   expect(plan.findIndex(row => row.title === 'GRAND FINAL')).toBeLessThan(plan.findIndex(row => row.gameId === 'blade-brawl'));
   expect(plan.reduce((sum, row) => sum + row.seconds, 0)).toBeLessThan(180);
+});
+
+
+test('reviewed gameplay covers Fever, a gate breach, the launch pack and multiple final eliminations', () => {
+  const plan = submissionVideoPlan(cup(), live, crowd());
+  const covers = (game: string, offset: number) => {
+    const play = cup().transitions.find(row => row.game === game && row.phase === 'PLAY')!.wall;
+    return plan.some(row => row.gameId === game && row.from <= play + offset
+      && row.from + row.seconds >= play + offset + 1.5);
+  };
+  for (const [game, offset] of [
+    ['multiplier-cascade', 36], ['multiplier-cascade', 54.9],
+    ['peg-fever', 33.6], ['marble-race', 4], ['marble-race', 62],
+    ['blade-brawl', 35.5], ['blade-brawl', 39.5], ['blade-brawl', 75.9]
+  ] as const) expect(covers(game, offset), `${game} +${offset}`).toBe(true);
+  const fever = plan.find(row => row.gameId === 'peg-fever' && !row.chapter)!;
+  expect(fever.cues?.[0].reactionsOnly).toBe(true);
 });

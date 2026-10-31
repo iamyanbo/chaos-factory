@@ -63,9 +63,9 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 2 minutes 10 seconds
+## Current edit - under three minutes
 
-The film opens with the animated Chaos Factory intro, then an actual connected
+The film opens with the animated Chaos Factory intro and a brief actual scoring-source glimpse. An actual connected
 Twitch dashboard capture shows queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
 Close-ups hold still, with cuts between compositions. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
@@ -74,15 +74,18 @@ was offline. The main audience is simulated; no real crowd is implied.
 
 Bold MINIGAMES and GRAND FINAL stingers separate the sections. Five game chapters lead through the Cup standings, final duel and actual
 champion. Titles hold still for two seconds before a slower move into the corner.
-The opening title says "Implemented with Codex". A separate full-screen build
-section shows selected real conversation excerpts and the full committed before/
-after code. It is an edited presentation, not native Codex UI footage.
+The opening title says "Implemented with Codex". The four-second build glimpse
+uses actual project source without the previous suggestion-and-fix story. It is an
+edited presentation, not native Codex UI footage. The [official FAQ](https://twitchcon-codex.devpost.com/resources)
+asks for footage showing how the project was built with Codex.
 Short rules remain beside each game, and the standings note stays above its table.
 
-Cascade cuts from the multiplying stream to the finish race, omitting the quiet
-course scroll. Two focused Hot Potato shots retain both fuse expiries, explosions
-and rim damage while skipping the middle of the long wait. Peg Fever shows actual
-multiplied landings; Marble Race holds through two finishes. The title lead-ins
+Cascade shows the large x3 volley and the five-finisher win. Hot Potato includes
+the rim-break explosion and a later mass elimination, retaining each lead-in and
+aftermath. Peg Fever shows dense peg hits, multiplied landings and the final orange
+triggering Fever and doubled slots. Marble Race cuts forward from the launch pack
+to the gate breach and first finishes. Blade Brawl includes two midround knockouts
+and the final survivor. The title lead-ins
 leave the key payoffs visible. The champion leads directly to the animated ending.
 
 One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
@@ -91,8 +94,8 @@ in varied parts of the frame around events; they are editorial reactions, not
 actual chat messages. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v12.mp4. Previous cuts
-remain for comparison. edit.json records exact source windows and the real-test
+Latest local MP4: qa/submission-video/chaos-factory-demo-v13.mp4. A protected cleanup script is provided
+for obsolete exports and generated edit files; deletion was blocked by automatic review. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.
 

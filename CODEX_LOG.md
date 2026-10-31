@@ -1374,3 +1374,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed 25 film frames and the instruction strip; decode/DTS/audio checks pass at 129.500 s.
 - Validation: typecheck, all 373 tests/78 files and twenty focused checks pass, including the unchanged camera audit.
 - Refreshed credits, upload text, source and ZIP; external upload/submission remain manual.
+
+## 2026-10-31 - Gameplay selections and shorter build credit
+- Scanned full source games and reselected multiplier volleys, mass eliminations, Fever, gate breaches and knockouts.
+- Rebuilt v13 at 136.533 s, preserving source speed, the same Cup outcome and separate iconic emote reactions.
+- Removed the feedback/fix story; retained a 3.9-second actual scoring-source glimpse with the opening credit for the FAQ.
+- Reviewed 28 film, 33 gameplay and nine instruction frames; decode/DTS/audio checks pass.
+- Typecheck/22 edit checks pass; full run had 374 passes/one camera timeout; unchanged camera file passed its rerun.
+- Automatic review blocked deletion; supplied a protected preview/apply cleanup script covering 3.55 GiB. No files deleted.
+- Refreshed credits, upload text and source handoff; external upload/submission remain manual.

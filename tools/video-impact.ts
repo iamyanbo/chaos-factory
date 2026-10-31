@@ -11,6 +11,7 @@ export function drawVideoImpact(ctx: CanvasRenderingContext2D, segment: VideoSeg
   time: number, layout: CaptionLayout): void {
   const ink = '#1b1b3a';
   for (const cue of segment.cues ?? []) {
+    if (cue.reactionsOnly) continue;
     const age = time - cue.at;
     if (age < 0 || age > cue.seconds) continue;
     const alpha = Math.max(0, Math.min(1, age / .09, (cue.seconds - age) / .16));

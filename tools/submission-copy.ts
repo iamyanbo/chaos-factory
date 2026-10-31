@@ -39,9 +39,8 @@ Centered payoff captions remain text-only. PogChamp, Kappa, LUL and NotLikeThis
 pop independently around events; these editorial reactions are not captured chat messages.
 Each game uses its actual name and short rules over gameplay.
 The opening title credits the project: Implemented with Codex.
-A dedicated full-screen BUILT WITH CODEX section shows selected real conversation
-excerpts and the full before/after lines from the committed camera fix. This is an edited presentation,
-not a recording of the Codex app UI.
+A brief source glimpse beside the opening credit shows the actual Peg Fever scoring code.
+This is an edited project-source presentation, not a recording of the Codex app UI.
 
 Source and offline judge setup: ${fields.repositoryUrl}
 No account or tokens are needed for the mock demo: npm ci, then npm run demo.
@@ -132,6 +131,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v12.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v13.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

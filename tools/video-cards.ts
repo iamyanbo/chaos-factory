@@ -6,7 +6,6 @@ import { command } from './drama/capture-media';
 import { buildCard } from './video-build-card';
 import { sectionCard } from './video-section-cards';
 import { gameplayOverlay } from './video-overlays';
-import { loadBuildProof } from './video-proof';
 import { TITLE_CREDIT, TITLE_SCREEN_SECONDS } from './video-titles';
 import { submissionVideoPlan, type CrowdVideo, type CupVideo, type JoinVideo, type HostVideo } from './video-plan';
 
@@ -180,13 +179,12 @@ try {
   const live = existsSync(liveFile) ? JSON.parse(await readFile(liveFile, 'utf8')) as JoinVideo : undefined;
   const crowd = JSON.parse(await readFile('qa/submission-video/join-crowd/capture.json', 'utf8')) as CrowdVideo;
   const host = JSON.parse(await readFile('qa/submission-video/host-setup/capture.json', 'utf8')) as HostVideo;
-  const proof = await loadBuildProof();
   const plan = submissionVideoPlan(cup, live, crowd, process.argv.includes('--offline-preview'), host);
   const selected = process.argv.indexOf('--overlay');
   const overlay = selected < 0 ? undefined : Number(process.argv[selected + 1]);
   if (overlay !== undefined && (!Number.isInteger(overlay) || !plan[overlay])) throw new Error('Invalid overlay index');
   for (const [index, segment] of plan.entries()) {
-    if (segment.source === 'build') await buildCard(page, segment, index, proof);
+    if (segment.source === 'build') await buildCard(page, segment, index);
     if (segment.source === 'section') await sectionCard(page, segment, index);
     if (!process.argv.includes('--cards-only') && (overlay === undefined || overlay === index)
       && (segment.source === 'cup' || segment.source === 'crowd' || segment.source === 'setup')) {

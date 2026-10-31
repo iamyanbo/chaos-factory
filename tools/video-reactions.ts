@@ -18,8 +18,8 @@ export function eventReactions(segment: VideoSegment): VideoReaction[] {
       angle: index === 0 ? -.13 : index === 1 ? .12 : -.08 }));
   }
   if (segment.gameId === 'multiplier-cascade' && segment.chapter) {
-    reactions.push({ at: 5.1, seconds: 1.1, emote: 'PogChamp', x: 1730, y: 720, size: 124, angle: .1 });
-    reactions.push({ at: 5.5, seconds: 1, emote: 'SeemsGood', x: 575, y: 200, size: 106, angle: -.13 });
+    reactions.push({ at: 6.8, seconds: 1.1, emote: 'PogChamp', x: 1730, y: 720, size: 124, angle: .1 });
+    reactions.push({ at: 7.2, seconds: 1, emote: 'SeemsGood', x: 575, y: 200, size: 106, angle: -.13 });
   }
   if (segment.celebrate) {
     reactions.push({ at: .6, seconds: 1.2, emote: 'PogChamp', x: 1750, y: 780, size: 130, angle: .1 });

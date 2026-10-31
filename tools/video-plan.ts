@@ -50,7 +50,7 @@ export interface VideoSegment {
   chapter?: number;
   celebrate?: boolean;
   reactions?: VideoReaction[];
-  cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string }[];
+  cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string; reactionsOnly?: boolean }[];
   evidence: 'mock' | 'project-files' | 'host-ui';
   inset?: { from: number; at: number; seconds: number; name: string; evidence: 'real-chat' };
 }
@@ -63,7 +63,8 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     throw new Error('Capture a populated mock lobby first: tools/capture-join-crowd.ts');
   }
   const segments: VideoSegment[] = [
-    { source: 'title', from: 0, seconds: INTRO_SECONDS, title: '', body: '', subtitle: TITLE_CREDIT, evidence: 'project-files' }
+    { source: 'title', from: 0, seconds: INTRO_SECONDS, title: '', body: '', subtitle: TITLE_CREDIT, evidence: 'project-files' },
+    { source: 'build', from: 0, seconds: 3.6, title: 'BUILT WITH CODEX', body: '', evidence: 'project-files' }
   ];
   if (host) {
     const start = host.actions.find(row => row.action === 'start-cup');
@@ -93,8 +94,6 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   } else if (!offlinePreview) {
     throw new Error('Real Twitch join proof is missing; use --offline-preview for a labeled draft');
   }
-  segments.push({ source: 'build', from: 0, seconds: 7.5, title: 'BUILT WITH CODEX',
-    body: '', evidence: 'project-files' });
   segments.push(lobby);
   function round(game: string) {
     const play = cup.transitions.find(row => row.game === game && row.phase === 'PLAY');
@@ -114,28 +113,31 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   }
   segments.push({ source: 'section', from: 0, seconds: 2.2, title: 'MINIGAMES',
     body: 'FIVE GAMES. ONE CUP.', evidence: 'project-files' });
-  // Keep the multiplier stream and the finish race; omit the quiet course scroll.
-  shot('multiplier-cascade', 26.2, 8, 'MULTIPLIER CASCADE',
+  // Reviewed source windows: the x3 volley, then the actual five-finisher win.
+  shot('multiplier-cascade', 29, 9.8, 'MULTIPLIER CASCADE',
     'Grow your team.\nFirst to five finishers wins.');
-  shot('multiplier-cascade', 48, 11, '', '');
+  shot('multiplier-cascade', 51.8, 6.2, '', '');
   // Each bomb sequence keeps the fuse, the real blast and its aftermath.
   // The forward cut removes the middle of the next long fuse, never a detonation.
-  shot('hot-potato', 8.5, 7, 'HOT POTATO',
+  shot('hot-potato', 18.8, 10, 'HOT POTATO',
     'Pass the bomb on contact.\nLast marble standing wins.');
-  shot('hot-potato', 19.8, 8, '', '');
-  shot('peg-fever', 8, 10, 'PEG FEVER',
+  shot('hot-potato', 35.7, 7, '', '');
+  shot('peg-fever', 4.1, 9.9, 'PEG FEVER',
     'Three balls each.\nEvery landing multiplies its score.');
-  shot('marble-race', 68, 13.5, 'MARBLE RACE',
+  shot('peg-fever', 31.2, 7.6, '', '');
+  shot('marble-race', 0, 7.5, 'MARBLE RACE',
     'Leaders break gates.\nFollowers get an open lane.');
+  shot('marble-race', 58.8, 6, '', '');
+  shot('marble-race', 77.8, 4.5, '', '');
   const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
   if (!standings || standings.wall + 5.7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
   segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 4.5,
     title: 'TOP EIGHT', body: 'Four rounds earn points.\nEight finalists. One Cup.', evidence: 'mock' });
   segments.push({ source: 'section', from: 0, seconds: 2, title: 'GRAND FINAL',
     body: 'TOP EIGHT. ONE WINNER.', evidence: 'project-files' });
-  const final = round('blade-brawl');
-  shot('blade-brawl', final.result - final.play - 17.5, 18, 'BLADE BRAWL',
+  shot('blade-brawl', 31.7, 10.5, 'BLADE BRAWL',
     'The arena closes.\nLast fighter takes the Cup.');
+  shot('blade-brawl', 72, 6.5, '', '');
   const champion = cup.transitions.find(row => row.phase === 'CUP_RESULTS');
   if (!champion || champion.wall + 4.2 > cup.media.duration) throw new Error('The actual Cup champion screen is missing');
   segments.push({ source: 'cup', from: champion.wall + .2, seconds: 4,
@@ -154,17 +156,20 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     }
     // These are annotations of reviewed events in the retained source, never invented events.
     const cue = (sourceOffset: number, seconds: number, kind: 'burst' | 'score' | 'finish',
-      title: string, detail?: string) => {
+      title: string, detail?: string, reactionsOnly = false) => {
       const at = round(segment.gameId!).play + sourceOffset - segment.from;
       if (at >= 0 && at + seconds <= segment.seconds - .2) {
-        (segment.cues ??= []).push({ at, seconds, kind, title, detail });
+        (segment.cues ??= []).push({ at, seconds, kind, title, detail, reactionsOnly });
       }
     };
     if (segment.gameId === 'hot-potato') {
-      cue(11.91, .9, 'burst', 'BOOM!');
       cue(22.28, 1.1, 'burst', 'RIM BREAK!');
+      cue(38.5, 1.1, 'burst', '', undefined, true);
     }
-    if (segment.gameId === 'peg-fever') cue(11.65, 1.2, 'score', '2,960', '1,480 x 2');
+    if (segment.gameId === 'peg-fever') {
+      cue(11.65, 1.2, 'score', '2,960', '1,480 x 2');
+      cue(33.6, 1.2, 'score', '', undefined, true);
+    }
     if (segment.gameId === 'marble-race') cue(79.24, 1.15, 'finish', 'FINISH!', 'FIRST HOME');
     segment.reactions = eventReactions(segment);
     elapsed += segment.seconds;
