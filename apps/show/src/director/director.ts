@@ -262,7 +262,8 @@ export class Director {
       capacity: this.game.spectator ? undefined : this.capacity, capacities: Object.fromEntries(this.capacities),
       waiting: this.participants.crowd, roundStart: this.roundStart, waitingForHost: this.waitingForHost,
       preparingRound: this.takePending, difficulty: .5, paused: this.paused, verbs: ['join'], controls: [],
-      queue: this.queue, modifiers: [], roundSeed: this.roundSeed, teams: this.participants.teams });
+      queue: this.queue, enabledGames: [...this.enabled], format: this.format,
+      modifiers: [], roundSeed: this.roundSeed, teams: this.participants.teams });
   }
   view(): HudState {
     return { selectingTake: this.takePending, waitingForHost: this.waitingForHost,

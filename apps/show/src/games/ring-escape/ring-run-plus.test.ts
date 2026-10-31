@@ -8,7 +8,7 @@ import { createContext } from '../../engine/context';
 import { initPhysics, PX } from '../../engine/physics';
 import { NeonSound } from '../../kit/neon';
 import { simulateTake } from '../../kit/take-simulation';
-import { escapedChampion } from './outcome';
+import { escapedChampion, updateHud } from './outcome';
 
 function setup(count: number, faction = false): RoundSetup {
   return {
@@ -288,6 +288,19 @@ test('faction victory follows the earliest physical escape rather than total esc
     Object.assign(blue[0], { finished: true, depth: 5, arrivedAt: 8 });
     expect(escapedChampion(game.marbles)).toBe(blue[0]);
   }, true);
+});
+
+test('the remaining counter excludes popped and already escaped marbles', async () => {
+  await scene(4, game => {
+    const side = vi.fn();
+    game.ctx.hud.setSide = side;
+    game.marbles[0].alive = false;
+    game.marbles[1].finished = true;
+    updateHud(game.ctx, game.marbles, false);
+    expect(side).toHaveBeenLastCalledWith(expect.objectContaining({ countLabel: '2/4 marbles' }));
+    updateHud(game.ctx, game.marbles, true);
+    expect(side).toHaveBeenLastCalledWith(expect.objectContaining({ countLabel: '2/4 marbles' }));
+  });
 });
 
 test('headless takes are deterministic and their scores ignore names and colors', async () => {

@@ -5,7 +5,7 @@ Remaining setup: [SHIP-CHECKLIST.md](SHIP-CHECKLIST.md).
 
 Project name: **Chaos Factory**
 
-Tagline: **One join. Five Cup games. A whole stream competing.**
+Tagline: **One join. Eight games. A whole stream competing.**
 
 ## Project description
 
@@ -21,9 +21,9 @@ for the chasing pack. Four rounds earn Cup points; the top eight enter a
 Blade Brawl final, where the last survivor wins the Cup. Persistent viewer
 profiles carry colors, titles, levels and the champion's crown between shows.
 
-The video showcases the five-game Cup pool. Pong Wars, Light Cycles and Ring Run+
-are additional offline games, outside the Cup pool and this video. Cascade already
-demonstrates faction competition in the film. In faction Cup rounds, members of
+The video showcases the default five-game Cup and a separate optional-game section.
+Pong Wars, Light Cycles and Ring Run+ can be queued from the dashboard or added to
+automatic rotation. All eight games work offline. In faction Cup rounds, members of
 the winning side earn win points; the final still decides one individual champion.
 Pong Wars supports 2-4 factions: viewers support a team and their names rotate
 through its machine balls, rather than adding one physical ball for every viewer.
@@ -72,8 +72,9 @@ external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
 ## Current edit - under three minutes
 
-The film opens with the animated Chaos Factory intro, followed directly by an actual connected
-Twitch dashboard capture showing queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
+The film opens with the animated Chaos Factory intro, followed directly by the current
+eight-game dashboard in offline demo mode, showing queue ordering and Start Cup.
+Animated captions explain adding games, dragging the queue and starting a Cup.
 Close-ups hold still, with cuts between compositions. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
 inset separately labels the real Twitch test with iamyanbo while the channel
@@ -102,7 +103,11 @@ in varied parts of the frame around events; they are editorial reactions, not
 actual chat messages. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v14.mp4. A protected cleanup script is provided
+The MORE GAMES section shows Pong Wars, Light Cycles and Ring Run+ as optional
+queue picks, separately from the recorded default Cup. Pong shows a close finish,
+Light Cycles shows a busier crash sequence and Ring Run+ shows a physical escape.
+
+Latest local MP4: qa/submission-video/chaos-factory-demo-v15.mp4. A protected cleanup script is provided
 for obsolete exports and generated edit files; deletion was blocked by automatic review. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.

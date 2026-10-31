@@ -95,3 +95,9 @@ respective rights holders and cached outside the source/runtime package. The
 standalone build excerpt and earlier feedback/fix conversation are removed from
 the current cut. The original opening credit and closing repository link remain.
 These are original editorial layouts; no raw session or native Codex footage is exported.
+
+The optional-game previews for Pong Wars, Light Cycles and Ring Run+ are crops
+of our own current Toy gameplay captures, exported at 640x640. The optional-game
+video section uses fresh normal-speed game captures with sound effects only.
+The refreshed dashboard tutorial is explicitly labeled as an offline demo;
+the separately labeled real Twitch join inset remains the earlier rehearsal.

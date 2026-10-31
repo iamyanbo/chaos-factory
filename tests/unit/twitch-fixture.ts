@@ -43,7 +43,7 @@ export function rawPrediction(status = 'ACTIVE', id = 'prediction-1') {
 }
 
 /** Real Twurple calls hit these HTTP fixtures, never an external Twitch account. */
-export function twitchHttp(options: { clientId?: string } = {}) {
+export function twitchHttp(options: { clientId?: string; broadcasterType?: '' | 'affiliate' | 'partner' } = {}) {
   const calls: { url: URL; method: string; body?: Record<string, unknown> }[] = [];
   const subscriptions: Record<string, unknown>[] = [];
   let prediction: ReturnType<typeof rawPrediction> | undefined;
@@ -82,7 +82,8 @@ export function twitchHttp(options: { clientId?: string } = {}) {
         scopes, expires_in: 3600 }) : response({ status: 401, message: 'invalid access token' }, 401);
     }
     if (url.hostname !== 'api.twitch.tv') throw new Error('Unexpected external fixture request');
-    if (url.pathname.endsWith('/users')) return response({ data: [USER] });
+    if (url.pathname.endsWith('/users')) return response({ data: [{ ...USER,
+      broadcaster_type: options.broadcasterType ?? USER.broadcaster_type }] });
     if (url.pathname.endsWith('/eventsub/subscriptions')) {
       if (method === 'DELETE') return new Response(null, { status: 204 });
       const subscription = { ...body, id: `subscription-${subscriptions.length + 1}`, status: 'enabled',
@@ -95,9 +96,10 @@ export function twitchHttp(options: { clientId?: string } = {}) {
         if (prediction && ['ACTIVE', 'LOCKED'].includes(prediction.status))
           return response({ error: 'Bad Request', status: 400, message: 'A prediction is already running' }, 400);
         prediction = rawPrediction();
-        prediction.outcomes.forEach((outcome, index) => {
-          outcome.title = (body!.outcomes as { title: string }[])[index].title;
-        });
+        const template = prediction.outcomes;
+        prediction.outcomes = (body!.outcomes as { title: string }[]).map((outcome, index) => ({
+          ...template[index % template.length], id: `outcome-${index}`, title: outcome.title
+        }));
       } else if (method === 'PATCH' && prediction) {
         prediction.status = String(body!.status);
         if (body!.winning_outcome_id) prediction.winning_outcome_id = String(body!.winning_outcome_id);

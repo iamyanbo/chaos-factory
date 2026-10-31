@@ -4,11 +4,14 @@ import { resolve } from 'node:path';
 import { VideoPointer } from './video-pointer';
 import { finalizeRecording } from './drama/capture-media';
 
-const base = 'http://127.0.0.1:4181';
-const directory = resolve('qa/submission-video/host-setup');
+const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4181';
+const outputFlag = process.argv.indexOf('--out');
+const directory = resolve(outputFlag < 0 ? 'qa/submission-video/host-setup' : process.argv[outputFlag + 1]);
+const mock = process.argv.includes('--mock');
 const status = await (await fetch(`${base}/api/twitch/status`)).json();
-if (status.mode !== 'live' || !status.authenticated || !status.connected || status.canPredict) {
-  throw new Error('Host capture requires the connected standard test channel, without native wagers.');
+if (mock ? status.mode !== 'mock'
+  : status.mode !== 'live' || !status.authenticated || !status.connected || status.canPredict) {
+  throw new Error('Choose an explicit mock capture or the connected standard channel without native wagers.');
 }
 await mkdir(directory, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH
@@ -108,8 +111,8 @@ try {
   await recording.saveAs(raw);
   const media = finalizeRecording(raw, resolve(directory, 'dashboard.webm'));
   await show.close();
-  await writeFile(resolve(directory, 'capture.json'), JSON.stringify({ mode: 'live', channel: status.channel,
-    authenticated: true, connected: true, nativeWagers: false, desktopCaptured: false,
+  await writeFile(resolve(directory, 'capture.json'), JSON.stringify({ mode: status.mode, channel: status.channel,
+    authenticated: Boolean(status.authenticated), connected: Boolean(status.connected), nativeWagers: false, desktopCaptured: false,
     pointerOverlay: true, pointerMotion: '60 Hz wall-clock-paced minimum-jerk curves', readyAt, actions, queue, media, errors }, null, 2));
   if (errors.length) throw new Error('Host capture had browser errors');
   console.log(JSON.stringify({ readyAt, actions, duration: media.duration, errors }));

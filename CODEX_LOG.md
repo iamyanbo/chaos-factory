@@ -1398,3 +1398,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Clarified five Cup games plus three named offline extras in README and YouTube/Devpost copy.
 - Explained individual entrants versus faction supporters, team win points and the individual Grand Final.
 - Validation: typecheck and all 375 tests/77 files pass; the video and gameplay remain unchanged.
+
+## 2026-10-31 - Make all eight games available to the show
+- Added optional dashboard queue/rotation choices for Pong Wars, Light Cycles and Ring Run+ while retaining five defaults.
+- Fixed queued optional games being discarded, synchronized rotation/format state and clarified faction supporter labels.
+- Added actual optional-game preview captures and corrected Ring Run+'s remaining-marble counter without physics changes.
+- Verified an optional-game Cup through standings/final/crown; SDK fixtures cover four-team and eight-finalist settlement and no-wager channels.
+- Recorded fresh optional games and the eight-game offline dashboard; reviewed v15 at 162.633 s with clean decode/DTS/audio.
+- Validation: typecheck, all 383 tests/77 files and eight relevant browser checks pass. Refreshed running demo and saved Twitch connection.
+- Live payout testing remains deferred as requested; no broadcast/upload/deletion is claimed. Updated copy, credits and handoff.

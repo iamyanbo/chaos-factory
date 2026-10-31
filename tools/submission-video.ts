@@ -7,19 +7,20 @@ import { cameraKeys, editorialPictureFilters } from './video-motion';
 import { EDIT_BPM, INTRO_SECONDS, MUSIC_START_SECONDS } from './video-rhythm';
 import { submissionVideoPlan, type CupVideo, type JoinVideo, type CrowdVideo, type HostVideo } from './video-plan';
 import { assertEffectsOnly, type AudioCaptureProof } from './video-audio';
+import { optionalVideos } from './video-optional';
 
 const directory = 'qa/submission-video/edit';
 const root = 'qa/submission-video';
 const AAC_HEADROOM_GAIN = .88;
-await mkdir(`${directory}/segments-v14`, { recursive: true });
+await mkdir(`${directory}/segments-v15`, { recursive: true });
 const cup = JSON.parse(await readFile(`${root}/full-cup-sfx/capture.json`, 'utf8')) as CupVideo & AudioCaptureProof;
 const crowd = JSON.parse(await readFile(`${root}/join-crowd/capture.json`, 'utf8')) as CrowdVideo & AudioCaptureProof;
 const live = existsSync(`${root}/live-join/capture.json`)
   ? JSON.parse(await readFile(`${root}/live-join/capture.json`, 'utf8')) as JoinVideo : undefined;
 assertEffectsOnly(cup);
 assertEffectsOnly(crowd);
-const host = JSON.parse(await readFile(`${root}/host-setup/capture.json`, 'utf8')) as HostVideo;
-const plan = submissionVideoPlan(cup, live, crowd, process.argv.includes('--offline-preview'), host);
+const host = JSON.parse(await readFile(`${root}/host-setup-v15/capture.json`, 'utf8')) as HostVideo;
+const plan = submissionVideoPlan(cup, live, crowd, process.argv.includes('--offline-preview'), host, await optionalVideos());
 const run = (args: string[]) => command('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', ...args]);
 const audioOnly = process.argv.includes('--audio-only');
 const segmentFlag = process.argv.indexOf('--segment');
@@ -29,11 +30,12 @@ const files: string[] = [];
 const timeline: object[] = [];
 let elapsed = 0;
 for (const [index, segment] of plan.entries()) {
-  const capturedAudio = segment.source === 'cup' || segment.source === 'crowd';
+  const capturedAudio = segment.source === 'cup' || segment.source === 'crowd' || segment.source === 'optional';
   const gameplay = capturedAudio || segment.source === 'setup';
   const source = segment.source === 'cup' ? `${root}/full-cup-sfx/full-cup.webm`
     : segment.source === 'crowd' ? `${root}/join-crowd/crowd.webm`
-    : segment.source === 'setup' ? `${root}/host-setup/dashboard.webm`
+    : segment.source === 'setup' ? `${root}/host-setup-v15/dashboard.webm`
+    : segment.source === 'optional' ? `${root}/optional-games/${segment.gameId}/game.webm`
     : segment.source === 'section' ? `${directory}/cards/section-${index}-motion.webm`
     : `${directory}/cards/${segment.source}-motion.webm`;
   if (!gameplay && probe(source).duration < segment.seconds - 1 / 30) {
@@ -62,7 +64,7 @@ for (const [index, segment] of plan.entries()) {
   // Both sides meet on the same solid plate at the edit: no abrupt source jump.
   filters.push(`[${video}][wi]overlay=x='-200+12000*t':y=0:enable='${index ? 'lt(t,0.2)' : '0'}':format=auto[arrived]`);
   filters.push(`[arrived][wo]overlay=x='-2600+12000*(t-${segment.seconds - .2})':y=0:enable='${index < plan.length - 1 ? `gte(t,${segment.seconds - .2})` : '0'}':format=auto,format=yuv420p[out]`);
-  const output = `${directory}/segments-v14/${String(index).padStart(2, '0')}.mp4`;
+  const output = `${directory}/segments-v15/${String(index).padStart(2, '0')}.mp4`;
   const renderThis = !audioOnly && (selected === undefined || selected.includes(index));
   if (renderThis) run([...inputs, '-t', String(segment.seconds), '-filter_complex', filters.join(';'),
     '-map', '[out]', '-map', capturedAudio ? '0:a' : segment.source === 'setup' ? '3:a' : '2:a',
@@ -74,11 +76,11 @@ for (const [index, segment] of plan.entries()) {
   elapsed += segment.seconds;
   console.log(`${renderThis ? 'Rendered' : 'Reusing video'} ${index + 1}/${plan.length}: ${segment.title || segment.gameId || segment.source}`);
 }
-await writeFile(`${directory}/segments-v14/concat.txt`, files.join('\n') + '\n');
-const picture = `${directory}/story-picture-v14.mp4`;
-run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments-v14/concat.txt`, '-c', 'copy', picture]);
+await writeFile(`${directory}/segments-v15/concat.txt`, files.join('\n') + '\n');
+const picture = `${directory}/story-picture-v15.mp4`;
+run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments-v15/concat.txt`, '-c', 'copy', picture]);
 const draft = !plan.some(row => row.inset?.evidence === 'real-chat');
-const output = resolve(`${root}/${draft ? 'chaos-factory-offline-preview-v14' : 'chaos-factory-demo-v14'}.mp4`);
+const output = resolve(`${root}/${draft ? 'chaos-factory-offline-preview-v15' : 'chaos-factory-demo-v15'}.mp4`);
 const swishes = `${directory}/transition-swishes.wav`;
 const boundaries = plan.slice(0, -1).map((_, index) => plan.slice(0, index + 1).reduce((sum, row) => sum + row.seconds, 0));
 await transitionAudio(boundaries, elapsed, swishes);
@@ -93,14 +95,14 @@ const duration = Number(media.format.duration);
 if (!(duration > 0 && duration < 180) || !media.streams.some((stream: { codec_type: string }) => stream.codec_type === 'audio')) {
   throw new Error('Final MP4 must have audio and stay under three minutes');
 }
-await writeFile(`${root}/edit.json`, JSON.stringify({ output, edition: 14, draft, duration,
+await writeFile(`${root}/edit.json`, JSON.stringify({ output, edition: 15, draft, duration,
   audio: { musicBeds: 1, music: 'adventure-2.ogg', cupAudio: 'verified sfx-only',
     crowdAudio: 'verified sfx-only', hostAudio: 'silent browser viewport recording', liveAudio: 'muted original mix',
     transitionAudio: 'original procedural stereo whooshes' },
   rhythm: { bpm: EDIT_BPM, musicOffsetSeconds: MUSIC_START_SECONDS, cutGridSeconds: INTRO_SECONDS },
   normalSpeedGameplay: true, desktopCaptured: false, realBroadcast: false,
   buildEvidence: 'Opening implementation credit and closing GitHub URL only; no code excerpt or Codex app footage',
-  footage: 'Actual connected dashboard workflow; continuous physical sequences with readable chapter holds and a single opening Codex credit; 48 mock joins and separately labeled real Twitch inset.',
+  footage: 'Current eight-game dashboard workflow in mock mode; default Cup clips and separately labeled optional games at captured speed; 48 mock joins and the separately labeled historical real Twitch inset.',
   transitions: 'Held close-up cuts without moving pans, animated queue instructions, MINIGAMES/GRAND FINAL stingers, centered text captions and independently scattered Twitch event reactions and Toy wipes', timeline, media }, null, 2));
 if (!draft) await copyFile(output, resolve(`${root}/chaos-factory-demo.mp4`));
 console.log(JSON.stringify({ output, duration, draft }, null, 2));

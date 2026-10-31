@@ -1,14 +1,19 @@
 import { expect, test } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 
-test('offline selection retains eight games while the dashboard offers the five Cup games', async ({ page }) => {
+test('all eight games are queueable while only the original five start in automatic rotation', async ({ page }) => {
   await page.routeWebSocket('**', socket => socket.close());
   await page.goto('/play');
   const selector = page.locator('select#practice-game');
   await expect(selector.locator('option')).toHaveCount(8);
   await page.goto('/dashboard');
   const games = await page.locator('.game-card').evaluateAll(cards => cards.map(card => (card as HTMLElement).dataset.game));
-  expect(games).toEqual(['hot-potato', 'blade-brawl', 'multiplier-cascade', 'peg-fever', 'marble-race']);
+  expect(games).toEqual(['hot-potato', 'blade-brawl', 'multiplier-cascade', 'peg-fever', 'marble-race',
+    'pong-wars', 'ring-escape', 'light-cycles']);
+  expect(await page.locator('[data-enable]:checked').evaluateAll(inputs =>
+    inputs.map(input => (input as HTMLInputElement).dataset.enable)))
+    .toEqual(['hot-potato', 'blade-brawl', 'multiplier-cascade', 'peg-fever', 'marble-race']);
+  await expect(page.locator('[data-game="pong-wars"] .game-kind')).toContainText('Faction supporters');
   expect(await page.locator('h1').evaluate(element => getComputedStyle(element).fontFamily)).toContain('Lilita One');
   expect(await page.locator('body').evaluate(element => getComputedStyle(element).fontFamily)).toContain('Fredoka');
   for (const id of ['show-settings', 'broadcast-settings', 'cup-details', 'dashboard-logs', 'mock-testing']) {

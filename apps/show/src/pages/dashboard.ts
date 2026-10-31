@@ -1,6 +1,7 @@
 import { musicPreference, saveMusicPreference, updateMusicButton } from './music-control';
 import { isAutomatic } from '../games/contract';
-import { cupGames } from '../games/registry';
+import { showGames } from '../games/registry';
+import { currentParticipation } from './game-participation';
 import { Client } from '../net/client';
 import { twitchPanel } from './twitch-panel';
 import { dashboardLayout } from './dashboard-layout';
@@ -9,7 +10,7 @@ import { RoundStartControl, roundPhaseLabel } from './round-start';
 import { roundCountdown } from '../hud/round-clock';
 import { TEAMS, type DirectorState, type Message } from '@chaos/shared';
 export function dashboard(host:HTMLElement):void{
-  const games = cupGames;
+  const games = showGames;
   document.body.className='control-room';
   host.innerHTML = dashboardLayout(games);
   const twitch = twitchPanel(host);
@@ -48,7 +49,10 @@ export function dashboard(host:HTMLElement):void{
     host.querySelector<HTMLElement>('[data-cmd="resume"]')!.hidden = !m.paused;
     state=m;roundStart.update(m);if(m.teams&&document.activeElement!==$('teams'))$<HTMLSelectElement>('teams').value=String(m.teams.length);const game=games.find(g=>g.id===m.gameId),automatic=Boolean(game&&isAutomatic(game)),event=Boolean(game?.spectator);
     $('live-title').textContent=game?.title??m.gameId;
-    $('live-state').textContent=`${roundPhaseLabel(m)} · ${event?'Team event / no joining':automatic?'Join & watch':m.mode==='cvs'?'Chat vs Streamer':'Faction War'}`;
+    $('live-state').textContent=`${roundPhaseLabel(m)} · ${currentParticipation(game, m)}`;
+    if (m.enabledGames) host.querySelectorAll<HTMLInputElement>('[data-enable]').forEach(input => {
+      input.checked = m.enabledGames!.includes(input.dataset.enable!);
+    });
     $('round').textContent=`${m.cup.round}/${m.cup.rounds}`;$('clock').textContent=String(Math.max(0,Math.ceil(m.timeLeft)));$('viewers').textContent=event?String(m.teams?.length??4):automatic?`${m.participants??0}/${m.capacity??game!.maxParticipants}`:String(m.participants??0);
     const countdown = roundCountdown(game?.ending, m.phase, m.timeLeft);
     $('clock').parentElement!.hidden = Boolean(m.waitingForHost || m.preparingRound || m.phase === 'PLAY' && countdown === undefined);
@@ -66,7 +70,7 @@ export function dashboard(host:HTMLElement):void{
       return tr;
     }));
     $('score').textContent=automatic?(leader?`${leader[0].toUpperCase()} ${leader[1]}`:'—'):`${m.cup.chat} : ${m.cup.streamer}`;
-    $('viewers').nextElementSibling!.textContent=event?'TEAMS':'PLAYERS';
+    $('viewers').nextElementSibling!.textContent=event?'TEAMS':game?.participantNoun === 'supporter'?'SUPPORTERS':'PLAYERS';
     $('score-label').textContent='CUP POINTS LEADER';
     if (standings[0]) $('score').textContent=`${standings[0].displayName} ${standings[0].points}`;
     $('notice').textContent = m.waiting ? `${m.waiting} waiting for the next round.`

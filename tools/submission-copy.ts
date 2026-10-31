@@ -14,20 +14,21 @@ const time = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.flo
 const first = (predicate: (row: typeof edit.timeline[number]) => boolean) => edit.timeline.find(predicate)?.start ?? 0;
 const title = 'Chaos Factory | Codex x TwitchCon Hackathon Demo';
 const videoName = basename(edit.output);
-const description = `One join. Five Cup games. A whole stream competing.
+const description = `One join. Eight games. A whole stream competing.
 
 Chaos Factory is an automatic Twitch physics game show. Viewers type !join to
 enter individual contests or support a faction. Four Cup rounds lead into a
 top-eight Blade Brawl final.
 
-This video showcases the five-game Cup pool. Pong Wars, Light Cycles and Ring Run+
-are additional offline games, outside the Cup pool and this video.
+This video showcases the default five-game Cup, plus Pong Wars, Light Cycles and
+Ring Run+ in a separate optional-game section. All eight work offline and can be
+queued from the dashboard. The original five remain the default rotation.
 Rounds can be individual contests or faction battles; Cascade in this video
 shows teams competing. In team machines such as Pong Wars, viewers support a
 faction and names rotate through its balls; there is not one physical ball per viewer.
 
-The opening shows the connected Twitch dashboard, queue reordering and Start Cup,
-with animated queue instructions and stationary close-ups.
+The opening shows the current eight-game dashboard in offline demo mode, queue
+reordering and Start Cup, with animated instructions and stationary close-ups.
 
 This video shows 48 simulated viewers joining the actual game lobby, followed
 by normal-speed excerpts from a five-round Cup. A separately labeled inset shows
@@ -36,9 +37,10 @@ The channel was offline during that test. Simulated viewers are labeled. No publ
 This is a standard channel: native Predictions require Affiliate/Partner status.
 
 ${time(0)} Chaos Factory
-${time(first(row => row.source === 'setup'))} Connected dashboard and Cup controls
+${time(first(row => row.source === 'setup'))} Dashboard and Cup controls (offline demo)
 ${time(first(row => row.source === 'crowd'))} Joining the show
 ${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the Cup
+${time(first(row => row.title === 'MORE GAMES'))} Optional games: Pong Wars, Light Cycles and Ring Run+
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
 MINIGAMES and GRAND FINAL title stingers introduce the game sections.
@@ -61,7 +63,7 @@ Credits and full notices: ${fields.repositoryUrl}/blob/main/ASSETS.md
 await writeFile(`${directory}/youtube.txt`, `TITLE\n${title}\n\nDESCRIPTION\n${description}`);
 await writeFile(`${directory}/devpost-copy.md`, `# Chaos Factory
 
-**Elevator pitch:** One join. Five Cup games. A whole stream competing.
+**Elevator pitch:** One join. Eight games. A whole stream competing.
 
 ## Inspiration
 Physics videos are compelling because viewers can follow a simple object through
@@ -73,8 +75,9 @@ Viewers type !join to enter individual contests or support a faction. Five-round
 Blade Brawl, Multiplier Cascade, Peg Fever and Marble Race. Four rounds award Cup
 points; the top eight enter a Blade Brawl final, where the final survivor wins.
 Profiles preserve colors, titles and the champion's crown between shows.
-Pong Wars, Light Cycles and Ring Run+ are three additional offline games, outside
-the Cup pool and the main video. Pong Wars is a territory battle for 2-4 factions:
+Pong Wars, Light Cycles and Ring Run+ are three optional games, shown separately
+in the video and available from the dashboard queue or automatic rotation settings.
+All eight games also work offline. Pong Wars is a territory battle for 2-4 factions:
 viewers support a team and their names rotate through its balls. Individual games
 give viewers their own entrants. In faction Cup rounds, members of the winning
 side earn win points; the top-eight final still decides one individual champion.
@@ -137,11 +140,11 @@ The finished story cut is **${time(Math.round(edit.duration))}**, 1920x1080 H.26
 4. Confirm the project appears as Submitted before Nov 2, 2026, 5 pm Eastern.
 
 There is no authenticated YouTube/Devpost API connector available to this agent.
-These account steps were not performed. The dashboard is a headless recording of our own app, without desktop capture.
+These account steps were not performed. The dashboard is an explicitly labeled offline demo of our own app, recorded headlessly without desktop capture.
 The video accurately labels real API-connected Twitch chat while the channel is offline;
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v14.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v15.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

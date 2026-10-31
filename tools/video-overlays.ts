@@ -66,7 +66,9 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         return at;
       }
       function badge() {
-        const label = segment.source === 'setup' ? 'TWITCH CONNECTED | HOST CONTROLS' : 'SIMULATED AUDIENCE';
+        const label = segment.source === 'setup'
+          ? segment.hostMode === 'mock' ? 'OFFLINE DEMO | HOST CONTROLS' : 'TWITCH CONNECTED | HOST CONTROLS'
+          : 'SIMULATED AUDIENCE';
         ctx.font = '21px Fredoka';
         const width = ctx.measureText(label).width + 24;
         ctx.fillStyle = INK;
@@ -77,7 +79,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
       }
       function rule(time: number) {
         if (!segment.title) return;
-        const entry = segment.sectionIntro ? time - 1.85 : segment.chapter ? time - chapterTiming.rulesAt : time;
+        const entry = segment.sectionIntro ? time - 1.85 : segment.chapter || segment.bonus ? time - chapterTiming.rulesAt : time;
         const lifetime = Math.min(7.5, segment.seconds - .3);
         const alpha = Math.min(1, entry / .2, (lifetime - time) / .3);
         if (alpha <= 0) return;
@@ -120,7 +122,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         const AGE_START = chapterTiming.start;
         const LIFE = chapterTiming.hold + chapterTiming.exit;
         const age = time - AGE_START;
-        if (!segment.chapter || age < 0 || age > LIFE) return;
+        if (!(segment.chapter || segment.bonus) || age < 0 || age > LIFE) return;
         const leave = Math.max(0, Math.min(1, (age - chapterTiming.hold) / chapterTiming.exit));
         const pop = 1 - Math.exp(-age * 24) * Math.cos(age * 20);
         ctx.save();
@@ -129,7 +131,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.rotate(-.055 * (1 - leave));
         ctx.scale(pop * (1 - leave * .5), pop * (1 - leave * .5));
         const words = segment.title.split(' ');
-        display(segment.chapter === 5 ? 'GRAND FINAL' : `ROUND ${segment.chapter} / 5`, 0, -158, 30, 'white');
+        display(segment.bonus ? 'OPTIONAL GAME' : segment.chapter === 5 ? 'GRAND FINAL' : `ROUND ${segment.chapter} / 5`, 0, -158, 30, 'white');
         words.forEach((word, index) => display(word, 0, -50 + index * 132, 128));
         ctx.restore();
       }

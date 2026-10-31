@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 import type { RoundResult } from '@chaos/shared';
 
-test('a real five-round Cup shows standings, admits only the top eight and persists its final champion', async ({ page, request }) => {
+test('all optional games complete a Cup with faction points, the top-eight final and a saved champion', async ({ page, request }) => {
   test.setTimeout(180000);
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -23,7 +23,7 @@ test('a real five-round Cup shows standings, admits only the top eight and persi
         if (message.type === 'mock.status' && message.viewers === 24) { socket.close(); done(); }
       };
     });
-    window.__chaos.command('queue', ['ring-escape', 'pong-wars', 'marble-race', 'multiplier-cascade']);
+    window.__chaos.command('queue', ['pong-wars', 'light-cycles', 'ring-escape', 'multiplier-cascade']);
     window.__chaos.command('start', 5);
   });
   await mkdir('qa/show-layer', { recursive: true });
@@ -33,6 +33,8 @@ test('a real five-round Cup shows standings, admits only the top eight and persi
     await page.waitForFunction(expected => window.__chaos.phase === 'STANDINGS'
       && window.__chaos.show?.round === expected, round, { timeout: 90000 });
     const standings = await page.evaluate(() => window.__chaos.show!.standings);
+    expect(await page.evaluate(() => window.__chaos.gameId))
+      .toBe(['pong-wars', 'light-cycles', 'ring-escape', 'multiplier-cascade'][round - 1]);
     expect(standings.length).toBeGreaterThanOrEqual(8);
     expect(standings.every(row => row.points >= 0 && row.level >= 1)).toBe(true);
     await page.waitForFunction(() => window.__chaos.phase === 'STANDINGS' && (window.__chaos.show?.phaseTime ?? 0) >= 2);
@@ -46,6 +48,8 @@ test('a real five-round Cup shows standings, admits only the top eight and persi
   await page.waitForFunction(() => window.__chaos.phase === 'CUP_RESULTS', undefined, { timeout: 90000 });
   const results = await page.evaluate(() => window.__chaos.results) as RoundResult[];
   expect(results).toHaveLength(5);
+  expect(results.map(result => result.replay.setup?.gameId))
+    .toEqual(['pong-wars', 'light-cycles', 'ring-escape', 'multiplier-cascade', 'blade-brawl']);
   const final = results[4];
   expect(final.replay.setup?.format).toBe('ffa');
   expect(final.replay.setup?.participants.map(user => user.userId)).toEqual(qualified);

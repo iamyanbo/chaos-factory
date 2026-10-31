@@ -8,6 +8,50 @@ import type { BaseGame } from '../../apps/show/src/kit/base-game';
 function scene(messages:Message[]=[]){const director=new Director({send:m=>{messages.push(m);return true;},context:(def,setup,emit)=>createContext(def,setup,{emit}),announce(){},toast(){},feed(){},reset(){}},{fast:true,game:'blade-brawl'});director.enabled=new Set(['blade-brawl']);return director;}
 function play(d:Director){d.start(3);d.frame(1);d.frame(5);d.frame(.5);expect(d.phase).toBe('PLAY');}
 
+test('optional games honor the host queue without joining the default rotation', async () => {
+  await initPhysics();
+  const messages: Message[] = [];
+  const d = scene(messages);
+  try {
+    const defaults = ['hot-potato', 'blade-brawl', 'multiplier-cascade', 'peg-fever', 'marble-race'];
+    d.enabled = new Set(defaults);
+    d.command({ type: 'director.command', cmd: 'queue',
+      arg: ['pong-wars', 'light-cycles', 'ring-escape', 'peg-fever'] });
+    d.start(5);
+    expect(d.game.id).toBe('pong-wars');
+    expect(d.format).toBe('faction');
+    expect(d.queue).toEqual(['light-cycles', 'ring-escape', 'peg-fever', 'blade-brawl']);
+    expect([...d.enabled]).toEqual(defaults);
+    d.broadcast();
+    const state = messages.filter(message => message.type === 'director.state').at(-1)!;
+    expect(state.enabledGames).toEqual(defaults);
+    expect(state.format).toBe('faction');
+    for (const [round, id, format] of [[2, 'light-cycles', 'ffa'], [3, 'ring-escape', 'ffa']] as const) {
+      d.cup.round = round;
+      d.modeOverride = 'cvs';
+      d.select();
+      expect(d.game.id).toBe(id);
+      expect(d.format).toBe(format);
+    }
+  } finally { d.destroy(); }
+});
+
+test('optional automatic rotation selection is reported to every dashboard', async () => {
+  await initPhysics();
+  const messages: Message[] = [];
+  const d = scene(messages);
+  try {
+    d.command({ type: 'director.command', cmd: 'enableGame', arg: 'pong-wars' });
+    d.broadcast();
+    expect(messages.filter(message => message.type === 'director.state').at(-1)?.enabledGames)
+      .toContain('pong-wars');
+    d.command({ type: 'director.command', cmd: 'enableGame', arg: 'pong-wars' });
+    d.broadcast();
+    expect(messages.filter(message => message.type === 'director.state').at(-1)?.enabledGames)
+      .not.toContain('pong-wars');
+  } finally { d.destroy(); }
+});
+
 test('the authenticated display name reaches the locked fighter, cards and Prediction title', async () => {
   await initPhysics();
   const d = scene();

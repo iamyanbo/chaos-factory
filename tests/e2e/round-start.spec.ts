@@ -16,6 +16,40 @@ test.beforeEach(async () => {
 
 test.afterEach(async () => { await runtime?.app.close(); });
 
+test('optional games queue for live shows and rotation preferences survive a dashboard reload', async ({ page, context }) => {
+  const show = await context.newPage();
+  try {
+    await show.goto(`${origin}/show?manual=1&take=seed&mute=1`);
+    await show.waitForFunction(() => window.__chaos?.connected);
+    await page.goto(`${origin}/dashboard`);
+    await expect(page.locator('#round-start')).toBeEnabled();
+    await page.locator('#round-start').selectOption('manual');
+    await page.locator('#show-settings > summary').click();
+    const rotation = page.locator('[data-enable="pong-wars"]');
+    await expect(rotation).not.toBeChecked();
+    await rotation.check();
+    await expect.poll(() => runtime.hub.state?.enabledGames).toContain('pong-wars');
+    await page.reload();
+    await page.locator('#show-settings > summary').click();
+    await expect(rotation).toBeChecked();
+    await rotation.uncheck();
+    await expect.poll(() => runtime.hub.state?.enabledGames).not.toContain('pong-wars');
+    await page.locator('#show-settings > summary').click();
+    for (const id of ['pong-wars', 'light-cycles', 'ring-escape']) {
+      await page.locator(`[data-add="${id}"]`).click();
+    }
+    await expect.poll(() => runtime.hub.state?.queue).toEqual(['pong-wars', 'light-cycles', 'ring-escape']);
+    await page.getByRole('button', { name: 'Start a Cup' }).click();
+    await expect(page.locator('#live-title')).toHaveText('PONG WARS');
+    await expect(page.locator('#live-state')).toContainText('Faction supporters');
+    await expect(page.getByText('SUPPORTERS', { exact: true })).toBeVisible();
+    await expect(page.locator('#start-round')).toBeEnabled();
+    expect(runtime.hub.state?.enabledGames).not.toContain('pong-wars');
+    expect(runtime.hub.state?.format).toBe('faction');
+    await page.screenshot({ path: 'qa/checks/optional-queue-dashboard.png', fullPage: true });
+  } finally { await show.close(); }
+});
+
 test('host can keep joins open, admit viewers and start the round from the dashboard', async ({ page, context }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));

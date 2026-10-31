@@ -164,3 +164,34 @@ test('reviewed gameplay covers Fever, a gate breach, the launch pack and multipl
   const fever = plan.find(row => row.gameId === 'peg-fever' && !row.chapter)!;
   expect(fever.cues?.[0].reactionsOnly).toBe(true);
 });
+
+test('three completed optional games have their own section without inventing more Cup rounds', () => {
+  const recordings = ['pong-wars', 'light-cycles', 'ring-escape'].map(game => ({
+    game, mode: 'mock', normalSpeed: true, resultAt: 60, media: { duration: 62 },
+    result: { winner: { kind: 'team' } }
+  }));
+  const plan = submissionVideoPlan(cup(), live, crowd(), false, undefined, recordings);
+  const optional = plan.filter(row => row.source === 'optional');
+  expect(optional.map(row => row.gameId)).toEqual(recordings.map(row => row.game));
+  expect(optional.every(row => row.bonus && !row.chapter && row.from >= 0
+    && row.from + row.seconds <= 62)).toBe(true);
+  expect(plan.filter(row => row.chapter).map(row => row.chapter)).toEqual([1, 2, 3, 4, 5]);
+  expect(new Set(plan.map(row => row.gameId).filter(Boolean)).size).toBe(8);
+  expect(plan.reduce((sum, row) => sum + row.seconds, 0)).toBeLessThan(180);
+  expect(() => submissionVideoPlan(cup(), live, crowd(), false, undefined, recordings.slice(0, 2)))
+    .toThrow('all three optional games');
+  expect(() => submissionVideoPlan(cup(), live, crowd(), false, undefined,
+    recordings.map(row => row.game === 'pong-wars' ? { ...row, normalSpeed: false } : row)))
+    .toThrow('completed normal-speed pong-wars');
+});
+
+test('the offline dashboard capture is explicitly distinguished from a live authenticated workflow', () => {
+  const host = { mode: 'mock', authenticated: false, connected: true, readyAt: 1,
+    actions: [{ at: 3, action: 'queue:multiplier-cascade' }, { at: 5, action: 'drag-reorder' },
+      { at: 7, action: 'start-cup' }], media: { duration: 12 } };
+  const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
+  expect(plan.find(row => row.source === 'setup')?.hostMode).toBe('mock');
+  expect(plan.find(row => row.source === 'crowd')?.inset?.evidence).toBe('real-chat');
+  expect(() => submissionVideoPlan(cup(), live, crowd(), false,
+    { ...host, mode: 'live' })).toThrow('Connected host workflow');
+});

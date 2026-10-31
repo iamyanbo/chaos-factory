@@ -28,7 +28,7 @@ These rules apply to every game:
 ## Scope
 
 - **Visuals: `docs/24-toy-theme.md` wins all visual conflicts**, including the older visual table in doc 23.
-- **Scope: `docs/23-ship.md` freezes the lineup.** Five Cup games: Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever and Marble Race. Light Cycles, Pong Wars and Ring Run+ remain offline extras. No new games or mechanics without a user request. The shared show layer provides Cup points, standings, the top-eight Grand Final, profiles and crown. Current behavior is documented in README.md and the individual game folders.
+- **Scope: `docs/23-ship.md` freezes the lineup.** The default Cup rotation has Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever and Marble Race. Per the October 31 user request, Light Cycles, Pong Wars and Ring Run+ are also available as optional host queue/rotation choices and offline games. The Grand Final stays Blade Brawl. No new games or mechanics without a user request. The shared show layer provides Cup points, standings, the top-eight Grand Final, profiles and crown. Current behavior is documented in README.md and the individual game folders.
 - Chat interaction is limited to **!join and native Predictions**. No emote rain, hype meter, chat votes or reflex controls. Natural game endings decide results; the hidden safety threshold begins visible sudden death instead of inventing a timed winner.
 - **Live Twitch is required** for the submission (`docs/03-twitch.md`): `!join` from real chat, and Predictions created and resolved. Mock mode remains the default for development.
 

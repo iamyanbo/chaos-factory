@@ -183,3 +183,28 @@ LUL appears only at the comic rim spill. Kappa is removed from every event.
 Reviewed 27 film, 33 gameplay and nine queue frames. Decode/DTS/duration checks
 pass; audio is -19.20 LUFS/-3.46 dBTP. Typecheck, all 22 video checks and all
 375 tests across 77 files pass, including the unchanged camera audit.
+
+## Optional show games and complete automated wager coverage - October 31
+
+All eight games are available on the host dashboard. The five original games
+remain the default automatic rotation; explicit optional queue picks survive Cup
+preparation. Rotation settings and current formats synchronize across dashboards.
+The browser Cup with Pong Wars, Light Cycles, Ring Run+ and Cascade completed
+through standings, eight qualified finalists, the fixed Blade Brawl final and a
+persisted crown. Gallery/previews, queue reload/rotation, host starts/countdowns
+and mouse/touch/keyboard queue controls pass eight relevant browser checks.
+
+Fresh frames match the Toy presentation. New previews are actual game captures;
+Ring Run+ now counts only live, unescaped marbles. Physics is unchanged.
+Actual Twurple SDK clients against local fixtures verify four-faction natural
+Pong settlement, all eight finalist outcome IDs, Standard-channel no-wager joins,
+create/lock/resolve/cancel, retry/recovery and protection of manual predictions.
+Typecheck and all 383 tests across 77 files pass without timeout/physics changes.
+
+The v15 video is 162.633 seconds and includes a separate optional-game section,
+a fresh eight-game dashboard tutorial labeled OFFLINE DEMO, and the historical
+real Twitch join inset. Reviewed 31 film, 42 gameplay and nine queue frames;
+decode/DTS/duration checks pass and audio is -19.13 LUFS/-3.46 dBTP.
+The mock helper was refreshed and saved Twitch authorization reconnected on
+the live helper. The channel remains Standard. Real payout testing is explicitly
+deferred by the user; no native payout, public broadcast or upload is claimed.

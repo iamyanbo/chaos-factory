@@ -16,7 +16,7 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
 - Licensed fonts/music and credits in [ASSETS.md](../ASSETS.md).
 - Test coverage and still reviews. Current limitations remain in [known issues](../qa/known-issues.md).
 - `npm run submission`: creates `qa/submission/` with committed source ZIP, commit/hash
-  manifest, copy, checklist, credits and five existing game images. It records no video.
+  manifest, copy, checklist, credits and eight existing game images. It records no video.
 
 ## Owner steps, apart from recording
 
@@ -46,7 +46,7 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
 
-The completed local edit is `qa/submission-video/chaos-factory-demo-v14.mp4` (under three minutes,
+The completed local edit is `qa/submission-video/chaos-factory-demo-v15.mp4` (under three minutes,
 1080p H.264/AAC). `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
 contain the upload title/description, form copy and remaining account actions.
 No authenticated YouTube/Devpost API connector is available to the agent; those

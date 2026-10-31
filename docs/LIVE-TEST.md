@@ -78,6 +78,18 @@ The app stores the public ID, authorization, profiles and owned prediction jobs
 inside gitignored `.data/live/`. Keep this directory on the host computer.
 Mock data and manually created Twitch Predictions are left alone.
 
+All eight games are available from the dashboard queue. The original five remain
+the default automatic rotation; queue Pong Wars, Light Cycles or Ring Run+ to
+include it in the next Cup, or enable it under Settings for automatic rotation.
+Team machines identify supporters separately from individual entrants.
+
+October 31 automated checks pass through the actual Twurple clients using local
+OAuth/Helix/EventSub fixtures: a naturally completed four-faction Pong round maps
+to the correct winning outcome ID, eight finalists retain eight distinct IDs,
+and a Standard channel accepts joins without making a Prediction request.
+These checks do not spend real channel points. The user deferred the real payout
+rehearsal; repeat the eligible-channel steps above when that channel is available.
+
 The automated suite tests the actual Twurple clients against local OAuth,
 Helix and EventSub fixtures, including public-client refresh and restart recovery.
 It also tests the setup UI.

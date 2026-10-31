@@ -24,7 +24,8 @@ export function audienceRoster(d: Director): Participant[] {
 
 export function prepareLineup(d: Director): void {
   const available = [...d.enabled].filter(id => d.registry.has(id));
-  const requested = d.queue.filter(id => available.includes(id));
+  // Explicit host choices may include optional games without changing automatic rotation.
+  const requested = d.queue.filter(id => d.registry.has(id));
   const shuffled = d.rng.shuffle(available);
   const first = [...new Set([...requested, ...shuffled])].slice(0, 4);
   while (first.length < 4) first.push(d.rng.pick(available.length ? available : ['blade-brawl']));

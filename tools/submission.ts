@@ -35,7 +35,7 @@ if (process.argv.includes('--check')) {
     ['ASSETS.md', 'ASSETS.md'], ['CODEX_LOG.md', 'CODEX_LOG.md'],
     ['qa/known-issues.md', 'KNOWN-ISSUES.md']
   ];
-  const games = ['blade-brawl', 'hot-potato', 'multiplier-cascade', 'peg-fever', 'marble-race'];
+  const games = ['blade-brawl', 'hot-potato', 'multiplier-cascade', 'peg-fever', 'marble-race', 'pong-wars', 'light-cycles', 'ring-escape'];
   for (const id of games) copied.push([`apps/show/public/game-previews/${id}.webp`, `images/${id}.webp`]);
   for (const [from, to] of copied) {
     await mkdir(dirname(resolve(output, to)), { recursive: true });

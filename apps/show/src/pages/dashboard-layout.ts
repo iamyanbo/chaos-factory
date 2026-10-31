@@ -1,5 +1,6 @@
 import type { GameDefinition } from '../games/contract';
-import { isDefaultGame } from '../games/contract';
+import { cupGames } from '../games/registry';
+import { participationLabel } from './game-participation';
 import './dashboard.css';
 import { musicButton } from './music-control';
 
@@ -29,7 +30,7 @@ export function dashboardLayout(games: readonly GameDefinition[]): string {
         <div class="game-grid">${games.map(game => `<article class="game-card" data-game="${game.id}">
           <div class="game-art"><img class="game-preview" src="/game-previews/${game.id}.webp"
             alt="${game.title} gameplay preview" width="640" height="640" loading="lazy" decoding="async"></div>
-          <div class="game-copy"><span class="game-kind">${game.spectator ? 'Team event' : 'Join & watch'}</span>
+          <div class="game-copy"><span class="game-kind">${cupGames.includes(game) ? '' : 'Optional · '}${participationLabel(game)}</span>
             <h3>${game.title}</h3><p>${game.tagline}</p>
             <div class="game-actions"><button data-add="${game.id}" class="button compact">+ Queue</button>
               <a href="/play?game=${game.id}" class="preview-link">Play offline ↗</a></div>
@@ -76,8 +77,9 @@ export function dashboardLayout(games: readonly GameDefinition[]): string {
           <p id="prediction-status" class="small">No Prediction open</p><p id="prediction-pool" class="muted small"></p>
         </section>
         <section class="rotation-settings"><h3>Rotation & player limits</h3>
+          <p class="muted small">Checked games fill the automatic rotation. You can queue any game for the next Cup.</p>
           ${games.map(game => `<div class="game-options" data-options="${game.id}">
-            <label class="toggle"><input type="checkbox" data-enable="${game.id}" ${isDefaultGame(game) ? 'checked' : ''}>${game.title}</label>
+            <label class="toggle"><input type="checkbox" data-enable="${game.id}" ${cupGames.includes(game) ? 'checked' : ''}>${game.title}</label>
           </div>`).join('')}
         </section>
       </div>

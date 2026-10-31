@@ -9,4 +9,5 @@ import hotPotato from './hot-potato';
 export const games = [bladeBrawl, pongWars, ringEscape, marbleRace, multiplierCascade,
   lightCycles, pegFever, hotPotato];
 export const cupGames = [hotPotato, bladeBrawl, multiplierCascade, pegFever, marbleRace];
+export const showGames = [...cupGames, ...games.filter(game => !cupGames.includes(game))];
 export const registry = new Map(games.map(game => [game.id, game]));

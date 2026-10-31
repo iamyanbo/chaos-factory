@@ -10,7 +10,11 @@
 4. **Peg Fever**
 5. **Marble Race**
 
-Light Cycles, Pong Wars and Ring Run+ stay playable in `/play`, but they are out of the Cup pool and the dashboard default. Counterweight Clash stays out.
+October 31 update, requested by the user: Light Cycles, Pong Wars and Ring Run+
+are now optional host queue and rotation choices, as well as offline games. The
+five games above remain the default automatic rotation; explicitly queuing an
+optional game includes it in the next Cup without changing that default. Every
+Cup still ends with the Blade Brawl Grand Final. Counterweight Clash stays out.
 
 ## Visual overhaul: why it looks boring
 

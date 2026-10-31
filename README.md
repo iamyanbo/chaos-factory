@@ -30,14 +30,16 @@ Ctrl+C. Windows users can also double-click `START.cmd`.
 | Multiplier Cascade | [Play](http://127.0.0.1:4182/play?game=multiplier-cascade) | Yes |
 | Peg Fever | [Play](http://127.0.0.1:4182/play?game=peg-fever) | Yes |
 | Marble Race | [Play](http://127.0.0.1:4182/play?game=marble-race) | Yes |
-| Light Cycles | [Play](http://127.0.0.1:4182/play?game=light-cycles) | No |
-| Pong Wars | [Play](http://127.0.0.1:4182/play?game=pong-wars) | No |
-| Ring Run+ | [Play](http://127.0.0.1:4182/play?game=ring-escape) | No |
+| Light Cycles | [Play](http://127.0.0.1:4182/play?game=light-cycles) | Optional |
+| Pong Wars | [Play](http://127.0.0.1:4182/play?game=pong-wars) | Optional |
+| Ring Run+ | [Play](http://127.0.0.1:4182/play?game=ring-escape) | Optional |
 
 Games play automatically; chat never needs reflex timing. Four Cup rounds award
 points, then the top eight enter a Blade Brawl final. The final survivor wins.
-The submission video showcases the five-game Cup pool. Light Cycles, Pong Wars
-and Ring Run+ are offline extras. Individual games give viewers their own entrants;
+The dashboard offers all eight games. Queue Light Cycles, Pong Wars or Ring Run+
+to include it in the next Cup, or check it under Settings to add it to automatic
+rotation. The original five remain the default rotation. The submission video
+shows the default Cup and a separate optional-game section. Individual games give viewers their own entrants;
 team machines such as Pong Wars rotate supporters' names through faction balls.
 Faction rounds award win points to the winning side's members, while the Cup's
 top-eight final still produces one individual champion.
@@ -106,7 +108,7 @@ were rehearsed on the standard channel iamyanbo. Native point payout requires an
 eligible channel and remains untested; mock wagers do not establish payout success.
 
 `npm run submission` creates a source ZIP, commit/hash manifest, copy, credits and
-five existing game images in `qa/submission/`. Commit reviewed changes first.
+eight existing game images in `qa/submission/`. Commit reviewed changes first.
 `npm run submission:check` flags missing links, the actual main Codex session ID,
 team details and owner-confirmed access/rehearsal checks in
 `docs/submission-fields.json`. It does not publish or submit the Devpost entry.
@@ -115,15 +117,18 @@ team details and owner-confirmed access/rehearsal checks in
 
 Optional recording needs Chrome and FFmpeg on PATH. With the mock demo running:
 
-```sh
+```powershell
+$env:CHAOS_TEST_URL = 'http://127.0.0.1:4182'
+npx playwright install ffmpeg
 npx tsx tools/capture-cup.ts --sfx-only --out qa/submission-video/full-cup-sfx
 npx tsx tools/capture-join-crowd.ts
+npx tsx tools/capture-bonus-games.ts
 # With npm run twitch running separately, capture an actual chat !join:
 npx tsx tools/capture-live-join.ts
 # Fetch the official Twitch stickers locally using the saved server authorization:
 npx tsx tools/fetch-video-emotes.ts
-# Capture the connected host workflow without desktop automation:
-npx tsx tools/capture-host-setup.ts
+# Capture the current dashboard as an explicitly labeled offline demo:
+npx tsx tools/capture-host-setup.ts --mock --out qa/submission-video/host-setup-v15
 npm run video
 ```
 
@@ -136,8 +141,8 @@ continues at its captured speed. The older mixed-audio live inset is muted.
 A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
 and overlays each game's actual name and short rules during gameplay. The opening
-title says "Implemented with Codex". The connected dashboard shows queue ordering
-and Start Cup. The opening flows straight into the connected dashboard, with the
+title says "Implemented with Codex". The current eight-game dashboard shows queue
+ordering and Start Cup in an explicitly labeled offline demo, with the
 GitHub link on the closing card. There is no separate code excerpt or build card.
 Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
 separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
@@ -146,7 +151,7 @@ and final Devpost submission are not automated.
 
 Video history cleanup: `powershell -NoProfile -File tools/clean-video-history.ps1`
 prints an inventory. Add `-Apply` to remove old exports and regenerable edit files
-after reviewing it. The v14 final, review and required source captures are protected.
+after reviewing it. The v15 final, review and required source captures are protected.
 
 Editorial reactions follow each event: PogChamp for big scores and Fever,
 SeemsGood for finishes and the champion, NotLikeThis for eliminations, and LUL

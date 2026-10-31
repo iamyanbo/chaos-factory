@@ -5,27 +5,31 @@ param([switch]$Apply)
 $ErrorActionPreference = 'Stop'
 $workspace = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $videoRoot = (Resolve-Path -LiteralPath (Join-Path $workspace 'qa/submission-video')).Path
-$latest = Join-Path $videoRoot 'chaos-factory-demo-v14.mp4'
+$latest = Join-Path $videoRoot 'chaos-factory-demo-v15.mp4'
 if (!(Test-Path -LiteralPath $latest -PathType Leaf)) {
-    throw 'The finished v14 video must exist before cleaning its older exports.'
+    throw 'The finished v15 video must exist before cleaning its older exports.'
 }
 $edit = Get-Content -LiteralPath (Join-Path $videoRoot 'edit.json') -Raw | ConvertFrom-Json
-if ($edit.edition -ne 14 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
-    throw 'Wait for the v14 export and its validated edit manifest to finish.'
+if ($edit.edition -ne 15 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
+    throw 'Wait for the v15 export and its validated edit manifest to finish.'
 }
 $protected = @(
-    'chaos-factory-demo-v14.mp4', 'chaos-factory-demo.mp4', 'edit.json',
+    'chaos-factory-demo-v15.mp4', 'chaos-factory-demo.mp4', 'edit.json',
     'full-cup-sfx/full-cup.webm', 'full-cup-sfx/capture.json',
     'join-crowd/crowd.webm', 'join-crowd/capture.json',
     'live-join/live-join.webm', 'live-join/capture.json',
-    'host-setup/dashboard.webm', 'host-setup/capture.json'
+    'host-setup/dashboard.webm', 'host-setup/capture.json',
+    'host-setup-v15/dashboard.webm', 'host-setup-v15/capture.json',
+    'optional-games/pong-wars/game.webm', 'optional-games/pong-wars/capture.json',
+    'optional-games/light-cycles/game.webm', 'optional-games/light-cycles/capture.json',
+    'optional-games/ring-escape/game.webm', 'optional-games/ring-escape/capture.json'
 ) | ForEach-Object { [IO.Path]::GetFullPath((Join-Path $videoRoot $_)) }
 foreach ($file in $protected) {
     if (!(Test-Path -LiteralPath $file -PathType Leaf)) { throw "Missing protected source: $file" }
 }
 
 $candidates = [Collections.Generic.List[string]]::new()
-foreach ($version in 1..13) {
+foreach ($version in 1..14) {
     $candidates.Add((Join-Path $videoRoot "chaos-factory-demo-v$version.mp4"))
     $candidates.Add((Join-Path $videoRoot "chaos-factory-offline-preview-v$version.mp4"))
     $candidates.Add((Join-Path $videoRoot "contact-sheet-v$version.png"))
@@ -33,9 +37,11 @@ foreach ($version in 1..13) {
     $candidates.Add((Join-Path $videoRoot "v$version-review"))
 }
 # Regenerable edit frames/segments, superseded music-mixed Cup, redundant raw captures.
-foreach ($relative in @('edit', 'full-cup', 'host-setup-v8', 'selection-v13', 'selection-v14',
+foreach ($relative in @('edit', 'full-cup', 'host-setup-v8', 'selection-v13', 'selection-v14', 'selection-v15',
     'full-cup-sfx/full-cup-raw.webm', 'live-join/live-join-raw.webm',
-    'join-crowd/crowd-raw.webm', 'host-setup/dashboard-raw.webm')) {
+    'join-crowd/crowd-raw.webm', 'host-setup/dashboard-raw.webm', 'host-setup-v15/dashboard-raw.webm',
+    'optional-games/pong-wars/raw.webm', 'optional-games/light-cycles/raw.webm',
+    'optional-games/ring-escape/raw.webm')) {
     $candidates.Add((Join-Path $videoRoot $relative))
 }
 foreach ($folder in @('host-setup', 'join-crowd', 'live-join')) {
@@ -64,7 +70,7 @@ $manifest = foreach ($candidate in ($candidates | Select-Object -Unique)) {
 }
 $manifest | Format-Table @{Name='MiB';Expression={[math]::Round($_.Bytes / 1MB, 1)}}, Path -AutoSize
 $bytes = ($manifest | Measure-Object Bytes -Sum).Sum
-Write-Host ('Total: {0:N2} GiB; originals, v14 final and v14 review are retained.' -f ($bytes / 1GB))
+Write-Host ('Total: {0:N2} GiB; originals, v15 final and v15 review are retained.' -f ($bytes / 1GB))
 if (!$Apply) { Write-Host 'Preview only. Add -Apply to remove exactly these paths.'; return }
 foreach ($entry in $manifest) {
     if ($PSCmdlet.ShouldProcess($entry.Path, 'Remove obsolete video or regenerable edit files')) {

@@ -39,11 +39,14 @@ export function updateHud(ctx: GameContext, runners: Runner[], faction: boolean,
       .sort(deepestFirst).slice(0, 5).map(r => r.owner.displayName)
   })));
   const subtitle = sudden ? 'SUDDEN DEATH: GAPS OPENING' : 'FIRST OUT / LAST SURVIVOR';
-  if (!faction) ctx.hud.setSide?.({ subtitle });
+  const remaining = runners.filter(runner => runner.alive && !runner.finished).length;
+  const countLabel = `${remaining}/${runners.length} marbles`;
+  if (!faction) ctx.hud.setSide?.({ subtitle, countLabel });
   if (faction) {
     const teams = [...new Set(runners.flatMap(r => r.team ? [r.team] : []))];
     ctx.hud.setSide?.({
       subtitle,
+      countLabel,
       bars: teams.map(team => {
         const escaped = runners.filter(r => r.team === team && r.finished).length;
         return { label: TEAMS[team].name, value: escaped,
