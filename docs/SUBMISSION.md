@@ -5,7 +5,7 @@ Remaining setup: [SHIP-CHECKLIST.md](SHIP-CHECKLIST.md).
 
 Project name: **Chaos Factory**
 
-Tagline: **One join. Five games. A whole stream competing.**
+Tagline: **One join. Five Cup games. A whole stream competing.**
 
 ## Project description
 
@@ -20,6 +20,13 @@ marble stream multiply through a machine, or a front runner break a gate open
 for the chasing pack. Four rounds earn Cup points; the top eight enter a
 Blade Brawl final, where the last survivor wins the Cup. Persistent viewer
 profiles carry colors, titles, levels and the champion's crown between shows.
+
+The video showcases the five-game Cup pool. Pong Wars, Light Cycles and Ring Run+
+are additional offline games, outside the Cup pool and this video. Cascade already
+demonstrates faction competition in the film. In faction Cup rounds, members of
+the winning side earn win points; the final still decides one individual champion.
+Pong Wars supports 2-4 factions: viewers support a team and their names rotate
+through its machine balls, rather than adding one physical ball for every viewer.
 
 The app uses strict TypeScript, PixiJS, deterministic Rapier physics, Fastify,
 WebSockets and Twurple. Games are isolated plugins sharing presentation, audio
@@ -66,7 +73,7 @@ external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 ## Current edit - under three minutes
 
 The film opens with the animated Chaos Factory intro, followed directly by an actual connected
-Twitch dashboard capture shows queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
+Twitch dashboard capture showing queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
 Close-ups hold still, with cuts between compositions. A continuous mock lobby
 fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
 inset separately labels the real Twitch test with iamyanbo while the channel

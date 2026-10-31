@@ -14,10 +14,17 @@ const time = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.flo
 const first = (predicate: (row: typeof edit.timeline[number]) => boolean) => edit.timeline.find(predicate)?.start ?? 0;
 const title = 'Chaos Factory | Codex x TwitchCon Hackathon Demo';
 const videoName = basename(edit.output);
-const description = `One join. Five games. A whole stream competing.
+const description = `One join. Five Cup games. A whole stream competing.
 
 Chaos Factory is an automatic Twitch physics game show. Viewers type !join to
-become named marbles. Four Cup rounds lead into a top-eight Blade Brawl final.
+enter individual contests or support a faction. Four Cup rounds lead into a
+top-eight Blade Brawl final.
+
+This video showcases the five-game Cup pool. Pong Wars, Light Cycles and Ring Run+
+are additional offline games, outside the Cup pool and this video.
+Rounds can be individual contests or faction battles; Cascade in this video
+shows teams competing. In team machines such as Pong Wars, viewers support a
+faction and names rotate through its balls; there is not one physical ball per viewer.
 
 The opening shows the connected Twitch dashboard, queue reordering and Start Cup,
 with animated queue instructions and stationary close-ups.
@@ -54,7 +61,7 @@ Credits and full notices: ${fields.repositoryUrl}/blob/main/ASSETS.md
 await writeFile(`${directory}/youtube.txt`, `TITLE\n${title}\n\nDESCRIPTION\n${description}`);
 await writeFile(`${directory}/devpost-copy.md`, `# Chaos Factory
 
-**Elevator pitch:** One join. Five games. A whole stream competing.
+**Elevator pitch:** One join. Five Cup games. A whole stream competing.
 
 ## Inspiration
 Physics videos are compelling because viewers can follow a simple object through
@@ -62,11 +69,15 @@ a visible machine. I wanted chat to become those objects, with a whole show to
 care about rather than another reflex command that arrives too late through stream delay.
 
 ## What it does
-Viewers type !join and enter as named marbles. Five-round Cups draw from Hot Potato,
+Viewers type !join to enter individual contests or support a faction. Five-round Cups draw from Hot Potato,
 Blade Brawl, Multiplier Cascade, Peg Fever and Marble Race. Four rounds award Cup
 points; the top eight enter a Blade Brawl final, where the final survivor wins.
 Profiles preserve colors, titles and the champion's crown between shows.
-Three additional games remain available for offline play.
+Pong Wars, Light Cycles and Ring Run+ are three additional offline games, outside
+the Cup pool and the main video. Pong Wars is a territory battle for 2-4 factions:
+viewers support a team and their names rotate through its balls. Individual games
+give viewers their own entrants. In faction Cup rounds, members of the winning
+side earn win points; the top-eight final still decides one individual champion.
 
 The dashboard manages the queue, player limits and host starts. A separate browser
 source fits OBS. Native Predictions are integrated for eligible Twitch channels,

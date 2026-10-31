@@ -1,7 +1,7 @@
 # Chaos Factory
 
-A Twitch physics game show. Viewers type `!join`, become named marbles, and watch
-five-round Cups with standings, a top-eight final and a returning champion's crown.
+A Twitch physics game show. Viewers type `!join` to enter individual contests or
+support a faction, with five-round Cups, standings, a top-eight final and a returning champion's crown.
 Native Twitch Predictions add channel-point stakes on eligible channels.
 
 ## Try it in two minutes
@@ -36,6 +36,11 @@ Ctrl+C. Windows users can also double-click `START.cmd`.
 
 Games play automatically; chat never needs reflex timing. Four Cup rounds award
 points, then the top eight enter a Blade Brawl final. The final survivor wins.
+The submission video showcases the five-game Cup pool. Light Cycles, Pong Wars
+and Ring Run+ are offline extras. Individual games give viewers their own entrants;
+team machines such as Pong Wars rotate supporters' names through faction balls.
+Faction rounds award win points to the winning side's members, while the Cup's
+top-eight final still produces one individual champion.
 The dashboard supports a draggable queue, player limits, manual starts and audio
 controls. Rounds load visibly and count down before play. Offline results offer
 **Play again** and **Change game**.

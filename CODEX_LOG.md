@@ -1392,3 +1392,9 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed 27 film, 33 gameplay and nine queue frames; 132.233 s export passes decode/DTS/audio checks.
 - Validation: typecheck, 22 focused edit checks and all 375 tests/77 files pass, including the unchanged camera audit.
 - Refreshed upload/source handoff and protected cleanup script for v14; no old media deletion or account uploads performed.
+
+## 2026-10-31 - Audit the video against the shipped lineup
+- Checked the game registry, Pong supporter naming, faction Cup scoring and the current video claims.
+- Clarified five Cup games plus three named offline extras in README and YouTube/Devpost copy.
+- Explained individual entrants versus faction supporters, team win points and the individual Grand Final.
+- Validation: typecheck and all 375 tests/77 files pass; the video and gameplay remain unchanged.
