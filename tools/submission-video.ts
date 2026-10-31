@@ -11,7 +11,7 @@ import { assertEffectsOnly, type AudioCaptureProof } from './video-audio';
 const directory = 'qa/submission-video/edit';
 const root = 'qa/submission-video';
 const AAC_HEADROOM_GAIN = .88;
-await mkdir(`${directory}/segments-v10`, { recursive: true });
+await mkdir(`${directory}/segments-v11`, { recursive: true });
 const cup = JSON.parse(await readFile(`${root}/full-cup-sfx/capture.json`, 'utf8')) as CupVideo & AudioCaptureProof;
 const crowd = JSON.parse(await readFile(`${root}/join-crowd/capture.json`, 'utf8')) as CrowdVideo & AudioCaptureProof;
 const live = existsSync(`${root}/live-join/capture.json`)
@@ -62,7 +62,7 @@ for (const [index, segment] of plan.entries()) {
   // Both sides meet on the same solid plate at the edit: no abrupt source jump.
   filters.push(`[${video}][wi]overlay=x='-200+12000*t':y=0:enable='${index ? 'lt(t,0.2)' : '0'}':format=auto[arrived]`);
   filters.push(`[arrived][wo]overlay=x='-2600+12000*(t-${segment.seconds - .2})':y=0:enable='${index < plan.length - 1 ? `gte(t,${segment.seconds - .2})` : '0'}':format=auto,format=yuv420p[out]`);
-  const output = `${directory}/segments-v10/${String(index).padStart(2, '0')}.mp4`;
+  const output = `${directory}/segments-v11/${String(index).padStart(2, '0')}.mp4`;
   const renderThis = !audioOnly && (selected === undefined || selected === index);
   if (renderThis) run([...inputs, '-t', String(segment.seconds), '-filter_complex', filters.join(';'),
     '-map', '[out]', '-map', capturedAudio ? '0:a' : segment.source === 'setup' ? '3:a' : '2:a',
@@ -74,11 +74,11 @@ for (const [index, segment] of plan.entries()) {
   elapsed += segment.seconds;
   console.log(`${renderThis ? 'Rendered' : 'Reusing video'} ${index + 1}/${plan.length}: ${segment.title || segment.gameId || segment.source}`);
 }
-await writeFile(`${directory}/segments-v10/concat.txt`, files.join('\n') + '\n');
-const picture = `${directory}/story-picture-v10.mp4`;
-run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments-v10/concat.txt`, '-c', 'copy', picture]);
+await writeFile(`${directory}/segments-v11/concat.txt`, files.join('\n') + '\n');
+const picture = `${directory}/story-picture-v11.mp4`;
+run(['-f', 'concat', '-safe', '0', '-i', `${directory}/segments-v11/concat.txt`, '-c', 'copy', picture]);
 const draft = !plan.some(row => row.inset?.evidence === 'real-chat');
-const output = resolve(`${root}/${draft ? 'chaos-factory-offline-preview-v10' : 'chaos-factory-demo-v10'}.mp4`);
+const output = resolve(`${root}/${draft ? 'chaos-factory-offline-preview-v11' : 'chaos-factory-demo-v11'}.mp4`);
 const swishes = `${directory}/transition-swishes.wav`;
 const boundaries = plan.slice(0, -1).map((_, index) => plan.slice(0, index + 1).reduce((sum, row) => sum + row.seconds, 0));
 await transitionAudio(boundaries, elapsed, swishes);
@@ -93,7 +93,7 @@ const duration = Number(media.format.duration);
 if (!(duration > 0 && duration < 180) || !media.streams.some((stream: { codec_type: string }) => stream.codec_type === 'audio')) {
   throw new Error('Final MP4 must have audio and stay under three minutes');
 }
-await writeFile(`${root}/edit.json`, JSON.stringify({ output, edition: 10, draft, duration,
+await writeFile(`${root}/edit.json`, JSON.stringify({ output, edition: 11, draft, duration,
   audio: { musicBeds: 1, music: 'adventure-2.ogg', cupAudio: 'verified sfx-only',
     crowdAudio: 'verified sfx-only', hostAudio: 'silent browser viewport recording', liveAudio: 'muted original mix',
     transitionAudio: 'original procedural stereo whooshes' },
@@ -101,6 +101,6 @@ await writeFile(`${root}/edit.json`, JSON.stringify({ output, edition: 10, draft
   normalSpeedGameplay: true, desktopCaptured: false, realBroadcast: false,
   buildEvidence: 'Edited real project transcript and verified committed diff, not a native Codex UI recording',
   footage: 'Actual connected dashboard workflow; continuous physical sequences with readable chapter holds and a single opening Codex credit; 48 mock joins and separately labeled real Twitch inset.',
-  transitions: 'Held close-up cuts without moving pans, animated queue instructions, MINIGAMES/GRAND FINAL stingers, impact ripples and Toy wipes', timeline, media }, null, 2));
+  transitions: 'Held close-up cuts without moving pans, animated queue instructions, MINIGAMES/GRAND FINAL stingers, centered caption impacts with authentic Twitch emote stickers and Toy wipes', timeline, media }, null, 2));
 if (!draft) await copyFile(output, resolve(`${root}/chaos-factory-demo.mp4`));
 console.log(JSON.stringify({ output, duration, draft }, null, 2));

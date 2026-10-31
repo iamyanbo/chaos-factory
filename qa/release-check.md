@@ -130,3 +130,18 @@ and starting; MINIGAMES and GRAND FINAL stingers introduce the game sections.
 Reviewed 23 film frames and nine instruction/cut frames against the Toy style.
 Typecheck and all 369 tests/75 files pass, plus sixteen focused checks. Decode
 and video DTS checks pass with zero duration drift; audio is -19.18 LUFS/-2.49 dBTP.
+
+
+## Centered captions and official Twitch stickers ? October 31
+
+The latest film is v11, 121.700 seconds. Impact captions now pop in the center,
+flanked by authentic SeemsGood/PartyHat/TwitchLit editorial stickers. The actual
+Twitch API/CDN images stay outside the source/runtime package, with provenance
+and credits recorded. No fabricated chat or game-emote wiring was added.
+Reviewed 23 film frames; decode/DTS checks pass with zero duration drift. Audio
+is -19.18 LUFS/-2.49 dBTP. Typecheck and all 18 focused video checks pass.
+The existing 200-course camera test completes all courses within its physics/
+camera assertions but exceeds the 240 s test timeout, including on the rerun
+without encoding. No game/assertion/timeout changes or full-suite PASS are claimed.
+Both completed full runs report 370 passing tests and one camera-audit timeout.
+The public repo was verified HTTP 200; the local YouTube URL remains missing.

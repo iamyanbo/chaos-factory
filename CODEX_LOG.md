@@ -1357,3 +1357,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed 23 film frames and nine instruction frames; verified stationary framing and unobscured controls.
 - Validation: typecheck, 369 tests/75 files and sixteen focused checks pass; decode/DTS/audio checks pass.
 - Final v10 is 121.700 s; refreshed source, upload copy and ZIP. External upload/submission remain manual.
+
+## 2026-10-31 ? Centered captions and authentic Twitch stickers
+- Moved impact popups from the corner into centered caption text with small flanking Twitch emote stickers.
+- Fetched original SeemsGood/PartyHat/TwitchLit through the Twitch API/CDN; browser receives public image bytes only.
+- Added source/hash validation and credits; stickers are editorial decoration, with no fake chat feed or runtime emote wiring.
+- Reviewed 23 frames and the centered blast; final decode/DTS/audio checks pass at 121.700 s.
+- Rechecked official submission requirements/public repository; local YouTube URL and final submission remain outstanding.
+- Validation: typecheck/18 video checks pass; full runs hit the existing camera-audit timeout despite completed courses.
+- Recorded the failed check without changing game assertions/timeouts; refreshed source ZIP and upload copy.

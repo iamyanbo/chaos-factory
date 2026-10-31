@@ -5,17 +5,21 @@ import { command } from './drama/capture-media';
 import type { CrowdVideo, VideoSegment } from './video-plan';
 import type { BuildProof } from './video-proof';
 import { drawVideoDialogue } from './video-dialogue';
+import { installVideoEmotes } from './video-emotes';
+import { drawVideoImpact, IMPACT_CAPTION_LAYOUT } from './video-impact';
 import { CHAPTER_TIMING } from './video-titles';
 const FPS = 30;
 const BATCH = 20;
 /** Deterministic transparent motion graphics, separate from the untouched game canvas. */
 export async function gameplayOverlay(page: Page, segment: VideoSegment, index: number, crowd: CrowdVideo, proof: BuildProof): Promise<string> {
+  await installVideoEmotes(page);
+  await page.addScriptTag({ content: `window.drawVideoImpact = ${drawVideoImpact.toString()};` });
   await page.addScriptTag({ content: `window.drawVideoDialogue = ${drawVideoDialogue.toString()};` });
   const directory = resolve('qa/submission-video/edit/overlays', String(index));
   await mkdir(directory, { recursive: true });
   const frames = Math.ceil(segment.seconds * FPS);
   for (let start = 0; start < frames; start += BATCH) {
-    const batch = await page.evaluate(async ({ segment, crowd, start, count, fps, chapterTiming, proof }) => {
+    const batch = await page.evaluate(async ({ segment, crowd, start, count, fps, chapterTiming, proof, impactLayout }) => {
       await document.fonts.load('60px Lilita');
       await document.fonts.load('32px Fredoka');
       const canvas = document.createElement('canvas');
@@ -128,74 +132,6 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         words.forEach((word, index) => display(word, 0, -50 + index * 132, 128));
         ctx.restore();
       }
-      function impacts(time: number) {
-        for (const cue of segment.cues ?? []) {
-          const age = time - cue.at;
-          if (age < 0 || age > cue.seconds) continue;
-          const progress = age / cue.seconds;
-          const opacity = Math.min(1, age * 18, (cue.seconds - age) * 5);
-          const pop = 1 - Math.exp(-age * 18) * Math.cos(age * 22);
-          ctx.save();
-          // A brief editorial exposure lift and expanding ring underline the recorded payoff.
-          ctx.fillStyle = `rgba(255,244,210,${Math.max(0, 1 - age / .12) * .07})`;
-          ctx.fillRect(0, 0, 1920, 1080);
-          ctx.globalAlpha = opacity;
-          ctx.translate(segment.buildProof ? 210 : 1670, 730);
-          ctx.save();
-          ctx.globalAlpha *= (1 - progress) * .7;
-          ctx.strokeStyle = '#ffde3b';
-          ctx.lineWidth = 9 * (1 - progress) + 2;
-          ctx.beginPath();
-          ctx.arc(0, 0, 100 + progress * 100, 0, Math.PI * 2);
-          ctx.stroke();
-          for (let ray = 0; ray < 10; ray++) {
-            const angle = ray * Math.PI / 5;
-            const radius = 145 + progress * 65;
-            ctx.beginPath();
-            ctx.moveTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
-            ctx.lineTo(Math.cos(angle) * (radius + 25), Math.sin(angle) * (radius + 25));
-            ctx.stroke();
-          }
-          ctx.restore();
-          ctx.rotate(-.07 + Math.sin(age * 18) * Math.exp(-age * 7) * .07);
-          ctx.scale(pop, pop);
-          ctx.beginPath();
-          for (let point = 0; point < 24; point++) {
-            const angle = point * Math.PI / 12;
-            const radius = point % 2 ? 94 : 135;
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
-            if (point) ctx.lineTo(x, y); else ctx.moveTo(x, y);
-          }
-          ctx.closePath();
-          ctx.fillStyle = cue.kind === 'burst' ? '#ff4f7b' : '#3a8ee6';
-          ctx.strokeStyle = INK;
-          ctx.lineWidth = 5;
-          ctx.fill();
-          ctx.stroke();
-          const words = cue.title.split(' ');
-          words.forEach((word, index) => display(word, 0, (index - (words.length - 1) / 2) * 74,
-            cue.kind === 'score' ? 86 : words.length > 1 ? 66 : 82));
-          if (cue.detail) display(cue.detail, 0, 124, 28, 'white');
-          ctx.restore();
-          // Short editorial edge streaks stay outside the physics and HUD cards.
-          ctx.save();
-          ctx.globalAlpha = opacity * (1 - progress) * .8;
-          ctx.strokeStyle = '#ffde3b';
-          ctx.lineWidth = 7;
-          for (let corner = 0; corner < 4; corner++) {
-            const x = corner % 2 ? 1910 : 10;
-            const y = corner < 2 ? 10 : 1070;
-            const direction = corner % 2 ? -1 : 1;
-            const vertical = corner < 2 ? 1 : -1;
-            ctx.beginPath();
-            ctx.moveTo(x, y + vertical * 58);
-            ctx.lineTo(x + direction * 45, y + vertical * 12);
-            ctx.stroke();
-          }
-          ctx.restore();
-        }
-      }
       function celebration(time: number) {
         if (!segment.celebrate) return;
         const colors = ['#ff4f7b', '#ffde3b', '#3a8ee6', '#2ecc71'];
@@ -281,13 +217,13 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         crowdFeed(time);
         chapter(time);
         buildRecord(time);
-        impacts(time);
+        window.drawVideoImpact(ctx, segment, time, impactLayout);
         celebration(time);
         window.drawVideoDialogue(ctx, segment, time);
         output.push(canvas.toDataURL().split(',')[1]);
       }
       return output;
-    }, { segment, crowd, start, count: Math.min(BATCH, frames - start), fps: FPS, chapterTiming: CHAPTER_TIMING, proof });
+    }, { segment, crowd, start, count: Math.min(BATCH, frames - start), fps: FPS, chapterTiming: CHAPTER_TIMING, proof, impactLayout: IMPACT_CAPTION_LAYOUT });
     await Promise.all(batch.map((data, offset) => writeFile(
       resolve(directory, `${String(start + offset).padStart(4, '0')}.png`), Buffer.from(data, 'base64'))));
   }

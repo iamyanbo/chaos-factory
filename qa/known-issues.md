@@ -2,6 +2,13 @@
 
 ## Still open
 
+- **October 31 test-runtime recheck:** the existing 200-course Marble Race camera
+  audit completes all courses with the checked monotonicity/speed/acceleration
+  bounds satisfied, but exceeds its explicit 240 s timeout in this environment.
+  Both the concurrent-render run and the rerun without encoding report a timeout.
+  Game code, assertions and timeout limits were not changed for the video edit;
+  no current full-suite PASS is claimed. Typecheck and 18 video-specific checks pass.
+
 - **Blade Brawl Boss balance:** the requested rage power is implemented; the
   200-seed-per-size rerun favors the Boss (78.5%, 89.0%, 67.5% at 8/16/32
   chatters), with zero voids or arena escapes. This is FAIL against 45–55%.
@@ -22,7 +29,7 @@
   docs/SUBMISSION.md; docs/SHIP-CHECKLIST.md now collects the remaining owner
   steps. `npm run submission` packages the committed handoff without publishing
   it, and `npm run submission:check` reports missing fields/confirmations from
-  docs/submission-fields.json. The revised 1:48 MP4 and upload/form copy are
+  docs/submission-fields.json. The revised 2:02 MP4 and upload/form copy are
   local in qa/submission-video/. YouTube upload and final Devpost submission
   still require account access; neither has been performed.
 

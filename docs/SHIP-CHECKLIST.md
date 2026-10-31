@@ -1,7 +1,7 @@
 # Submission checklist — October 29, 2026
 
 Deadline: **November 2, 2026, 5 pm Eastern / 2 pm Pacific**.
-Aim to submit November 1. The organizer requires an accessible source repository,
+The repository was checked publicly accessible on October 31. Aim to submit November 1. The organizer requires an accessible source repository,
 a description of the project and Codex's role, the main Codex session ID, and a
 YouTube demo showing Twitch and Codex in under three minutes. A saved draft is
 not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
@@ -46,7 +46,7 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
 
-The completed local edit is `qa/submission-video/chaos-factory-demo-v7.mp4` (about 1:48,
+The completed local edit is `qa/submission-video/chaos-factory-demo-v11.mp4` (about 2:02,
 1080p H.264/AAC). `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
 contain the upload title/description, form copy and remaining account actions.
 No authenticated YouTube/Devpost API connector is available to the agent; those

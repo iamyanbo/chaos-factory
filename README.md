@@ -115,6 +115,8 @@ npx tsx tools/capture-cup.ts --sfx-only --out qa/submission-video/full-cup-sfx
 npx tsx tools/capture-join-crowd.ts
 # With npm run twitch running separately, capture an actual chat !join:
 npx tsx tools/capture-live-join.ts
+# Fetch the official Twitch stickers locally using the saved server authorization:
+npx tsx tools/fetch-video-emotes.ts
 # Capture the connected host workflow without desktop automation:
 npx tsx tools/capture-host-setup.ts
 npm run video
@@ -122,7 +124,7 @@ npm run video
 
 The recorder captures the game canvas and sound effects with in-game music disabled.
 The edit adds one continuous music bed, original transition whooshes and
-source-timed comic accents, held close-up cuts and impact rings. The
+source-timed comic accents, held close-up cuts and centered caption impacts with Twitch emote stickers. The
 dashboard capture uses timed curved pointer movement and animated queue instructions.
 MINIGAMES and GRAND FINAL title cards introduce the game sections. Major cuts use the measured music grid; gameplay
 continues at its captured speed. The older mixed-audio live inset is muted.

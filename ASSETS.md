@@ -76,3 +76,14 @@ The v10 edit replaces moving pan/zoom paths with stationary close-up cuts. Its
 numbered queue captions and MINIGAMES/GRAND FINAL stingers are original canvas
 typography and geometry using the same bundled fonts. The captions are text only;
 no speech synthesis or additional music/third-party samples are used.
+
+The v11 video's editorial stickers are the authentic global Twitch emotes
+SeemsGood (64138), PartyHat (965738) and TwitchLit (166263), downloaded through
+[Twitch Get Global Emotes](https://dev.twitch.tv/docs/api/reference/#get-global-emotes)
+and its official static-cdn.jtvnw.net image URLs. These images belong to Twitch
+and/or their respective rights holders; they are not claimed as CC0 or original
+project art. They appear as editorial stickers, not captured messages or real
+viewer reactions. No emote chat integration is added to the game. PNGs and the
+source/hash manifest remain local in qa/submission-video/twitch-emotes/ and are
+excluded from the runtime and source ZIP. Fetching uses server-side authorization;
+the renderer receives only public image bytes. See tools/fetch-video-emotes.ts.

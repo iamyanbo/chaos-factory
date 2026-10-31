@@ -86,10 +86,11 @@ multiplied landings; Marble Race holds through two finishes. The title lead-ins
 leave the key payoffs visible. The champion leads directly to the animated ending.
 
 One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
-the scenes. Held close-up cuts, expanding rings and comic accents mark real recorded events. Gameplay stays at its
+the scenes. Centered payoff captions and authentic Twitch emote stickers mark real recorded
+events. The stickers are editorial decoration, rather than actual chat messages. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v10.mp4. Previous cuts
+Latest local MP4: qa/submission-video/chaos-factory-demo-v11.mp4. Previous cuts
 remain for comparison. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.
