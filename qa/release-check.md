@@ -2,13 +2,14 @@
 
 ## Current scope
 
-Eight playable games; the five-game Cup pool ends with the top-eight Blade Brawl
-final. The public submission repository is https://github.com/iamyanbo/chaos-factory.
+Eight playable games with independent rounds, chat versus streamer, individual
+contests and one-off team battles. Cup points, qualification, progression and
+Predictions were removed by the October 31 user instruction. The public submission repository is https://github.com/iamyanbo/chaos-factory.
 Rejected prototypes, old design docs, obsolete tools/reports, historical reference
 footage and unused Baloo 2 assets are excluded. Original files/history are preserved
 locally; the public repository starts with the clean submission snapshot.
 
-## Verified in the cleaned source
+## Previous checks before the join-only simplification
 
 - Typecheck and production build: PASS.
 - Unit suite: **352 tests across 71 files PASS**. Four rejected Counterweight-only
@@ -208,3 +209,22 @@ decode/DTS/duration checks pass and audio is -19.13 LUFS/-3.46 dBTP.
 The mock helper was refreshed and saved Twitch authorization reconnected on
 the live helper. The channel remains Standard. Real payout testing is explicitly
 deferred by the user; no native payout, public broadcast or upload is claimed.
+
+## October 31: join-only independent rounds
+
+- Removed all Prediction runtime, scopes/subscriptions, mock balances, payout jobs,
+  Cup scoring/qualification/final, progression persistence and related HUD/settings.
+- Every queued game stands alone. The fifth and sixth browser rounds keep the full
+  field; machine games distinguish supporters from physical entrants. Natural
+  objectives and native per-game scores are preserved.
+- `npm run typecheck`, production build and all **357 tests across 75 files PASS**.
+  Retired feature tests were replaced by queue/full-field, chat-only SDK, protocol
+  rejection and standalone-result checks. Physics assertions/timeouts are unchanged.
+- Reviewed real `npm run frames` gameplay and Peg Fever result captures against
+  theme-toy.png. Corrected winner portrait hue to match its result row. No video.
+- Live helper restored iamyanbo authorization and EventSub chat; mock helper has
+  24 viewers. New authorizations request only user:read:chat.
+- v15 is historical Cup footage and requires a recut before upload. Current docs,
+  submission readiness and generated owner notes no longer claim wagering or Cups.
+- **13 relevant browser regressions PASS** across round start/queue, six-round
+  sequencing, Twitch setup, Toy gallery/previews and offline result actions.

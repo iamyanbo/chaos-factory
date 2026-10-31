@@ -1,5 +1,5 @@
 import type { Container } from 'pixi.js';
-import type { CupState, Mode, Phase, Prediction, RoundResult, TEAMS } from '@chaos/shared';
+import type { Mode, Phase, RoundResult, TEAMS } from '@chaos/shared';
 import type { GameDefinition, GameHud } from '../games/contract';
 import type { NeonSideUpdate } from '../kit/neon/hud';
 import type { ShowState } from '../show-layer/state';
@@ -22,15 +22,13 @@ export interface HudState {
   participantColors?: Record<string, number>;
   phase: Phase;
   timeLeft: number;
-  cup: CupState;
+  round: number;
   game: GameDefinition;
   mode: Mode;
   paused: boolean;
   participants: number;
   capacity?: number;
   crowd: number;
-  prediction?: Prediction;
-  noWagers: boolean;
   connected: boolean;
   result?: RoundResult;
   modifiers: string[];
@@ -39,7 +37,6 @@ export interface HudState {
   autopilot: boolean;
   safeZone: { x: number; y: number; w: number; h: number };
   showSafeZone: boolean;
-  cupMvps: { name: string; mvps: number; score: number }[];
 }
 
 /** Shared Toy presentation. Game state, round clocks and outcomes stay with the director. */
@@ -85,7 +82,7 @@ export class Hud implements GameHud {
     this.sidebar.root.visible = ['PLAY', 'FINALE'].includes(state.phase);
     if (this.sidebar.root.visible) this.sidebar.update(state, this.side, dt, this.ladder);
     this.cards.update(state, dt);
-    this.toastView.show(['RESULT', 'STANDINGS', 'CUP_RESULTS'].includes(state.phase) ? undefined
+    this.toastView.show(['RESULT'].includes(state.phase) ? undefined
       : this.toasts.at(-1)?.text ?? state.show?.notifications.at(-1));
   }
 }

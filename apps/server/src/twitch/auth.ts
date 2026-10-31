@@ -9,7 +9,7 @@ declare module '@twurple/api-call' {
   interface TwitchApiCallFetchOptions { signal?: AbortSignal }
 }
 
-export const TWITCH_SCOPES = ['channel:manage:predictions', 'channel:read:predictions', 'user:read:chat'];
+export const TWITCH_SCOPES = ['user:read:chat'];
 export const VALIDATE_INTERVAL_MS = 60 * 60 * 1000;
 const REQUEST_TIMEOUT_MS = 10000;
 export interface AuthSettings { clientId: string; clientSecret: string; redirectUri: string; deviceFlow?: boolean }

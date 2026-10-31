@@ -24,6 +24,6 @@ if (!running) {
 }
 console.log(`\nChaos Factory offline demo${running ? ' is already running' : ''}.`);
 console.log(`Play any game: ${base}/play`);
-console.log(`Automatic five-round Cup: ${base}/show`);
+console.log(`Automatic show: ${base}/show`);
 console.log(`Host controls: ${base}/dashboard`);
 console.log('24 simulated viewers; no Twitch account or credentials required.');

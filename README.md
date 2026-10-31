@@ -1,8 +1,8 @@
 # Chaos Factory
 
-A Twitch physics game show. Viewers type `!join` to enter individual contests or
-support a faction, with five-round Cups, standings, a top-eight final and a returning champion's crown.
-Native Twitch Predictions add channel-point stakes on eligible channels.
+A Twitch physics game show. Viewers type `!join` to enter a round or support a
+team. Play chat versus the streamer, individual races, or one-off team battles.
+Each round has its own winner. There are no Cup points, progression or Predictions.
 
 ## Try it in two minutes
 
@@ -14,7 +14,7 @@ npm run demo
 ```
 
 - [Play offline](http://127.0.0.1:4182/play)
-- [Automatic five-round Cup](http://127.0.0.1:4182/show)
+- [Automatic show](http://127.0.0.1:4182/show)
 - [Host dashboard](http://127.0.0.1:4182/dashboard)
 
 The demo always uses mock Twitch, 24 simulated viewers and delayed joins. No
@@ -23,26 +23,28 @@ Ctrl+C. Windows users can also double-click `START.cmd`.
 
 ## Games
 
-| Game | Offline link | In Cups |
+| Game | Offline link | Automatic rotation |
 |---|---|---|
-| Blade Brawl | [Play](http://127.0.0.1:4182/play?game=blade-brawl) | Yes; also the Grand Final |
-| Hot Potato | [Play](http://127.0.0.1:4182/play?game=hot-potato) | Yes |
-| Multiplier Cascade | [Play](http://127.0.0.1:4182/play?game=multiplier-cascade) | Yes |
-| Peg Fever | [Play](http://127.0.0.1:4182/play?game=peg-fever) | Yes |
-| Marble Race | [Play](http://127.0.0.1:4182/play?game=marble-race) | Yes |
+| Blade Brawl | [Play](http://127.0.0.1:4182/play?game=blade-brawl) | Default |
+| Hot Potato | [Play](http://127.0.0.1:4182/play?game=hot-potato) | Default |
+| Multiplier Cascade | [Play](http://127.0.0.1:4182/play?game=multiplier-cascade) | Default |
+| Peg Fever | [Play](http://127.0.0.1:4182/play?game=peg-fever) | Default |
+| Marble Race | [Play](http://127.0.0.1:4182/play?game=marble-race) | Default |
 | Light Cycles | [Play](http://127.0.0.1:4182/play?game=light-cycles) | Optional |
 | Pong Wars | [Play](http://127.0.0.1:4182/play?game=pong-wars) | Optional |
 | Ring Run+ | [Play](http://127.0.0.1:4182/play?game=ring-escape) | Optional |
 
-Games play automatically; chat never needs reflex timing. Four Cup rounds award
-points, then the top eight enter a Blade Brawl final. The final survivor wins.
-The dashboard offers all eight games. Queue Light Cycles, Pong Wars or Ring Run+
-to include it in the next Cup, or check it under Settings to add it to automatic
-rotation. The original five remain the default rotation. The submission video
-shows the default Cup and a separate optional-game section. Individual games give viewers their own entrants;
-team machines such as Pong Wars rotate supporters' names through faction balls.
-Faction rounds award win points to the winning side's members, while the Cup's
-top-eight final still produces one individual champion.
+Games play automatically; chat never needs reflex timing. Queue any of the eight
+games in the dashboard, or use the default five-game rotation. An empty queue
+continues with enabled games. Every round admits its full field, including rounds
+five and later. Blade Brawl and Hot Potato default to chat versus streamer in the
+show; games without that format keep their own individual or team rules.
+
+Individual games give viewers their own entrants. Team machines such as Pong Wars
+rotate supporters' names through faction balls. Team rounds finish with their own
+result; wins do not award account points or carry into another game. A game's own
+objective score, such as Peg Fever's multiplied landings, still decides its winner.
+
 The dashboard supports a draggable queue, player limits, manual starts and audio
 controls. Rounds load visibly and count down before play. Offline results offer
 **Play again** and **Change game**.
@@ -65,12 +67,12 @@ reconnect automatically; credentials remain in gitignored server storage.
 
 OBS Browser Source: **1920 x 1080**, `http://localhost:4181/show?manual=1`.
 Control that show from the dashboard on **4181**. Viewers type `!join`; the host
-starts each round when ready. Predictions require an Affiliate or Partner channel.
-API failures keep the show running without wagers. Only one controlling `/show`
+starts each round when ready. Twitch authorization requests only `user:read:chat`.
+Chat disconnections do not freeze the current round. Only one controlling `/show`
 connection is allowed per server; `/play` is independent.
 
 Follow [LIVE-TEST.md](docs/LIVE-TEST.md) for connection details and the real-channel
-rehearsal. The offline demo on **4182** never places real wagers.
+rehearsal. The offline demo on **4182** uses simulated joins.
 
 ## Develop and verify
 
@@ -85,11 +87,11 @@ npm run test:e2e
 TypeScript is strict. PixiJS v8 renders the Toy theme; deterministic Rapier runs at
 60 Hz. Fastify, WebSockets and Twurple connect the show and Twitch. Games are
 isolated plugins under `apps/show/src/games/`; the shared engine/context, kits and
-show layer supply physics, presentation, scoring and Cup services.
+show layer supply physics, presentation, round transitions and results.
 
 Browser QA defaults to installed Chrome on Windows; set `CHROME_PATH` elsewhere.
 For stills, run `npm run frames -- --game peg-fever`. Optional frame sheets need
-Python with Pillow. Tests, captures, builds and local data are excluded from Git;
+Python with Pillow. Test outputs, captures, builds and local data are excluded from Git;
 selected review notes remain in `qa/`. `npm run audit:ship` runs raw-seed completion
 and body-budget checks. Replays can be checked with `npm run replay -- --file <file>`.
 The best-take selector scores aggregate activity and pacing, never player identity
@@ -103,9 +105,8 @@ or which side wins.
 - [Toy theme](docs/24-toy-theme.md), [frozen lineup](docs/23-ship.md)
 
 Streamer-versus-chat Blade Brawl favors the streamer in the last diagnostic sample;
-no balanced 50/50 claim is made. Real Twitch chat admission and the no-wager flow
-were rehearsed on the standard channel iamyanbo. Native point payout requires an
-eligible channel and remains untested; mock wagers do not establish payout success.
+no balanced 50/50 claim is made. Real Twitch chat admission was rehearsed on the
+standard channel iamyanbo. Affiliate or Partner eligibility is not needed for joins.
 
 `npm run submission` creates a source ZIP, commit/hash manifest, copy, credits and
 eight existing game images in `qa/submission/`. Commit reviewed changes first.
@@ -113,46 +114,15 @@ eight existing game images in `qa/submission/`. Commit reviewed changes first.
 team details and owner-confirmed access/rehearsal checks in
 `docs/submission-fields.json`. It does not publish or submit the Devpost entry.
 
-## Demo recording without desktop capture
+## Recording
 
-Optional recording needs Chrome and FFmpeg on PATH. With the mock demo running:
+Recording uses headless Chrome and FFmpeg, without desktop capture. With the mock
+demo running, `npx tsx tools/capture-rounds.ts --sfx-only` captures five independent
+queued rounds. `tools/capture-live-join.ts` captures an actual arriving chat join;
+it does not send chat or start a broadcast.
 
-```powershell
-$env:CHAOS_TEST_URL = 'http://127.0.0.1:4182'
-npx playwright install ffmpeg
-npx tsx tools/capture-cup.ts --sfx-only --out qa/submission-video/full-cup-sfx
-npx tsx tools/capture-join-crowd.ts
-npx tsx tools/capture-bonus-games.ts
-# With npm run twitch running separately, capture an actual chat !join:
-npx tsx tools/capture-live-join.ts
-# Fetch the official Twitch stickers locally using the saved server authorization:
-npx tsx tools/fetch-video-emotes.ts
-# Capture the current dashboard as an explicitly labeled offline demo:
-npx tsx tools/capture-host-setup.ts --mock --out qa/submission-video/host-setup-v15
-npm run video
-```
-
-The recorder captures the game canvas and sound effects with in-game music disabled.
-The edit adds one continuous music bed, original transition whooshes and
-source-timed comic accents, held close-up cuts and centered text-only captions and independently scattered Twitch event reactions. The
-dashboard capture uses timed curved pointer movement and animated queue instructions.
-MINIGAMES and GRAND FINAL title cards introduce the game sections. Major cuts use the measured music grid; gameplay
-continues at its captured speed. The older mixed-audio live inset is muted.
-A guard rejects Cup footage with music enabled. The edit uses
-normal-speed clips, labels simulated viewers and real Twitch chat separately,
-and overlays each game's actual name and short rules during gameplay. The opening
-title says "Implemented with Codex". The current eight-game dashboard shows queue
-ordering and Start Cup in an explicitly labeled offline demo, with the
-GitHub link on the closing card. There is no separate code excerpt or build card.
-Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
-separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
-local under `qa/submission-video/`; they are excluded from Git. Account uploads
-and final Devpost submission are not automated.
-
-Video history cleanup: `powershell -NoProfile -File tools/clean-video-history.ps1`
-prints an inventory. Add `-Apply` to remove old exports and regenerable edit files
-after reviewing it. The v15 final, review and required source captures are protected.
-
-Editorial reactions follow each event: PogChamp for big scores and Fever,
-SeemsGood for finishes and the champion, NotLikeThis for eliminations, and LUL
-only for the reviewed comic rim spill. Kappa is not used in the current film.
+The existing v15 edit predates the removal of Cups and Predictions. Its Cup,
+standings and Grand Final chapters are historical and must be recut before it is
+used to advertise this version. The approved artwork, transitions, music and real
+join capture remain available locally. Account uploads and the final Devpost
+submission have not been performed.

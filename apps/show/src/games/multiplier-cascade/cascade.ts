@@ -283,7 +283,6 @@ export class MultiplierCascade extends SpectatorGame {
 const definition: GameDefinition = {
     ...defineEvent('multiplier-cascade', ctx => new MultiplierCascade(ctx)),
     ending: 'natural',
-    predictionTitle: () => 'Cascade: which team gets five finishers first?',
     formats: ['faction'], presentation: 'minimal', camera: 'scroll', cameraZoom: 1,
     scoreTake: scoreCascadeTake, supportsModifiers: []
 };

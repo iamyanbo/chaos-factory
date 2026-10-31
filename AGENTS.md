@@ -4,7 +4,7 @@ Read this file before every task. Rejected prototypes and historical design docs
 
 ## What this is
 
-Chaos Factory is a physics game show for Twitch, inspired by MIKAN-style marble videos and Marbles on Stream. Viewers type `!join` and get a named marble. A round lasts about 60 s. Viewers bet channel points on the outcome through native Twitch Predictions. There are two modes:
+Chaos Factory is a physics game show for Twitch, inspired by MIKAN-style marble videos and Marbles on Stream. Viewers type `!join` and get a named marble. A round lasts about 60 s. Interaction is joining only; there are no channel-point Predictions. There are two modes:
 - **Chat vs Streamer**
 - **Faction War**: color teams compete against each other
 
@@ -28,9 +28,10 @@ These rules apply to every game:
 ## Scope
 
 - **Visuals: `docs/24-toy-theme.md` wins all visual conflicts**, including the older visual table in doc 23.
-- **Scope: `docs/23-ship.md` freezes the lineup.** The default Cup rotation has Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever and Marble Race. Per the October 31 user request, Light Cycles, Pong Wars and Ring Run+ are also available as optional host queue/rotation choices and offline games. The Grand Final stays Blade Brawl. No new games or mechanics without a user request. The shared show layer provides Cup points, standings, the top-eight Grand Final, profiles and crown. Current behavior is documented in README.md and the individual game folders.
-- Chat interaction is limited to **!join and native Predictions**. No emote rain, hype meter, chat votes or reflex controls. Natural game endings decide results; the hidden safety threshold begins visible sudden death instead of inventing a timed winner.
-- **Live Twitch is required** for the submission (`docs/03-twitch.md`): `!join` from real chat, and Predictions created and resolved. Mock mode remains the default for development.
+- **Current scope (October 31 user override):** eight existing games; default rotation is Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever and Marble Race. Light Cycles, Pong Wars and Ring Run+ remain optional queue/rotation choices and offline games. No new games or mechanics without a user request.
+- Every round stands alone. No Cup points, standings, qualification, forced Grand Final, XP, progression or persistent crown. Preserve each game's intrinsic objective score, such as Peg Fever landings and Pong territory.
+- Chat interaction is **!join only**. No Predictions, emote rain, hype meter, votes or reflex controls. Natural game endings decide results; the hidden safety threshold starts visible sudden death instead of inventing a timed winner.
+- Live Twitch joins remain supported; only `user:read:chat` is requested. Mock mode remains the development default, with no credentials or viewers needed.
 
 ## Stack (do not swap)
 
@@ -47,7 +48,7 @@ These rules apply to every game:
 4. Games are plugins in `apps/show/src/games/<id>/`. They touch the engine only through `GameContext`.
 5. Chat input must tolerate a 2–5 s stream delay. Never require reflex timing.
 6. Art and audio must be stream-safe: procedural or CC0, recorded in `ASSETS.md`. Never use MIKAN or Marbles on Stream names or assets.
-7. Twitch failures never freeze the show. Fall back to a no-wager round.
+7. Twitch failures never freeze the show. The current round continues if chat disconnects.
 8. Keep files under about 300 lines.
 
 ## Working conventions

@@ -35,16 +35,16 @@
 .dashboard-sidebar { display: flex; flex-direction: column; gap: 24px; min-width: 0; position: sticky; top: 24px; }
 .dashboard-sidebar .card { padding: 24px; }
 .dashboard-sidebar h2 { font-size: 28px; }
-.cup-card .section-heading { flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-.cup-badge { background: var(--toy-yellow); border-radius: 10px; padding: 4px 9px; font-size: 14px; font-weight: 700; }
-.cup-card .button.primary { font-size: 25px; padding: 12px; margin-bottom: 10px; }
-.cup-card .button-row { margin: 14px 0; }
-.cup-card .button-row button { font-size: 17px; padding: 8px 10px; }
-.cup-card .round-start-control { margin: 18px 0; }
-.cup-card .round-start-control label { font-size: 18px; }
-.cup-card .round-start-control select { min-height: 46px; font-size: 17px; }
-.cup-card .round-start-control > p { font-size: 17px; margin: 10px 0 16px; }
-.cup-card #notice { font-size: 17px; }
+.show-controls-card .section-heading { flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.join-badge { background: var(--toy-yellow); border-radius: 10px; padding: 4px 9px; font-size: 14px; font-weight: 700; }
+.show-controls-card .button.primary { font-size: 25px; padding: 12px; margin-bottom: 10px; }
+.show-controls-card .button-row { margin: 14px 0; }
+.show-controls-card .button-row button { font-size: 17px; padding: 8px 10px; }
+.show-controls-card .round-start-control { margin: 18px 0; }
+.show-controls-card .round-start-control label { font-size: 18px; }
+.show-controls-card .round-start-control select { min-height: 46px; font-size: 17px; }
+.show-controls-card .round-start-control > p { font-size: 17px; margin: 10px 0 16px; }
+.show-controls-card #notice { font-size: 17px; }
 .more-controls { margin-top: 20px; padding-top: 16px; border-top: 2px solid var(--toy-pale); font-size: 17px; color: var(--toy-muted); }
 summary { cursor: pointer; }
 .text-button { border: 0; padding: 6px 0; color: var(--toy-accentA); background: transparent; font-size: 17px; font-weight: 700; }

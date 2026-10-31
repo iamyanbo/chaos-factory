@@ -99,19 +99,18 @@ export async function show(host: HTMLElement): Promise<void> {
     if (enabled) void audio.unlock();
   });
   if (net) {
-    let mockCupStarted = false;
+    let mockShowStarted = false;
     net.onMessage = message => {
       director.receive(message);
       if (message.type === 'mock.status' && !params.has('manual')
-        && director.bridgeMode === 'mock' && !mockCupStarted) {
-        mockCupStarted = true;
+        && director.bridgeMode === 'mock' && !mockShowStarted) {
+        mockShowStarted = true;
         director.start();
       }
     };
     net.onConnection = connected => {
       director.connection(connected);
       if (connected) {
-        net.send({ type: 'prediction.cancel', reason: 'Show startup: refund interrupted round' });
         director.broadcast();
       } else if (net.lastError) {
         const error = document.createElement('aside');
@@ -132,7 +131,7 @@ export async function show(host: HTMLElement): Promise<void> {
   let frames = 0;
   let frameTime = 0;
   const loop = new FixedLoop(dt => director.step(dt), (alpha, dt) => {
-    renderer.setIntermission(['RESULT', 'STANDINGS', 'CUP_RESULTS'].includes(director.phase));
+    renderer.setIntermission(['RESULT'].includes(director.phase));
     const minimal = director.game.presentation === 'minimal';
     renderer.setArenaMask(minimal);
     if (minimal && director.game.camera !== 'scroll') camera.lockFrame();
@@ -217,7 +216,7 @@ export async function show(host: HTMLElement): Promise<void> {
       connected: director.connected,
       phase: director.phase, gameId: director.game.id, seed: director.roundSeed,
       participants: director.ctx?.setup.participants ?? [],
-      result: director.result, results: director.results, predictions: director.predictions,
+      result: director.result, results: director.results,
       show: director.view().show,
       lastStreamerInput: director.lastStreamerInput, paused: director.paused,
       mode: director.mode, fps, bodies: director.ctx?.physics.entities.size ?? 0,
@@ -267,7 +266,6 @@ declare global {
       participants: unknown[];
       result?: unknown;
       results: unknown[];
-      predictions: unknown[];
       show?: import('../show-layer/state').ShowState;
       lastStreamerInput?: unknown;
       paused: boolean;

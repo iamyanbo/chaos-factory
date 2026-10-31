@@ -8,7 +8,3 @@ export const TEAMS: Record<TeamId, { name: string; color: string; hex: number; s
   violet: { name: 'VIOLET VOID', color: '#a98bff', hex: 0xa98bff, shape: '◆' },
   orange: { name: 'ORANGE CRUSH', color: '#ff9a3d', hex: 0xff9a3d, shape: '⬢' }
 };
-export function predictionTitle(title: string, mode: 'cvs' | 'faction'): string {
-  const suffix = mode === 'cvs' ? ': CHAT or STREAMER?' : ': WHICH TEAM WINS?';
-  return title.slice(0, 45 - suffix.length) + suffix;
-}

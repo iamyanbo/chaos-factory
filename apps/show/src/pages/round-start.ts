@@ -26,7 +26,7 @@ export class RoundStartControl {
 
   update(state: DirectorState): void {
     const game = registry.get(state.gameId);
-    const needsPlayers = !game?.spectator && !game?.audienceIndependent && !state.cup.grandFinal;
+    const needsPlayers = !game?.spectator && !game?.audienceIndependent;
     const empty = needsPlayers && !state.participants;
     this.select.disabled = false;
     this.select.value = state.roundStart ?? 'automatic';
@@ -45,8 +45,8 @@ export function roundPhaseLabel(state: DirectorState): string {
   if (state.paused) return 'Paused';
   if (state.preparingRound) return 'Loading game';
   if (state.waitingForHost) return registry.get(state.gameId)?.spectator ? 'Waiting for host' : 'Waiting for players';
-  const labels: Record<string, string> = { ATTRACT: 'Ready to start a Cup', INTRO: 'Next game',
-    LOBBY_BET: 'Starting soon', LOCK_COUNTDOWN: 'Starting soon', PLAY: 'Playing',
-    RESULT: 'Round results', STANDINGS: 'Cup standings', CUP_RESULTS: 'Cup complete' };
+  const labels: Record<string, string> = { ATTRACT: 'Ready to start', INTRO: 'Next game',
+    LOBBY: 'Starting soon', LOCK_COUNTDOWN: 'Starting soon', PLAY: 'Playing',
+    RESULT: 'Round results' };
   return labels[state.phase] ?? 'Next game';
 }

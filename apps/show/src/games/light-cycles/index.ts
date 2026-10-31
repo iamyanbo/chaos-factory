@@ -117,7 +117,6 @@ const definition: GameDefinition = {
   maxBodies: MAX_PLAYERS, maxParticipants: MAX_PLAYERS, defaultBots: DEFAULT_PLAYERS,
   participantNoun: 'cycle', competition: 'individual', joinOnly: true,
   presentation: 'minimal', camera: 'fixed', chatVerbs: [], streamerControls: [], supportsModifiers: [],
-  predictionTitle: () => 'Light Cycles: last cycle standing?',
   scoreTake: events => TAKE_BASE_SCORE
     - Math.max(0, TAKE_MIN_DURATION - events.duration, events.duration - ROUND_LIMIT) * TAKE_DURATION_WEIGHT
     - Math.max(0, events.quietMax - TAKE_QUIET_LIMIT) * TAKE_QUIET_WEIGHT

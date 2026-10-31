@@ -6,7 +6,7 @@ import { initPhysics } from '../../apps/show/src/engine/physics';
 import type { BaseGame } from '../../apps/show/src/kit/base-game';
 
 function scene(messages:Message[]=[]){const director=new Director({send:m=>{messages.push(m);return true;},context:(def,setup,emit)=>createContext(def,setup,{emit}),announce(){},toast(){},feed(){},reset(){}},{fast:true,game:'blade-brawl'});director.enabled=new Set(['blade-brawl']);return director;}
-function play(d:Director){d.start(3);d.frame(1);d.frame(5);d.frame(.5);expect(d.phase).toBe('PLAY');}
+function play(d:Director){d.start();d.frame(1);d.frame(5);d.frame(.5);expect(d.phase).toBe('PLAY');}
 
 test('optional games honor the host queue without joining the default rotation', async () => {
   await initPhysics();
@@ -17,17 +17,17 @@ test('optional games honor the host queue without joining the default rotation',
     d.enabled = new Set(defaults);
     d.command({ type: 'director.command', cmd: 'queue',
       arg: ['pong-wars', 'light-cycles', 'ring-escape', 'peg-fever'] });
-    d.start(5);
+    d.start();
     expect(d.game.id).toBe('pong-wars');
     expect(d.format).toBe('faction');
-    expect(d.queue).toEqual(['light-cycles', 'ring-escape', 'peg-fever', 'blade-brawl']);
+    expect(d.queue).toEqual(['light-cycles', 'ring-escape', 'peg-fever']);
     expect([...d.enabled]).toEqual(defaults);
     d.broadcast();
     const state = messages.filter(message => message.type === 'director.state').at(-1)!;
     expect(state.enabledGames).toEqual(defaults);
     expect(state.format).toBe('faction');
     for (const [round, id, format] of [[2, 'light-cycles', 'ffa'], [3, 'ring-escape', 'ffa']] as const) {
-      d.cup.round = round;
+      d.round = round;
       d.modeOverride = 'cvs';
       d.select();
       expect(d.game.id).toBe(id);
@@ -52,11 +52,11 @@ test('optional automatic rotation selection is reported to every dashboard', asy
   } finally { d.destroy(); }
 });
 
-test('the authenticated display name reaches the locked fighter, cards and Prediction title', async () => {
+test('the authenticated display name reaches the locked fighter, cards', async () => {
   await initPhysics();
   const d = scene();
   try {
-    d.receive({ type: 'twitch.status', mode: 'live', connected: true, canPredict: true,
+    d.receive({ type: 'twitch.status', mode: 'live', connected: true,
       authenticated: true, channel: 'test_caster', displayName: 'TestCaster' });
     d.receive({ type: 'chat', userId: 'viewer', login: 'viewer', displayName: 'Viewer',
       color: '#ffffff', text: '!join', isMod: false, isBroadcaster: false, receivedAt: 0 });
@@ -65,12 +65,10 @@ test('the authenticated display name reaches the locked fighter, cards and Predi
     expect((d.instance as import('../../apps/show/src/games/blade-brawl').BladeBrawl)
       .marbles.find(ball => ball.isStreamer)?.name).toBe('TestCaster');
     expect(d.view().streamerName).toBe('TestCaster');
-    expect(d.cupShow.name('streamer')).toBe('TestCaster');
-    expect(d.game.predictionTitle(d.ctx!.setup)).toContain('TestCaster');
   } finally { d.destroy(); }
 });
 
-test('retired games cannot return through a saved Cup queue or enable command', async () => {
+test('retired games cannot return through a saved queue or enable command', async () => {
   await initPhysics();
   const d = scene();
   try {
@@ -83,25 +81,12 @@ test('retired games cannot return through a saved Cup queue or enable command', 
       expect(d.enabled.has(id)).toBe(false);
       expect(d.registry.has(id)).toBe(false);
     }
-    d.start(5);
+    d.start();
     expect(d.game.id).toBe('peg-fever');
     expect(d.queue[0]).toBe('hot-potato');
-    expect(d.queue.at(-1)).toBe('blade-brawl');
+    expect(d.queue.at(-1)).toBe('hot-potato');
     expect(d.queue.every(id => d.registry.has(id))).toBe(true);
   } finally { d.destroy(); }
-});
-
-test('automatic Cup pause, crash refund, skip and end recover cleanly',async()=>{
-  await initPhysics();const messages:Message[]=[],d=scene(messages);
-  try{
-    d.start(3);d.frame(1);expect(d.phase).toBe('LOBBY_BET');expect(messages.some(m=>m.type==='prediction.create')).toBe(true);
-    d.command({type:'director.command',cmd:'pause'});d.frame(10);expect(d.phase).toBe('LOBBY_BET');
-    d.command({type:'director.command',cmd:'resume'});d.frame(5);expect(d.phase).toBe('LOCK_COUNTDOWN');const seed=d.roundSeed;d.frame(.5);expect(d.roundSeed).toBe(seed);
-    d.instance!.step=()=>{throw new Error('Injected physics failure');};d.step(1/60);
-    expect(d.phase).toBe('RESULT');expect(d.result?.winner.kind).toBe('void');expect(messages.some(m=>m.type==='prediction.cancel')).toBe(true);
-    d.frame(2);expect(d.phase).toBe('STANDINGS');d.frame(1);expect(d.phase).toBe('INTRO');d.command({type:'director.command',cmd:'skip'});expect(d.results).toHaveLength(2);
-    d.command({type:'director.command',cmd:'endCup'});expect(d.phase).toBe('CUP_RESULTS');
-  }finally{d.destroy();}
 });
 
 test('the hidden 150s threshold starts sudden death and never invents a clock result',async()=>{
@@ -118,13 +103,7 @@ test('the hidden 150s threshold starts sudden death and never invents a clock re
     expect(suddenDeath).toHaveBeenCalledOnce();
     expect(d.phase).toBe('PLAY');
     expect(d.result).toBeUndefined();
-    expect(messages.some(message => message.type === 'prediction.cancel')).toBe(false);
   } finally { d.destroy(); }
-});
-
-test('connection loss drops wagers while the automatic physics keeps moving',async()=>{
-  await initPhysics();const d=scene();
-  try{play(d);expect(d.noWagers).toBe(false);d.connection(false);expect(d.noWagers).toBe(true);d.connection(true);expect(d.noWagers).toBe(true);const game=d.instance as BaseGame,time=game.time;d.step(1/60);expect(game.time).toBeGreaterThan(time);expect(d.paused).toBe(false);expect(d.phase).toBe('PLAY');}finally{d.destroy();}
 });
 
 test('a decided live arena gets its two-second payoff before the outro settles', async () => {

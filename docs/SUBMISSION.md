@@ -1,127 +1,57 @@
-# Submission copy and recording plan
-
-Deadline: November 2, 2026, 5pm Eastern. Internal target: November 1.
-Remaining setup: [SHIP-CHECKLIST.md](SHIP-CHECKLIST.md).
+# Chaos Factory submission
 
 Project name: **Chaos Factory**
 
 Tagline: **One join. Eight games. A whole stream competing.**
 
-## Project description
+Chaos Factory turns Twitch chat into an automatic physics game show. Viewers type
+`!join` to enter as named objects or support a team. The host queues games, waits
+for viewers, and starts each round with a countdown. Chat versus streamer,
+individual races and standalone team battles each have their own winner.
+There are no Cup points, qualification, account levels or Predictions.
 
-Chaos Factory turns a Twitch stream into an automatic physics game show.
-Viewers type `!join` to enter as named objects. They can follow their own ball,
-support a faction, and compete across a five-round Cup without trying to time
-inputs through stream delay.
+The eight games are Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever,
+Marble Race, Pong Wars, Light Cycles and Ring Run+. Watch a bomb pass just before
+it explodes, a marble stream multiply through a machine, or race leaders break
+a gate open for the chasing pack. Native objective scores, such as Peg Fever's
+multiplied landings and Pong's territory, decide only that game.
 
-The five-game Cup pool is Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever
-and Marble Race. Watch a bomb change hands just before its fuse runs out, a
-marble stream multiply through a machine, or a front runner break a gate open
-for the chasing pack. Four rounds earn Cup points; the top eight enter a
-Blade Brawl final, where the last survivor wins the Cup. Persistent viewer
-profiles carry colors, titles, levels and the champion's crown between shows.
+The stack is strict TypeScript, PixiJS, deterministic Rapier physics, Fastify,
+WebSockets and Twurple. Isolated game plugins share presentation, audio and round
+services through GameContext. Physics runs at fixed 60 Hz. The same seed and locked
+entrants reproduce a round. Best-take selection uses aggregate activity and pacing,
+without looking at player identity or which side wins.
 
-The video showcases the default five-game Cup and a separate optional-game section.
-Pong Wars, Light Cycles and Ring Run+ can be queued from the dashboard or added to
-automatic rotation. All eight games work offline. In faction Cup rounds, members of
-the winning side earn win points; the final still decides one individual champion.
-Pong Wars supports 2-4 factions: viewers support a team and their names rotate
-through its machine balls, rather than adding one physical ball for every viewer.
+Live Twitch integration reads joins with server-only authorization. No account
+privileges beyond chat reading are requested. Disconnects never freeze an active
+round. Mock mode provides delayed simulated viewers and an identical show flow,
+without a Twitch account or real audience. A real EventSub !join from iamyanbo
+was captured on October 29 while the channel was offline; no public broadcast
+or large real crowd is claimed.
 
-The app uses strict TypeScript, PixiJS, deterministic Rapier physics, Fastify,
-WebSockets and Twurple. Games are isolated plugins sharing presentation, audio
-and show services through GameContext. The same seed and locked entrants can
-reproduce a round. Candidate takes are selected using aggregate activity and
-pacing; player identities and winners do not enter the take score.
-
-Twitch integration supports chat joins and native Predictions. Credentials stay
-on the server. Native wagering requires an eligible broadcaster, and API
-failures fall back to a round without wagers. An offline demo includes delayed
-simulated viewers and works without a Twitch account.
-
-The real chat and no-wager flow were rehearsed on the standard channel iamyanbo:
-an actual Twitch `!join` admitted the named viewer and the host started Peg Fever.
-The submission video labels this real API-connected chat separately from the
-simulated Cup audience. No public broadcast or native point payout is claimed.
-Prediction payout remains untested because this channel is not Affiliate/Partner.
-
-Codex implemented the entire project: engine, games, visuals, connector, dashboard,
-Cup structure, replay checks, tests and recording/editing tools. I directed the
-design, played and reviewed builds, and gave feedback. The project was shaped through
-repeated user feedback: several technically functioning games were rejected,
-the lineup was reduced, the Toy theme replaced the original neon presentation,
-and real screenshots were reviewed against references. Recent changes include
-immediate physical multiplier splits in Cascade, leader tracking in Marble Race,
-rounded Light Cycles trails, per-ball scoring in Peg Fever, and shared result
-screens that distinguish actual game scores from Cup points.
-CODEX_LOG.md records the implementation decisions and verification.
+Codex implemented the entire project: engine, games, art, audio, connector,
+dashboard, tests and recording/editing tools. I directed the design, played and
+reviewed builds, and gave feedback. Repeated review removed rejected prototypes,
+replaced neon with the Toy theme, improved physical multipliers and race tracking,
+and ultimately simplified the show to joining and independent rounds.
+CODEX_LOG.md records decisions and verification.
 
 ## Judge setup
 
-Requires Node.js 22 or newer and npm. From the repository root:
+Install Node.js 22 or newer, then run `npm ci` and `npm run demo`.
+Open http://127.0.0.1:4182/play for individual games or
+http://127.0.0.1:4182/show for an automatic sequence. The dashboard is at
+http://127.0.0.1:4182/dashboard. The demo always uses mock mode and bundled assets.
 
-```sh
-npm ci
-npm run demo
-```
+## Video status
 
-Open http://127.0.0.1:4182/play for individual games, or
-http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
-mode even if the host has a live `.env`. It does not need browser extensions,
-external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
+The local v15 edit predates the October 31 removal of Cups, standings and the
+Grand Final. It needs a recut before upload so it describes this version accurately.
+Preserve the approved animated intro, centered captions, context-aware Twitch
+stickers and continuous CC0 music; show current queue controls and independent
+round results. Label simulated audiences separately from the actual Twitch join.
+Do not claim a public broadcast, channel-point wagering or progression.
 
-## Current edit - under three minutes
-
-The film opens with the animated Chaos Factory intro, followed directly by the current
-eight-game dashboard in offline demo mode, showing queue ordering and Start Cup.
-Animated captions explain adding games, dragging the queue and starting a Cup.
-Close-ups hold still, with cuts between compositions. A continuous mock lobby
-fills to 48 viewers, counts down, and starts a populated Peg Fever field. An
-inset separately labels the real Twitch test with iamyanbo while the channel
-was offline. The main audience is simulated; no real crowd is implied.
-
-Bold MINIGAMES and GRAND FINAL stingers separate the sections. Five game chapters lead through the Cup standings, final duel and actual
-champion. Titles hold still for two seconds before a slower move into the corner.
-The opening title says "Implemented with Codex"; the closing card links GitHub.
-The standalone code excerpt is removed. The [official rules](https://twitchcon-codex.devpost.com/rules)
-say the video should show how the project was built with Codex; they do not prescribe
-a code excerpt or separate build card. This edit uses the credit and repository link,
-with the workflow explained in the written submission; no Codex app footage is claimed.
-Short rules remain beside each game, and the standings note stays above its table.
-
-Cascade shows the large x3 volley and the five-finisher win. Hot Potato includes
-the rim-break explosion and a later mass elimination, retaining each lead-in and
-aftermath. Peg Fever shows dense peg hits, multiplied landings and the final orange
-triggering Fever and doubled slots. Marble Race cuts forward from the launch pack
-to the gate breach and first finishes. Blade Brawl includes two midround knockouts
-and the final survivor. The title lead-ins
-leave the key payoffs visible. The champion leads directly to the animated ending.
-
-One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
-the scenes. Centered text captions mark recorded payoffs. Iconic Twitch emotes pop separately
-in varied parts of the frame around events; they are editorial reactions, not
-actual chat messages. Gameplay stays at its
-captured speed; the old real-chat mix is muted. No voiceover is recorded.
-
-The MORE GAMES section shows Pong Wars, Light Cycles and Ring Run+ as optional
-queue picks, separately from the recorded default Cup. Pong shows a close finish,
-Light Cycles shows a busier crash sequence and Ring Run+ shows a physical escape.
-
-Latest local MP4: qa/submission-video/chaos-factory-demo-v15.mp4. A protected cleanup script is provided
-for obsolete exports and generated edit files; deletion was blocked by automatic review. edit.json records exact source windows and the real-test
-inset. Upload copy, contact sheet and transition review are beside the videos;
-generated media is excluded from Git.
-
-Include native Prediction creation, lock and resolution only after a successful
-eligible-channel rehearsal. Otherwise describe the wagering limitation honestly
-and demonstrate the working chat integration. Do not imply mock payouts are real.
-
-## Fields still supplied at submission
-
-- Repository URL: https://github.com/iamyanbo/chaos-factory (public submission repo).
-- YouTube URL for the final Twitch demonstration, under three minutes.
-- Main build thread's actual Codex session ID, obtained with `/status`.
-- Team membership and final Devpost Submit action.
-
-No session ID, repository address, live-test result or video URL is fabricated
-in this draft. Use qa/release-check.md and qa/known-issues.md for current limits.
+Repository: https://github.com/iamyanbo/chaos-factory
+The solo member and actual main Codex session ID are saved in submission-fields.json.
+YouTube upload and Devpost submission remain owner account steps.

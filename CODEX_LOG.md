@@ -1407,3 +1407,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Recorded fresh optional games and the eight-game offline dashboard; reviewed v15 at 162.633 s with clean decode/DTS/audio.
 - Validation: typecheck, all 383 tests/77 files and eight relevant browser checks pass. Refreshed running demo and saved Twitch connection.
 - Live payout testing remains deferred as requested; no broadcast/upload/deletion is claimed. Updated copy, credits and handoff.
+
+## 2026-10-31 - Join-only independent rounds
+- User override: removed native/mock Predictions, betting HUD/controls, permissions, EventSub events and payout services.
+- Removed Cup points, standings, qualification, forced final, XP/progression writes and persistent crown/profile services.
+- Queues run independent full-field rounds; preserved streamer formats, one-off team results, native objective scores and FIFO joins.
+- Kept manual host starts, ten-second automatic joins, loading and 3-2-1; empty player-dependent lobbies stay open.
+- Reviewed Toy gameplay/result frames, fixed winner portrait color and updated dashboard, connection and submission copy.
+- Typecheck/build, all 357 tests/75 files and 13 browser regressions pass, including six natural rounds and chat-only authorization.
+- Restarted mock/live helpers; iamyanbo chat reconnects. Existing v15 Cup video needs a recut; no new video/upload performed.

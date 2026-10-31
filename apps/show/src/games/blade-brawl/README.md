@@ -39,6 +39,6 @@ It adds no damage, power or wager reward and consumes none of the combat RNG.
 The shared result layer supplies the winner payoff once.
 
 The authenticated broadcaster display name appears on their fighter, HP card,
-round cards and Prediction labels. Offline practice may read that public name
+round cards. Offline practice may read that public name
 from the local server without joining chat; otherwise it uses Streamer. Rage
 shows a plain percentage while charging and seconds while active.

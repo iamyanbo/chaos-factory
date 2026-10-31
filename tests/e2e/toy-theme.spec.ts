@@ -16,7 +16,7 @@ test('all eight games are queueable while only the original five start in automa
   await expect(page.locator('[data-game="pong-wars"] .game-kind')).toContainText('Faction supporters');
   expect(await page.locator('h1').evaluate(element => getComputedStyle(element).fontFamily)).toContain('Lilita One');
   expect(await page.locator('body').evaluate(element => getComputedStyle(element).fontFamily)).toContain('Fredoka');
-  for (const id of ['show-settings', 'broadcast-settings', 'cup-details', 'dashboard-logs', 'mock-testing']) {
+  for (const id of ['show-settings', 'broadcast-settings', 'dashboard-logs', 'mock-testing']) {
     await expect(page.locator(`#${id}`)).not.toHaveAttribute('open');
   }
   await expect(page.locator('.game-grid')).toHaveCSS('grid-template-columns', /\S+ \S+ \S+/);
@@ -38,7 +38,7 @@ test('all eight games are queueable while only the original five start in automa
   await page.screenshot({ path: 'qa/checks/dashboard-compact-mobile.png', fullPage: true });
 });
 
-test('lobby, standings and winner previews use local fonts and never connect to a show', async ({ page }) => {
+test('lobby and winner previews use local fonts and never connect to a show', async ({ page }) => {
   const errors: string[] = [];
   const sockets: string[] = [];
   const remoteFonts: string[] = [];
@@ -50,7 +50,7 @@ test('lobby, standings and winner previews use local fonts and never connect to 
     }
   });
   await page.routeWebSocket('**', socket => socket.close());
-  for (const screen of ['lobby', 'standings', 'winner']) {
+  for (const screen of ['lobby', 'winner']) {
     await page.goto(`/preview?screen=${screen}`);
     await expect(page.locator('html')).toHaveAttribute('data-preview', screen);
     await expect(page.locator('canvas')).toBeVisible();

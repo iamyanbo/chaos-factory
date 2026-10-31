@@ -222,8 +222,6 @@ const definition: GameDefinition = {
   maxParticipants: MAX_PARTICIPANTS, defaultBots: DEFAULT_BOTS, participantNoun: 'ball',
   joinOnly: true, competition: 'individual', presentation: 'minimal', camera: 'fixed',
   chatVerbs: [], streamerControls: [], supportsModifiers: [],
-  predictionTitle: setup => setup.format === 'boss'
-    ? 'Hot Potato: can chat eliminate the boss before three remain?' : 'Hot Potato: last ball alive?',
   scoreTake, create: ctx => new HotPotato(ctx)
 };
 

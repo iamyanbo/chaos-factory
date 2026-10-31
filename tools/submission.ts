@@ -49,7 +49,7 @@ if (process.argv.includes('--check')) {
   await writeFile(resolve(output, 'START-HERE.md'), [
     '# Chaos Factory submission pack', '', `Source commit: ${commit}`, `ZIP SHA-256: ${sourceSha256}`, '',
     'Extract chaos-factory-source.zip, then run npm ci and npm run demo with Node 22 or newer.',
-    'Play: http://127.0.0.1:4182/play | Cup: http://127.0.0.1:4182/show', '',
+    'Play: http://127.0.0.1:4182/play | Show: http://127.0.0.1:4182/show', '',
     'SUBMISSION.md contains the project copy. SHIP-CHECKLIST.md lists the owner steps.',
     'images/ contains our own game captures. These are still images, not proof of live Twitch.',
     'Full source includes the licensed runtime assets and notices. Local .env/.data are excluded.', '',

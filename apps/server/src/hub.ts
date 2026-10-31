@@ -4,7 +4,7 @@ import { hostname } from 'node:os';
 import { messageSchema, type Message, type DirectorState } from '@chaos/shared';
 type Role = 'show' | 'dashboard' | 'controller';
 const permissions: Record<Role, string[]> = {
-  show: ['prediction.create', 'prediction.lock', 'prediction.resolve', 'prediction.cancel', 'round.record', 'director.state', 'ping'],
+  show: ['director.state', 'ping'],
   dashboard: ['director.command', 'mock.chat', 'mock.swarm', 'ping'], controller: ['streamer.input', 'ping']
 };
 export class Hub {

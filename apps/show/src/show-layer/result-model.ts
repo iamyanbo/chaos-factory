@@ -9,7 +9,6 @@ export interface ResultRow {
   rank?: number;
   value: string;
   detail: string;
-  cupPoints?: number;
 }
 export interface ResultModel {
   name: string;
@@ -37,11 +36,10 @@ function performance(id: string, score: number): string {
   return numeric(score);
 }
 
-/** Presentation reads actual outcomes and awards; it never invents podium points. */
+/** Presentation reads this round's actual outcome and objective scores. */
 export function roundResult(state: HudState): ResultModel {
   const result = state.result;
   const show = state.show;
-  const awards = show?.roundAwards ?? show?.podium ?? [];
   const cancelled = !result || result.winner.kind === 'void';
   if (cancelled) return { name: 'ROUND CANCELLED', color: TOY.color.muted,
     label: 'NO WINNER', stat: '', rowsTitle: 'NO RESULT', rows: [], cancelled: true,
@@ -79,43 +77,23 @@ export function roundResult(state: HudState): ResultModel {
   } else {
     const entries = Object.entries(result.perUser).map(([id, entry]) => {
       const place = entry.tags.find(tag => tag.startsWith('place:'))?.slice(6);
-      const award = awards.find(row => row.userId === id);
-      return { id, score: entry.score, place: place ? Number(place) : undefined, award,
-        name: state.participantNames?.[id] ?? members.find(member => member.userId === id)?.displayName
-          ?? award?.displayName ?? id };
+      return { id, score: entry.score, place: place ? Number(place) : undefined,
+        name: state.participantNames?.[id] ?? members.find(member => member.userId === id)?.displayName ?? id };
     });
     entries.sort((a, b) => collective ? b.score - a.score
       : Number(b.id === winnerId) - Number(a.id === winnerId)
-        || (a.place ?? a.award?.place ?? Infinity) - (b.place ?? b.award?.place ?? Infinity)
+        || (a.place ?? Infinity) - (b.place ?? Infinity)
         || b.score - a.score || a.id.localeCompare(b.id));
     rows = entries.slice(0, 5).map((entry, index) => ({ id: entry.id, name: entry.name,
       color: state.participantColors?.[entry.name] ?? color(members.find(member => member.userId === entry.id)?.color),
-      rank: collective ? index + 1 : entry.place ?? entry.award?.place ?? (entry.id === winnerId ? 1 : undefined), value: performance(state.game.id, entry.score), detail: '' }));
-  }
-  if (!state.practice) for (const row of rows) {
-    row.cupPoints = awards.find(award => award.userId === row.id)?.points;
+      rank: collective ? index + 1 : entry.place ?? (entry.id === winnerId ? 1 : undefined), value: performance(state.game.id, entry.score), detail: '' }));
   }
   const winningRow = rows.find(row => row.id === winnerId);
   const stat = winningRow?.value ?? (collective
     ? 'LAST SIDE STANDING'
     : champion?.reason ?? '');
-  return { name, color: result.winnerColor === undefined ? tint : toyColor(result.winnerColor), winnerId, rows, rowsTitle, stat,
+  const winnerColor = result.winnerColor ?? winningRow?.color ?? tint;
+  return { name, color: toyColor(winnerColor), winnerId, rows, rowsTitle, stat,
     note: show?.raceSummary ? `${show.raceSummary.finished} / ${show.raceSummary.total} marbles finished` : undefined,
     label: winner.kind === 'team' || collective ? 'WINNING SIDE' : 'ROUND WINNER', cancelled: false };
-}
-
-
-/** Grand Final victory, rather than Cup-point rank, decides the champion. */
-export function cupResult(state: HudState): ResultModel {
-  const show = state.show!;
-  const champion = show.standings.find(row => row.userId === show.championId);
-  const rows = show.standings.slice(0, 5);
-  if (champion && !rows.includes(champion)) rows.push(champion);
-  return { name: champion?.displayName ?? 'NO CHAMPION', label: champion ? 'CUP CHAMPION' : 'CUP COMPLETE',
-    color: champion ? color(champion.color) : TOY.color.muted,
-    stat: champion ? `${champion.points} CUP POINTS` : '', cancelled: !champion,
-    message: champion ? undefined : 'The Grand Final did not produce a winner.',
-    rowsTitle: 'CUP POINTS', winnerId: champion?.userId,
-    rows: rows.map(row => ({ id: row.userId, name: row.displayName, rank: row.rank,
-      color: color(row.color), value: `${row.points} pts`, detail: '' })) };
 }

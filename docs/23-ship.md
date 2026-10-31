@@ -2,7 +2,7 @@
 
 **Status: 2026-10-27. Deadline Nov 2, 5:00pm EST. The game list is frozen. No new games and no new mechanics.**
 
-## Submission lineup (Cup pool)
+## Submission lineup (default rotation)
 
 1. **Hot Potato**: the user likes it
 2. **Blade Brawl**: the headline game, with Chat vs Streamer (Boss)
@@ -13,8 +13,9 @@
 October 31 update, requested by the user: Light Cycles, Pong Wars and Ring Run+
 are now optional host queue and rotation choices, as well as offline games. The
 five games above remain the default automatic rotation; explicitly queuing an
-optional game includes it in the next Cup without changing that default. Every
-Cup still ends with the Blade Brawl Grand Final. Counterweight Clash stays out.
+optional game includes it in the next round without changing that default.
+October 31 scope override: rounds are independent. No Cup points, standings,
+qualification, forced final, progression or Predictions. Counterweight Clash stays out.
 
 ## Visual overhaul: why it looks boring
 
@@ -37,10 +38,10 @@ The current look is thin outlines and tiny balls floating in a big black void, w
 ## Remaining order of work (each step is one commit)
 
 1. Apply the visual overhaul to the shared kit (ball renderer, wall style, HUD cards, name tags, background), then to each of the 5 games.
-2. Set the Cup pool to the 5 lineup games, with the Blade Brawl Grand Final.
+2. Keep the five-game default rotation and all eight queue choices. Each round stands alone.
 3. **Live Twitch rehearsal checklist:** `npm run dev:live` with a real `.env`. On the dashboard, show:
    - whether the account is authenticated
-   - the broadcaster type (affiliate or partner is required for Predictions)
+   - the authenticated broadcaster name and chat-read connection
    - whether EventSub is connected
    - the time of the last `!join` received
 

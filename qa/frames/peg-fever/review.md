@@ -70,3 +70,11 @@ Opened `feedback-audit/frame-12.png` and normal-speed stills beside `docs/refs/t
 5. Type/cards: local Lilita/Fredoka, bold numbers and the existing Toy cards remain; the global combo HUD is removed.
 6. Callouts: only actual rules/scores/danger/finishes remain. No generic DOUBLE KILL, COMBO, UPSET or invented jackpot overlay; true landing arithmetic is retained.
 7. Verification: whole-round event-contract and feedback invariance tests, browser round completion, and still review cover this game's changed feedback. No new hidden force or random winner bias.
+
+## October 31 independent-round update
+
+Reviewed the real result in `join-only-result/` against theme-toy.png: warm dots,
+white chunky cards, matte winner portrait, local display/body fonts and unclipped
+names. Only this round's landing score is displayed, without Cup bonuses, XP,
+qualification or progression. The winner decoration does not persist to another
+round. The portrait and result row use the same viewer color.

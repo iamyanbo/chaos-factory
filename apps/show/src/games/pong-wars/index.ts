@@ -236,7 +236,6 @@ const definition: GameDefinition = {
   chatVerbs: [],
   streamerControls: [],
   supportsModifiers: [],
-  predictionTitle: () => "Pong Wars: WHICH TEAM OWNS THE MOST TILES?",
   scoreTake: (events) => TAKE_BASE_SCORE
     + events.leadChanges * TAKE_LEAD_WEIGHT
     + events.finalCloseness * TAKE_CLOSENESS_WEIGHT

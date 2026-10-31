@@ -89,7 +89,7 @@ test('actual RefreshingAuthProvider exchanges, persists and refreshes server-onl
 
 test('missing scopes fail closed without sending an upstream error or credential to the browser', async () => {
   const http = twitchHttp();
-  http.scopes = ['user:read:chat'];
+  http.scopes = [];
   const storage = await temporaryStore();
   const auth = new TwitchAuth(AUTH_SETTINGS, storage.store);
   try {

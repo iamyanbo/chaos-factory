@@ -10,8 +10,8 @@ const directory = resolve(outputFlag < 0 ? 'qa/submission-video/host-setup' : pr
 const mock = process.argv.includes('--mock');
 const status = await (await fetch(`${base}/api/twitch/status`)).json();
 if (mock ? status.mode !== 'mock'
-  : status.mode !== 'live' || !status.authenticated || !status.connected || status.canPredict) {
-  throw new Error('Choose an explicit mock capture or the connected standard channel without native wagers.');
+  : status.mode !== 'live' || !status.authenticated || !status.connected) {
+  throw new Error('Choose an explicit mock capture or an authenticated live chat connection.');
 }
 await mkdir(directory, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH
@@ -24,7 +24,6 @@ try {
   await show.goto(`${base}/show?manual=1&take=seed&mute=1`);
   await show.waitForFunction(() => window.__chaos?.connected && window.__chaos.phase === 'ATTRACT');
   await show.evaluate(() => {
-    window.__chaos.command('toggleWagers', false);
     window.__chaos.command('queue', []);
   });
   const context = await browser.newContext({ viewport: { width: 1920, height: 1080 },
@@ -99,7 +98,7 @@ try {
   const queue = await page.locator('#queue .queue-row').evaluateAll(rows => rows.map(row => (row as HTMLElement).dataset.game));
   if (queue.join(',') !== 'multiplier-cascade,hot-potato') throw new Error('Actual drag reorder failed');
   await pointer.click(page.locator('#start'), 740);
-  mark('start-cup');
+  mark('start-show');
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
   await page.waitForFunction(() => document.querySelector('#live-title')?.textContent === 'MULTIPLIER CASCADE'
     && !(document.querySelector('[data-cmd="pause"]') as HTMLElement).hidden);

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { MockBridge } from '../../apps/server/src/twitch/mock';
-import type { ChatMessage, Prediction } from '@chaos/shared';
+import type { ChatMessage } from '@chaos/shared';
 describe('mock bridge',()=>{
   test('bots send delayed joins and ignore manual non-join chat', () => {
     let time = 0;
@@ -15,7 +15,7 @@ describe('mock bridge',()=>{
     time = 2500;
     bridge.tick();
     expect(messages).toHaveLength(24);
-    expect(messages.every(message => message.text.startsWith('!join '))).toBe(true);
+    expect(messages.every(message => message.text === '!join')).toBe(true);
     bridge.manual('offline_viewer', '!join');
     expect(messages.at(-1)).toMatchObject({ text: '!join' });
     bridge.manual('offline_viewer', 'hello');
@@ -33,9 +33,7 @@ describe('mock bridge',()=>{
     time=2500;
     bridge.tick();
     expect(senders).toHaveLength(4);
-    expect(senders.every(id=>bridge.bots.some(bot=>bot.id===id))).toBe(true);
+    expect(senders.every(id=>bridge.bots.some(bot=>bot.login===id))).toBe(true);
   });
   test('honors stream delay and manual join is immediate',()=>{let time=0;const b=new MockBridge(1,[2500,2500],()=>time);b.activity=1;b.bots[0].nextAt=0;const chats:string[]=[];b.onChat=m=>chats.push(m.text);b.tick();expect(chats).toEqual([]);time=2499;b.tick();expect(chats).toEqual([]);time=2500;b.tick();expect(chats.length).toBe(1);b.manual('you','!join');expect(chats.at(-1)).toBe('!join');});
-  test('full lifecycle, exact pool conservation and refund',async()=>{let time=0;const b=new MockBridge(20,[2500,4500],()=>time);let latest:Prediction|undefined;b.onPrediction=p=>latest=p;const balances=b.bots.map(u=>u.balance);await b.createPrediction('Who wins?',['CHAT WINS','STREAMER WINS'],30);await expect(b.createPrediction('Again?',['A','B'],30)).rejects.toMatchObject({code:'ALREADY_ACTIVE'});time=5000;b.tick();const pool=b.prediction!.outcomes.reduce((s,o)=>s+o.points,0);expect(pool).toBeGreaterThan(0);await b.lockPrediction();expect(latest?.status).toBe('LOCKED');const winner=b.prediction!.outcomes.findIndex(o=>o.points>0);await b.resolvePrediction(winner);expect(latest?.status).toBe('RESOLVED');expect(Object.values(latest?.payouts??{}).reduce((a,c)=>a+c,0)).toBe(pool);expect(b.bots.reduce((s,u)=>s+u.balance,0)).toBe(balances.reduce((s,n)=>s+n,0));await b.createPrediction('Refund?',['A','B'],30);time=30000;b.tick();const total=b.bots.reduce((s,u)=>s+u.balance,0)+b.prediction!.outcomes.reduce((s,o)=>s+o.points,0);await b.cancelPrediction('test');expect(latest?.status).toBe('CANCELED');expect(b.bots.reduce((s,u)=>s+u.balance,0)).toBe(total);});
-  test('auto-locks at the original deadline',async()=>{let time=0;const b=new MockBridge(0,[0,0],()=>time);await b.createPrediction('x',['a','b'],30);time=30001;b.tick();expect(b.prediction?.status).toBe('LOCKED');});
 });

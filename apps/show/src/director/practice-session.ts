@@ -17,9 +17,7 @@ export function configurePractice(d: Director, setup: PracticeSetup): void {
   d.practiceRole = 'chatter';
   d.clock = 0;
   d.results = [];
-  d.predictions = [];
-  d.cup = { round: 1, rounds: 1, chat: 0, streamer: 0, teams: {} };
-  d.cupShow.reset(d.profileCrownId);
+  d.round = 1;
   d.participants = new Participants();
   d.participants.reset(Math.max(2, Math.min(game.maxTeams ?? 6, Math.floor(setup.teamCount ?? 4))));
   const team = d.participants.teams.includes(setup.team) ? setup.team : 'red';
@@ -29,7 +27,6 @@ export function configurePractice(d: Director, setup: PracticeSetup): void {
     const bots = Number.isFinite(setup.bots) ? Math.floor(setup.bots) : game.defaultBots ?? 24;
     d.participants.fill(Math.max(0, Math.min(d.capacityFor() - human, bots)), 0);
   }
-  d.wagers = false;
   d.paused = false;
   d.lastStreamerInput = undefined;
   d.enter('INTRO');

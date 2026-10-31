@@ -85,3 +85,11 @@ Opened `feedback-audit/frame-12.png` and normal-speed stills beside `docs/refs/t
 5. Type/cards: local Lilita/Fredoka, bold numbers and the existing Toy cards remain; the global combo HUD is removed.
 6. Callouts: only actual rules/scores/danger/finishes remain. No generic DOUBLE KILL, COMBO, UPSET or invented jackpot overlay; true landing arithmetic is retained.
 7. Verification: whole-round event-contract and feedback invariance tests, browser round completion, and still review cover this game's changed feedback. No new hidden force or random winner bias.
+
+## October 31 independent-round update
+
+Reviewed `join-only/still-06s.png` and its ten-frame sheet against theme-toy.png.
+The warm dotted background, blue floor, white rim, matte balls, chunky weapons,
+Lilita/Fredoka cards and arena framing are retained. The Prediction panel is
+removed by the latest user instruction; actual fighter information uses that
+space. Streamer HP and rage are game mechanics, not account points.

@@ -179,7 +179,6 @@ const definition: GameDefinition = {
   maxParticipants: 64, defaultBots: 24, maxTeams: 4, participantNoun: 'viewer',
   competition: 'individual', joinOnly: true, presentation: 'minimal', camera: 'fixed',
   takeActivities: ['hit', 'checkpoint'], chatVerbs: [], streamerControls: [], supportsModifiers: [],
-  predictionTitle: setup => setup.mode === 'faction' ? 'Peg Fever: highest scoring team?' : 'Peg Fever: highest score?',
   scoreTake: scorePegTake,
   create: ctx => new PegFever(ctx)
 };

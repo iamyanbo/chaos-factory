@@ -37,8 +37,7 @@ test('result variants render with long names, all six teams and no offline contr
     ['winner', 'screen=winner&game=peg-fever'],
     ['long-name', 'screen=winner&name=AReallyReallyLongStreamerName'],
     ['team-six', 'screen=winner&game=multiplier-cascade&case=team&teams=6'],
-    ['champion', 'screen=champion'], ['standings', 'screen=standings'],
-    ['void', 'screen=void&practice=1'], ['empty-cup', 'screen=champion&case=empty']
+    ['void', 'screen=void&practice=1']
   ]) {
     await page.goto(`/preview?${query}`);
     await page.waitForSelector('canvas');

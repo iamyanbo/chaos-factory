@@ -1,4 +1,4 @@
-import { predictionTitle, type Mode } from '@chaos/shared';
+import { type Mode } from '@chaos/shared';
 import type { GameContext, GameDefinition, GameInstance } from './contract';
 
 export const JOIN_LIMITS: Readonly<Record<string, number>> = {
@@ -68,8 +68,7 @@ export function defineGame(id: string, create: (ctx: GameContext) => GameInstanc
   return {
     id, ...spec, chatVerbs: [], streamerControls: [],
     durationSec: {target: spec.duration, hardCap: 150},
-    maxBodies: 200, maxParticipants: JOIN_LIMITS[id] ?? 0, supportsModifiers: [],
-    predictionTitle: setup => predictionTitle(spec.title, setup.mode), create
+    maxBodies: 200, maxParticipants: JOIN_LIMITS[id] ?? 0, supportsModifiers: [], create,
   };
 }
 export function defineAutomatic(id: string, create: (ctx: GameContext) => GameInstance,

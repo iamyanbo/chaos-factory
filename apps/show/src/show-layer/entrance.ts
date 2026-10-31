@@ -21,7 +21,7 @@ export class RoundEntrance {
     }
     this.elapsed += dt;
     this.countElapsed += dt;
-    const entering = ['INTRO', 'LOBBY_BET', 'LOCK_COUNTDOWN'].includes(state.phase);
+    const entering = ['INTRO', 'LOBBY', 'LOCK_COUNTDOWN'].includes(state.phase);
     const progress = entering ? Math.min(1, this.elapsed / ENTER_SECONDS) : 1;
     const ease = 1 - Math.pow(1 - progress, 3);
     root.pivot.set(960, 540);

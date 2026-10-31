@@ -2,15 +2,14 @@ import { expect, test } from 'vitest';
 import { excludedSourcePath, submissionReadiness, submissionSchema } from '../../tools/submission-readiness';
 
 const empty = { repositoryUrl: '', videoUrl: '', codexSessionId: '', teamMembers: [],
-  repositoryAccessChecked: false, liveJoinVerified: false,
-  livePredictionPayoutVerified: false, noWagerFallbackVerified: false };
+  repositoryAccessChecked: false, liveJoinVerified: false };
 
 test('a prepared pack cannot imply that live Twitch or repository access was verified', () => {
   expect(submissionReadiness(empty).every(item => !item.ready)).toBe(true);
   const items = submissionReadiness({ ...empty, repositoryUrl: 'https://github.com/owner/project',
     videoUrl: 'https://youtu.be/abcdefghijk', codexSessionId: 'actual-main-session-id', teamMembers: ['Builder'] });
   expect(items.filter(item => item.ready)).toHaveLength(4);
-  expect(items.filter(item => !item.ready)).toHaveLength(4);
+  expect(items.filter(item => !item.ready)).toHaveLength(2);
   expect(() => submissionSchema.parse({ ...empty, liveJoinVerified: 'true' })).toThrow();
 });
 
@@ -34,9 +33,11 @@ test('source packaging refuses credential/data/dependency paths while preserving
   expect(excludedSourcePath('apps/server/src/twitch/auth.ts')).toBe(false);
 });
 
-test('a standard channel records ineligible Predictions as not applicable without claiming a payout', () => {
-  const fields = { ...empty, broadcasterType: 'standard' as const };
-  expect(submissionReadiness(fields)[6]).toMatchObject({ ready: true, notApplicable: true });
-  expect(fields.livePredictionPayoutVerified).toBe(false);
-  expect(submissionReadiness({ ...empty, broadcasterType: 'affiliate' })[6].ready).toBe(false);
+test('submission requires a real chat join, without gating it on channel points or eligibility', () => {
+  for (const broadcasterType of ['standard', 'affiliate', 'partner'] as const) {
+    const items = submissionReadiness({ ...empty, broadcasterType, liveJoinVerified: true });
+    expect(items).toHaveLength(6);
+    expect(items[5]).toMatchObject({ ready: true });
+    expect(items.some(item => /payout|prediction|wager/i.test(item.label))).toBe(false);
+  }
 });

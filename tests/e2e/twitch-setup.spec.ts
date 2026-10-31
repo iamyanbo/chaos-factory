@@ -5,7 +5,7 @@ const clientId = 'publicclientfixture1234567890';
 const pending = { state: 'waiting', userCode: 'TESTCODE', expiresAt: Date.now() + 600000,
   verificationUri: 'https://www.twitch.tv/activate?public=true&device-code=TESTCODE' };
 const connection = { type: 'twitch.status', mode: 'live', configured: false, connected: false,
-  authenticated: false, eventSubConnected: false, channel: 'Not connected', canPredict: false, authFlow: 'device' };
+  authenticated: false, eventSubConnected: false, channel: 'Not connected', authFlow: 'device' };
 
 async function wireStatus(page: Page, configured = false): Promise<() => WebSocketRoute> {
   let wire: WebSocketRoute;
@@ -25,20 +25,21 @@ test('first-time Twitch setup asks for only a public Client ID and reports readi
   await expect(page.locator('#bridge-mode')).toContainText('Twitch not connected');
   await expect(page.getByLabel('Client ID (public)')).toBeVisible();
   await page.getByText('Register the app', { exact: true }).click();
-  await expect(page.locator('.twitch-first-time code')).toHaveText('https://localhost:4181/auth/callback');
+  const registration = new URL('/auth/callback', page.url());
+  registration.protocol = 'https:';
+  await expect(page.locator('.twitch-first-time code')).toHaveText(registration.href);
   expect(new URL(page.url()).protocol).toBe('http:');
   await expect(page.getByRole('button', { name: 'Connect Twitch', exact: true })).toBeEnabled();
   await expect(page.locator('[data-twitch="authenticated"]')).toHaveText('Not authorized');
   await expect(page.locator('[data-twitch="eventsub"]')).toHaveText('Waiting for authorization');
   await expect(page.locator('[data-twitch="last-join"]')).toHaveText('No joins received yet');
   await expect(page.locator('input[name="accessToken"], input[name="clientSecret"], input[name="refreshToken"]')).toHaveCount(0);
-  await expect(page.locator('#wagers')).toBeDisabled();
   expect(errors).toEqual([]);
   await mkdir('qa/checks', { recursive: true });
   await page.screenshot({ path: 'qa/checks/twitch-setup-first-time.png' });
 });
 
-test('one guided flow opens Twitch and automatically reports chat/Predictions without pasted tokens', async ({ page, context }) => {
+test('one guided flow opens Twitch and automatically reports chat without pasted tokens', async ({ page, context }) => {
   const wire = await wireStatus(page);
   let started = false;
   let posted: Record<string, unknown> | undefined;
@@ -58,13 +59,12 @@ test('one guided flow opens Twitch and automatically reports chat/Predictions wi
   expect(posted).toEqual({ clientId });
   await page.screenshot({ path: 'qa/checks/twitch-setup-pending.png' });
   wire().send(JSON.stringify({ ...connection, configured: true, connected: true, authenticated: true,
-    eventSubConnected: true, channel: 'host', broadcasterType: 'affiliate', canPredict: true, lastJoinAt: Date.now() }));
+    eventSubConnected: true, channel: 'host', broadcasterType: 'affiliate', lastJoinAt: Date.now() }));
   await expect(page.locator('.connection-panel')).not.toHaveAttribute('open');
   await page.locator('.connection-panel > summary').click();
   await expect(page.locator('[data-twitch="authenticated"]')).toHaveText('Authorized as @host');
   await expect(page.locator('[data-twitch="eventsub"]')).toHaveText('Connected');
   await expect(page.locator('[data-twitch="last-join"]')).not.toContainText('No joins');
-  await expect(page.locator('#wagers')).toBeEnabled();
   await expect.poll(() => popup.isClosed()).toBe(true);
   await expect(page.getByLabel('Client ID (public)')).toBeHidden();
   await page.screenshot({ path: 'qa/checks/twitch-setup-connected-fixture.png' });
@@ -99,6 +99,6 @@ test('canceling or failing a login leaves a working retry button and chat-only s
   await expect(page.locator('.connection-panel')).not.toHaveAttribute('open');
   await page.locator('.connection-panel > summary').click();
   await expect(page.locator('[data-twitch="account"]')).toHaveText('Standard · chat only');
-  await expect(page.getByText('Chat joins are enabled. Twitch Predictions require an Affiliate or Partner channel; rounds run without wagers.')).toBeVisible();
-  await expect(page.locator('#wagers')).toBeDisabled();
+  await expect(page.getByText('@host · viewers type !join to play.')).toBeVisible();
+  await expect(page.locator('#wagers, #prediction-status, #bet-window')).toHaveCount(0);
 });

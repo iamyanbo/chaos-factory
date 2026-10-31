@@ -32,13 +32,12 @@ try {
       };
     });
     window.__chaos.command('music', false);
-    window.__chaos.command('toggleWagers', false);
     window.__chaos.command('setRoundStart', 'automatic');
     window.__chaos.command('setCapacity', { 'peg-fever': 48 });
     window.__chaos.command('queue', ['peg-fever']);
     window.__chaos.command('start');
   });
-  await page.waitForFunction(() => window.__chaos.phase === 'LOBBY_BET');
+  await page.waitForFunction(() => window.__chaos.phase === 'LOBBY');
   await page.mouse.click(960, 540);
   const download = page.waitForEvent('download', { timeout: 120_000 });
   const capture = await page.evaluate(async viewers => {

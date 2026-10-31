@@ -3,7 +3,7 @@
 A 90-second automatic territory battle for 2–4 factions. Every side starts with
 four balls regardless of audience size. Balls pass through their own color,
 reflect off other tiles and claim the tile they touch. Most tiles wins; tied
-leaders produce an honest void prediction. Viewers only type `!join`: names
+leaders produce an honest draw. Viewers only type `!join`: names
 rotate through their team's balls after each flip, without changing physics.
 The machine also runs with zero viewers. There are no host controls.
 

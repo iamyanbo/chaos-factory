@@ -32,21 +32,10 @@ export async function until(test: () => boolean, timeout = 5000): Promise<void> 
   }
 }
 
-export function rawPrediction(status = 'ACTIVE', id = 'prediction-1') {
-  return { id, broadcaster_id: '100', broadcaster_name: 'Host', broadcaster_login: 'host',
-    title: 'Who wins?', status, prediction_window: 30, created_at: DATE, ended_at: null,
-    locked_at: null, winning_outcome_id: status === 'RESOLVED' ? 'outcome-0' : null,
-    outcomes: [0, 1].map(index => ({ id: `outcome-${index}`, title: index ? 'BLUE' : 'RED',
-      users: index ? 1 : 2, channel_points: index ? 50 : 100, color: index ? 'PINK' : 'BLUE',
-      top_predictors: [{ user_id: `viewer-${index}`, user_login: `viewer_${index}`,
-        user_name: `Viewer ${index}`, channel_points_used: index ? 50 : 100, channel_points_won: 0 }] })) };
-}
-
 /** Real Twurple calls hit these HTTP fixtures, never an external Twitch account. */
 export function twitchHttp(options: { clientId?: string; broadcasterType?: '' | 'affiliate' | 'partner' } = {}) {
   const calls: { url: URL; method: string; body?: Record<string, unknown> }[] = [];
   const subscriptions: Record<string, unknown>[] = [];
-  let prediction: ReturnType<typeof rawPrediction> | undefined;
   let scopes = [...TWITCH_SCOPES];
   let authorized = true;
   let tokenCounter = 0;
@@ -91,30 +80,12 @@ export function twitchHttp(options: { clientId?: string; broadcasterType?: '' | 
       subscriptions.push(subscription);
       return response({ data: [subscription], total: subscriptions.length, total_cost: 0, max_total_cost: 10 }, 202);
     }
-    if (url.pathname.endsWith('/predictions')) {
-      if (method === 'POST') {
-        if (prediction && ['ACTIVE', 'LOCKED'].includes(prediction.status))
-          return response({ error: 'Bad Request', status: 400, message: 'A prediction is already running' }, 400);
-        prediction = rawPrediction();
-        const template = prediction.outcomes;
-        prediction.outcomes = (body!.outcomes as { title: string }[]).map((outcome, index) => ({
-          ...template[index % template.length], id: `outcome-${index}`, title: outcome.title
-        }));
-      } else if (method === 'PATCH' && prediction) {
-        prediction.status = String(body!.status);
-        if (body!.winning_outcome_id) prediction.winning_outcome_id = String(body!.winning_outcome_id);
-      }
-      const requestedId = url.searchParams.get('id');
-      return response({ data: prediction && (!requestedId || requestedId === prediction.id)
-        ? [prediction] : [], pagination: {} });
-    }
     throw new Error(`Unexpected fixture endpoint ${url.pathname}`);
   }));
   return { calls, subscriptions,
     set deviceState(value: typeof deviceState) { deviceState = value; },
     set deviceLifetime(value: number) { deviceLifetime = value; },
     set rejectDevice(value: boolean) { rejectDevice = value; },
-    get prediction() { return prediction; }, set prediction(value) { prediction = value; },
     set scopes(value: string[]) { scopes = value; }, set authorized(value: boolean) { authorized = value; } };
 }
 

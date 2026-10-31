@@ -9,7 +9,7 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
 
 ## Already prepared
 
-- Eight playable games; five-game Cup pool, standings, top-eight final and profiles.
+- Eight playable games; independent rounds, chat versus streamer and team events.
 - Mock judge demo: `npm ci`, then `npm run demo`; no account or tokens needed.
 - Live connector, reconnect/recovery behavior and server-only authorization storage.
 - Project description and demo outline in [SUBMISSION.md](SUBMISSION.md).
@@ -32,8 +32,8 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    Never upload `.env` or `.data`; the source ZIP excludes them.
 2. **Real Twitch round verified October 29.** A real `!join` from iamyanbo
    entered Peg Fever; host start/countdown and no-wager gameplay were captured.
-   This is a standard channel, so native Predictions are not applicable. No
-   public broadcast or native point payout is claimed. Details: [LIVE-TEST.md](LIVE-TEST.md).
+   Predictions and progression were removed on October 31. Only !join is needed;
+   no payout rehearsal remains. No public broadcast is claimed.
 3. **Session ID and solo membership prepared.** The actual main thread ID and
    iamyanbo's solo membership are saved in submission-fields.json. Check the
    display name and eligibility details in your own Devpost form.
@@ -46,8 +46,8 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
 
-The completed local edit is `qa/submission-video/chaos-factory-demo-v15.mp4` (under three minutes,
-1080p H.264/AAC). `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
+The historical local edit is `qa/submission-video/chaos-factory-demo-v15.mp4` (under three minutes,
+1080p H.264/AAC). It requires a recut: Cups, points and finals were removed from the app. `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
 contain the upload title/description, form copy and remaining account actions.
 No authenticated YouTube/Devpost API connector is available to the agent; those
 uploads/form submissions have not been performed. The video, generated media
@@ -66,7 +66,7 @@ npm run submission:check
 
 `submission:check` intentionally exits nonzero while a required field or owner
 confirmation is missing. It checks URL syntax, not reachability, YouTube visibility,
-duration, team eligibility, real payouts or Devpost submission status.
+duration, team eligibility or Devpost submission status.
 The ZIP represents exactly HEAD; tracked edits must be committed before packaging.
 Untracked local files are not included. The pack's source commit and SHA-256
 identify the exact handoff; preserve that commit for the submission.
@@ -83,8 +83,7 @@ claim the streamer mode is balanced. No new games or mechanics are planned.
 Use one Browser Source at **1920×1080**:
 `http://localhost:4181/show?manual=1`. Keep it active across scenes so a reload does
 not restart the show. Use **Control audio via OBS**, then confirm the source is
-audible in the mixer; verify music/effects before recording. Control the Cup from
+audible in the mixer; verify music/effects before recording. Control the show from
 `http://localhost:4181/dashboard`. Keep the dashboard/login window out of capture.
-The separate offline demo on **4182** contains mock viewers and mock wagers.
-Check the real Twitch player, chat and Prediction widget alongside the show during
-the rehearsal. This checklist does not create an OBS scene or start a broadcast.
+The separate offline demo on **4182** contains simulated viewers.
+Check chat and the show during the rehearsal. This checklist does not create an OBS scene or start a broadcast.

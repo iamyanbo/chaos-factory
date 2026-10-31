@@ -288,7 +288,6 @@ const definition: GameDefinition = {
   streamerControls: [],
   supportsModifiers: [],
   participantNoun: "fighter",
-  predictionTitle: setup => `Blade Brawl: ${setup.streamerName} or Chat?`,
   scoreTake: (events) =>
     100 -
     Math.max(0, 45 - events.duration, events.duration - 90) * 4 +

@@ -234,8 +234,6 @@ const definition: GameDefinition = {
   maxBodies: 69, maxParticipants: 64, defaultBots: 24, participantNoun: 'marble',
   joinOnly: true, competition: 'individual', presentation: 'minimal', camera: 'fixed',
   chatVerbs: [], streamerControls: [], supportsModifiers: [],
-  predictionTitle: setup => setup.mode === 'faction'
-    ? 'Ring Run+: which team escapes first?' : 'Ring Run+: first marble out',
   scoreTake: scoreRingTake,
   create: ctx => new RingRun(ctx)
 };

@@ -37,11 +37,6 @@ export function twitchPanel(host: HTMLElement): (message: Message) => void {
   section.append(title, status, facts, connect, device.root);
   host.querySelector('.masthead')!.after(section);
   return message => {
-    if (message.type === 'prediction.error') {
-      host.querySelector('#prediction-status')!.textContent = 'NO WAGERS THIS ROUND';
-      host.querySelector('#prediction-pool')!.textContent = message.message;
-      return;
-    }
     if (message.type !== 'twitch.status') return;
     const live = message.mode === 'live';
     section.hidden = !live;
@@ -59,7 +54,7 @@ export function twitchPanel(host: HTMLElement): (message: Message) => void {
     const heading = document.createElement('strong');
     heading.textContent = live ? message.connected ? 'TWITCH CONNECTED' : 'TWITCH OFFLINE' : 'MOCK MODE';
     const subtitle = document.createElement('small');
-    subtitle.textContent = live ? message.channel : 'Simulated chat and predictions';
+    subtitle.textContent = live ? message.channel : 'Simulated !join messages';
     badge.append(heading, document.createElement('br'), subtitle);
     device.update(message);
     facts.hidden = !live;
@@ -72,18 +67,11 @@ export function twitchPanel(host: HTMLElement): (message: Message) => void {
     connect.hidden = !live || !message.configured || message.authFlow === 'device';
     connect.href = message.loginUrl ?? 'http://localhost:4174/auth/login';
     connect.textContent = message.connected ? 'Reconnect Twitch' : 'Connect Twitch';
-    status.textContent = !live ? 'Simulated chat and points. Offline games are always available.'
+    status.textContent = !live ? 'Simulated joins. Offline games are always available.'
       : message.lastError ?? (message.connected
-        ? `@${message.channel} · ${message.broadcasterType || 'Chat only'} · ${message.canPredict ? 'Native Predictions enabled' : 'No-wager rounds'}`
+        ? `@${message.channel} · viewers type !join to play.`
         : 'Connect the broadcaster account to receive real !join messages.');
-    if (live && message.authenticated && !message.broadcasterType)
-      status.textContent = `${message.connected ? 'Chat joins are enabled.' : 'Authorized. Connecting chat…'} Twitch Predictions require an Affiliate or Partner channel; rounds run without wagers.`;
     const crowd = host.querySelector<HTMLElement>('#mock-testing');
     if (crowd) crowd.hidden = live;
-    const wagers = host.querySelector<HTMLInputElement>('#wagers')!;
-    wagers.disabled = live && !message.canPredict;
-    wagers.closest('label')!.querySelector('span')!.textContent = live ? 'Twitch Predictions' : 'Mock predictions';
-    wagers.closest('label')!.querySelector('small')!.textContent = live
-      ? 'Native channel points, settled by Twitch' : 'Simulated points, no real wagering';
   };
 }

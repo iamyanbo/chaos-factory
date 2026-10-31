@@ -21,8 +21,7 @@ Each live cycle gets a seeded 4% turn request every fixed 60Hz tick; a turn happ
 at a cell center and only when it is safe compared with the alternatives. Nobody
 reverses into their own attached trail. Cell claims resolve simultaneously, so two
 heads entering the same empty cell crash together rather than rewarding the first
-array entry. Existing trail crashes credit the actual trail owner for rivalries
-and the Cup crown.
+array entry. Existing trail crashes credit the actual trail owner in that round.
 
 The three stages are OPEN GRID, SPEED UP at 40s (speed x1.3), and WALLS CLOSE from
 70s. The drawn white border moves inward at a fixed public rate; it is the actual

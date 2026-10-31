@@ -17,11 +17,12 @@
   edits during/after the long audit also prevent its source-hash acceptance;
   no balance PASS is claimed. See qa/blade-boss-balance.md and JSON provenance.
   Do not add an undisclosed population curve or select takes by who wins.
-- **Twitch rehearsal:** a real EventSub `!join` admitted iamyanbo to Peg Fever,
-  and host start/countdown led to gameplay without wagers on October 29. The
-  connected channel is standard, so native Predictions are not applicable on
-  this account. A public broadcast and eligible-channel native point payout
-  remain unperformed and are not claimed by the recorded chat proof.
+- **Current video:** v15 shows the retired Cup structure and must be recut before
+  it advertises the current independent-round format. Approved source footage and
+  editing assets are preserved locally. No new video was requested in this change.
+- **Twitch rehearsal:** the real EventSub !join admitted iamyanbo to Peg Fever
+  on October 29. The October 31 design requests chat-read permission only and
+  removes Predictions entirely. No native payout rehearsal remains.
 - **Submission account steps:** the public repository is
   https://github.com/iamyanbo/chaos-factory. The actual main Codex session ID is
   prepared; the final YouTube URL is still missing.

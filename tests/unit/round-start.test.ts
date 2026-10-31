@@ -26,16 +26,15 @@ test('live rounds wait indefinitely for joins and the host; an empty arena canno
   try {
     d.broadcast();
     expect(messageSchema.safeParse(messages.at(-1)).success).toBe(true);
-    d.receive({ type: 'twitch.status', mode: 'live', channel: 'host', connected: true, canPredict: false });
+    d.receive({ type: 'twitch.status', mode: 'live', channel: 'host', connected: true });
     expect(d.roundStart).toBe('manual');
     d.start();
     d.frame(1);
     expect(d.waitingForHost).toBe(true);
     d.frame(1000);
     d.command({ type: 'director.command', cmd: 'startRound' });
-    expect(d.phase).toBe('LOBBY_BET');
+    expect(d.phase).toBe('LOBBY');
     expect(d.waitingForHost).toBe(true);
-    expect(messages.some(m => m.type === 'prediction.create')).toBe(false);
     expect(messageSchema.safeParse(messages.at(-1)).success).toBe(true);
     join(d, 'alice');
     join(d, 'bob');
@@ -47,34 +46,9 @@ test('live rounds wait indefinitely for joins and the host; an empty arena canno
     d.frame(.31);
     expect(d.phase).toBe('PLAY');
     d.void('Test round');
-    d.enter('STANDINGS');
     d.frame(1);
     d.frame(1);
     expect(d.waitingForHost).toBe(true);
-  } finally { d.destroy(); }
-});
-
-test('manual start opens one full Prediction window only after the host is ready', async () => {
-  await initPhysics();
-  const messages: Message[] = [];
-  const d = scene(messages);
-  try {
-    d.command({ type: 'director.command', cmd: 'setRoundStart', arg: 'manual' });
-    d.start();
-    d.frame(1);
-    d.frame(1000);
-    expect(messages.filter(m => m.type === 'prediction.create')).toHaveLength(0);
-    d.command({ type: 'director.command', cmd: 'startRound' });
-    expect(d.timeLeft()).toBe(30);
-    d.command({ type: 'director.command', cmd: 'startRound' });
-    expect(messages.filter(m => m.type === 'prediction.create')).toHaveLength(1);
-    d.frame(2.9);
-    expect(d.phase).toBe('LOBBY_BET');
-    d.frame(.11);
-    expect(d.phase).toBe('LOCK_COUNTDOWN');
-    expect(messages.filter(m => m.type === 'prediction.lock')).toHaveLength(1);
-    d.frame(.31);
-    expect(d.phase).toBe('PLAY');
   } finally { d.destroy(); }
 });
 
@@ -87,8 +61,8 @@ test('host preference survives live status updates and automatic mode releases a
     d.frame(1);
     d.command({ type: 'director.command', cmd: 'setRoundStart', arg: 'automatic' });
     expect(d.waitingForHost).toBe(false);
-    expect(d.timeLeft()).toBe(30);
-    d.receive({ type: 'twitch.status', mode: 'live', channel: 'host', connected: true, canPredict: false });
+    expect(d.timeLeft()).toBe(10);
+    d.receive({ type: 'twitch.status', mode: 'live', channel: 'host', connected: true });
     expect(d.roundStart).toBe('automatic');
   } finally { d.destroy(); }
 });
@@ -115,20 +89,18 @@ test('game preparation completes before the visible three-second countdown begin
   } finally { d.destroy(); }
 });
 
-test('automatic rounds without wagers leave ten seconds to join, then start the countdown', async () => {
+test('automatic rounds leave ten seconds to join, then start the countdown', async () => {
   await initPhysics();
   const messages: Message[] = [];
   const d = scene(messages);
   try {
-    d.command({ type: 'director.command', cmd: 'toggleWagers', arg: false });
     d.start();
     d.frame(1);
-    expect(d.phase).toBe('LOBBY_BET');
+    expect(d.phase).toBe('LOBBY');
     expect(d.timeLeft()).toBe(10);
     d.frame(.99);
-    expect(d.phase).toBe('LOBBY_BET');
+    expect(d.phase).toBe('LOBBY');
     d.frame(.02);
     expect(d.phase).toBe('LOCK_COUNTDOWN');
-    expect(messages.some(message => message.type === 'prediction.create')).toBe(false);
   } finally { d.destroy(); }
 });

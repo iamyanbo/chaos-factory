@@ -1,7 +1,7 @@
 import type { HypeEvent } from './hype';
 export type Mode = 'cvs' | 'faction';
 export type TeamId = 'red' | 'blue' | 'mint' | 'gold' | 'violet' | 'orange';
-export type Phase = 'ATTRACT' | 'INTRO' | 'LOBBY_BET' | 'LOCK_COUNTDOWN' | 'PLAY' | 'FINALE' | 'RESULT' | 'STANDINGS' | 'WHEEL' | 'CUP_RESULTS';
+export type Phase = 'ATTRACT' | 'INTRO' | 'LOBBY' | 'LOCK_COUNTDOWN' | 'PLAY' | 'FINALE' | 'RESULT';
 export interface Vec2 { x: number; y: number }
 export interface Participant { userId: string; login: string; displayName: string; color: string; teamId?: TeamId; title?: string; golden?: boolean; level?: number; crowned?: boolean }
 export interface RoundSetup {
@@ -41,7 +41,4 @@ export interface RoundResult {
 }
 export interface VerbSpec { verb: string; aliases?: string[]; args?: 'none' | 'int' | 'team'; scope: 'participant' | 'anyone'; cooldownMs: number; help: string }
 export interface ControlSpec { action: string; key: string; label: string }
-export interface CupState { round: number; rounds: number; chat: number; streamer: number; teams: Partial<Record<TeamId, number>>;
-  standings?: import('./viewer-profile').CupStanding[]; championId?: string; grandFinal?: boolean }
 export interface GameInfo { id: string; title: string; tagline: string; tier: number; modes: Mode[]; chatVerbs: VerbSpec[]; streamerControls: ControlSpec[] }
-export interface UserStats { login: string; rounds: number; wins: number; score: number; mvps: number; crushes: number; survived: number; traitors: number; titles: string[]; factions: Partial<Record<TeamId, number>> }

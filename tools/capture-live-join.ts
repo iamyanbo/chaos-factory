@@ -23,9 +23,9 @@ try {
   await page.waitForFunction(() => window.__chaos?.connected);
   await page.evaluate(() => {
     window.__chaos.command('queue', ['peg-fever']);
-    window.__chaos.command('start', 5);
+    window.__chaos.command('start');
   });
-  await page.waitForFunction(() => window.__chaos.phase === 'LOBBY_BET');
+  await page.waitForFunction(() => window.__chaos.phase === 'LOBBY');
   await page.mouse.click(960, 540);
   const download = page.waitForEvent('download', { timeout: (WAIT_LIMIT_SECONDS + 60) * 1000 });
   console.log('LIVE READY: waiting for a real !join.');
@@ -68,7 +68,7 @@ try {
     anchor.click();
     stream.getVideoTracks().forEach(track => track.stop());
     return { wallSeconds: (performance.now() - start) / 1000,
-      joinedAt, startedAt, member, predictions: window.__chaos.predictions,
+      joinedAt, startedAt, member,
       phase: window.__chaos.phase, game: window.__chaos.gameId };
   }, WAIT_LIMIT_SECONDS);
   const raw = resolve(directory, 'raw.webm');
@@ -78,7 +78,7 @@ try {
   await writeFile(resolve(directory, 'capture.json'), JSON.stringify({ mode: 'live',
     channel: status.channel, broadcasterType: status.broadcasterType,
     eventSubConnected: after.eventSubConnected, lastJoinAt: after.lastJoinAt,
-    noWagers: !after.canPredict,
+    interaction: 'join-only',
     ...recording, media, errors }, null, 2));
   if (recording.joinedAt === undefined || errors.length) throw new Error('Real join was not observed.');
   console.log('Live Twitch join capture saved. No chat or prediction was simulated.');

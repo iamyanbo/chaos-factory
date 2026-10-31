@@ -242,7 +242,6 @@ const definition: GameDefinition = {
   maxParticipants: MAX_ENTRANTS, defaultBots: 24, participantNoun: 'marble',
   joinOnly: true, competition: 'individual', presentation: 'minimal', camera: 'scroll',
   chatVerbs: [], streamerControls: [], supportsModifiers: [],
-  predictionTitle: setup => setup.mode === 'faction' ? 'Which team has the best top-three finish?' : 'Which marble finishes first?',
   scoreTake: scoreRaceTake, create: ctx => new MarbleRace(ctx)
 };
 

@@ -1,16 +1,15 @@
-import { Rng, RateLimit, TEAMS, type ChatGameInput, type CupState, type GameEvent, type LoggedInput,
+import { Rng, RateLimit, TEAMS, type ChatGameInput, type GameEvent, type LoggedInput,
   type Message, type Mode, type Phase, type RoundResult, type RoundSetup, type StreamerInput,
-  type TeamId, type UserStats, type ViewerProfile } from '@chaos/shared';
-import { games, cupGames, registry } from '../games/registry';
+  type TeamId } from '@chaos/shared';
+import { games, rotationGames, registry } from '../games/registry';
 import { isDefaultGame, type GameContext, type GameDefinition, type GameInstance } from '../games/contract';
 import type { HudState } from '../hud/hud';
 import type { BestTakeResult } from '../kit/take-types';
 import { Participants } from './participants';
 import { Balance } from './balance';
-import { Cup } from '../show-layer/cup';
 import { Stages } from '../show-layer/stages';
 import { TakeSearch } from './take-search';
-import { audienceRoster, chooseGame, prepareLineup, roundRoster } from './roster';
+import { audienceRoster, chooseGame, roundRoster } from './roster';
 import { enterPhase, advancePhase, settleRound, phaseDuration } from './round-flow';
 import { configurePractice, practiceChat } from './practice-session';
 import { receiveMessage } from './network';
@@ -42,7 +41,6 @@ export class Director {
   readonly games = games;
   readonly registry = registry;
   readonly capacities = new Map<string, number>();
-  readonly cupShow = new Cup();
   readonly stages = new Stages();
   readonly search = new TakeSearch();
   readonly rng: Rng;
@@ -56,39 +54,25 @@ export class Director {
   format?: 'boss' | 'ffa' | 'faction';
   competition: 'individual' | 'team' = 'individual';
   modeOverride: 'auto' | Mode = 'auto';
-  cup: CupState = { round: 0, rounds: 5, chat: 0, streamer: 0, teams: {} };
+  round = 0;
   participants = new Participants();
   balance = new Balance();
-  enabled = new Set(cupGames.filter(isDefaultGame).map(game => game.id));
+  enabled = new Set(rotationGames.filter(isDefaultGame).map(game => game.id));
   queue: string[] = [];
-  finalists: string[] = [];
   results: RoundResult[] = [];
-  predictions: import('@chaos/shared').Prediction[] = [];
   inputs: LoggedInput[] = [];
-  profiles: Record<string, ViewerProfile> = Object.create(null);
-  profileCrownId?: string;
-  stats: Record<string, UserStats> = Object.create(null);
-  seenReturns = new Set<string>();
   modifiers: string[] = [];
   paused = false;
   autopilot = true;
-  wagers = true;
-  canPredict = true;
-  noWagers = false;
   connected = false;
   bridgeMode: 'mock' | 'live' = 'mock';
   streamerName = 'Streamer';
-  prediction?: import('@chaos/shared').Prediction;
-  predictionUsers: string[] = [];
-  predictionTitles: string[] = [];
   result?: RoundResult;
-  record?: import('@chaos/shared').CupRoundRecord;
   recorded = false;
   roundId = '';
   roundSeed = 1;
   roundCapacity = 0;
   mockCount = 60;
-  betWindow = 30;
   roundStart: 'automatic' | 'manual' = 'automatic';
   roundStartChosen = false;
   waitingForHost = false;
@@ -119,14 +103,13 @@ export class Director {
     this.mode = this.format === 'faction' ? 'faction' : 'cvs';
     this.competition = this.format === 'ffa' ? 'individual' : 'team';
     this.participants.fill(this.mockCount, 0);
-    this.cupShow.reset();
     this.preview();
   }
 
   capacityFor(id = this.game.id): number { return this.capacities.get(id) ?? registry.get(id)!.maxParticipants; }
   get capacity(): number { return this.roundCapacity || this.capacityFor(); }
   queuePosition(id: string): number {
-    return this.participants.queuePosition(id, ['RESULT', 'STANDINGS', 'CUP_RESULTS'].includes(this.phase)
+    return this.participants.queuePosition(id, ['RESULT'].includes(this.phase)
       ? [] : this.ctx?.setup.participants.map(user => user.userId) ?? []);
   }
   setCapacity(id: string, limit: number): void {
@@ -135,7 +118,6 @@ export class Director {
   }
 
   preview(newSeed = true): void {
-    this.cupShow.streamerName = this.streamerName;
     this.destroyGame();
     this.participants.capTeams(this.game.maxTeams ?? 6);
     this.roundCapacity = this.capacityFor();
@@ -143,7 +125,7 @@ export class Director {
     const setup: RoundSetup = { format: this.format, mode: this.mode, competition: this.competition,
       seed: this.roundSeed, gameId: this.game.id, difficulty: .5, modifiers: [],
       participants: roundRoster(this), audience: audienceRoster(this), teams: this.participants.teams,
-      crownUserId: this.cupShow.crownUserId, streamerName: this.streamerName };
+      streamerName: this.streamerName };
     this.initialSetup = structuredClone(setup);
     this.ctx = this.hooks.context(this.game, setup, event => this.event(event));
     this.instance = this.game.create(this.ctx);
@@ -154,16 +136,12 @@ export class Director {
     this.stages.reset(this.game.id);
   }
 
-  start(_rounds = 5): void {
-    if (!['ATTRACT', 'CUP_RESULTS'].includes(this.phase)) return;
-    this.cup = { round: 1, rounds: 5, chat: 0, streamer: 0, teams: {} };
-    this.cupShow.reset(this.cupShow.crownUserId);
+  start(): void {
+    if (this.phase !== 'ATTRACT') return;
+    this.round = 1;
     this.results = [];
-    this.predictions = [];
-    this.seenReturns.clear();
     this.participants.fill(this.mockCount, this.clock);
     this.paused = false;
-    prepareLineup(this);
     chooseGame(this);
     this.enter('INTRO');
   }
@@ -191,7 +169,7 @@ export class Director {
       if (!this.payoffRemaining) this.enter('RESULT');
       return;
     }
-    if (this.options.practice && ['RESULT', 'LOBBY_BET'].includes(this.phase)) return;
+    if (this.options.practice && ['RESULT', 'LOBBY'].includes(this.phase)) return;
     if (this.takePending) return;
     advancePhase(this);
   }
@@ -218,18 +196,12 @@ export class Director {
       }
     } catch (error) {
       this.notify(`Round recovered: ${String(error).slice(0, 100)}`);
-      this.void('Game error - all bets refunded');
+      this.void('Game error');
     }
   }
 
   private event(event: GameEvent): void {
     if (this.phase !== 'PLAY') return;
-    for (const text of this.cupShow.event(event)) {
-      this.notify(text);
-      if (text.includes('DETHRONED') && this.ctx) {
-        this.ctx.hype.callout(this.ctx.camera.target.x, this.ctx.camera.target.y, { text: 'DETHRONED' });
-      }
-    }
     if (event.t === 'moment') this.notify(event.text);
   }
   notify(text: string): void {
@@ -240,10 +212,10 @@ export class Director {
   render(alpha: number): void { this.instance?.render(this.result ? 1 : alpha); }
   connection(connected: boolean): void {
     this.connected = connected;
-    if (!connected) { this.noWagers = true; this.notify('BRIDGE OFFLINE - PHYSICS CONTINUES'); }
+    if (!connected) this.notify('Chat disconnected. The round continues.');
   }
   void(reason: string): void {
-    if (['ATTRACT', 'RESULT', 'STANDINGS', 'CUP_RESULTS'].includes(this.phase)) return;
+    if (['ATTRACT', 'RESULT'].includes(this.phase)) return;
     this.search.cancel(this);
     this.result = { winner: { kind: 'void', reason }, mvps: [], highlights: [], perUser: {},
       replay: { seed: this.roundSeed, inputs: this.inputs, setup: this.initialSetup } };
@@ -257,8 +229,7 @@ export class Director {
   }
   broadcast(): void {
     this.hooks.send({ type: 'director.state', musicEnabled: this.musicEnabled, phase: this.phase, gameId: this.game.id, mode: this.mode,
-      timeLeft: this.timeLeft(), cup: { ...this.cup, standings: this.cupShow.standings(this.profiles),
-        championId: this.cupShow.championId, grandFinal: this.cup.round === 5 }, participants: this.ctx?.setup.participants.length ?? 0,
+      timeLeft: this.timeLeft(), round: this.round, participants: this.ctx?.setup.participants.length ?? 0,
       capacity: this.game.spectator ? undefined : this.capacity, capacities: Object.fromEntries(this.capacities),
       waiting: this.participants.crowd, roundStart: this.roundStart, waitingForHost: this.waitingForHost,
       preparingRound: this.takePending, difficulty: .5, paused: this.paused, verbs: ['join'], controls: [],
@@ -274,21 +245,14 @@ export class Director {
       participantNames: Object.fromEntries((this.ctx?.setup.participants ?? []).map(user => [user.userId, user.displayName])),
       participantColors: Object.fromEntries((this.ctx?.setup.participants ?? []).map(user =>
         [user.displayName, this.mode === 'faction' && user.teamId ? TEAMS[user.teamId].hex : viewerColor(user)])),
-      phase: this.phase, timeLeft: this.timeLeft(), cup: this.cup, game: this.game, mode: this.mode,
+      phase: this.phase, timeLeft: this.timeLeft(), round: this.round, game: this.game, mode: this.mode,
       paused: this.paused, participants: this.ctx?.setup.participants.length ?? 0, capacity: this.capacity,
-      crowd: this.participants.crowd, prediction: this.prediction, noWagers: this.noWagers, connected: this.connected,
+      crowd: this.participants.crowd, connected: this.connected,
       result: this.result, modifiers: [], wheel: [], votes: [], autopilot: true, safeZone: this.safeZone,
-      showSafeZone: this.showSafeZone, cupMvps: [], show: {
+      showSafeZone: this.showSafeZone, show: {
         raceSummary: this.result && this.game.id === 'marble-race' ? readRaceSummary(this.instance) : undefined,
-        round: this.cup.round, rounds: this.cup.rounds, phaseTime: this.phaseTime * (this.options.fast ? 10 : 1),
-        grandFinal: this.cup.round === 5 && !this.options.practice,
-        standings: this.cupShow.standings(this.profiles), podium: this.cupShow.awards.slice(0, 3),
-        roundAwards: this.cupShow.awards,
-        qualified: this.finalists, championId: this.cupShow.championId,
-        crownName: this.cupShow.crownUserId ? this.profiles[this.cupShow.crownUserId]?.displayName ?? this.cupShow.name(this.cupShow.crownUserId) : undefined,
-        lastWinner: this.cupShow.lastWinners[this.game.id],
-        nextGameTitle: this.cup.round === 4 ? this.registry.get('blade-brawl')?.title : this.registry.get(this.queue[0])?.title,
-        question: this.cup.round === 5 ? 'Who takes the Cup?' : this.game.predictionTitle(this.ctx!.setup),
+        round: this.round, phaseTime: this.phaseTime * (this.options.fast ? 10 : 1),
+        nextGameTitle: this.registry.get(this.queue[0])?.title,
         stages: this.stages.rows, stageIndex: this.stages.index, elapsed: this.tick / 60,
         notifications: this.notifications.map(row => row.text)
       } };

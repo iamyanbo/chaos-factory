@@ -38,12 +38,12 @@ test('public setup routes reject foreign/local cross-origin requests and hide un
     expect((await runtime.app.inject({ method: 'POST', url: '/auth/device/cancel', headers, payload: {} })).statusCode).toBe(409);
     expect((await runtime.app.inject({ method: 'POST', url: '/auth/device/cancel', headers: { ...headers, cookie }, payload: {} })).statusCode).toBe(200);
     const status = (await runtime.app.inject('/api/twitch/status')).json();
-    expect(status).toMatchObject({ mode: 'live', configured: true, authenticated: false, eventSubConnected: false, canPredict: false });
+    expect(status).toMatchObject({ mode: 'live', configured: true, authenticated: false, eventSubConnected: false });
     expect(JSON.stringify(status)).not.toMatch(/test-access|private-device-code|clientSecret/);
   } finally { await runtime.app.close(); await storage.clean(); }
 });
 
-test('device authorization starts real SDK chat/Predictions, then the saved Client ID and tokens restore automatically', async () => {
+test('device authorization starts real SDK chat, then the saved Client ID and tokens restore automatically', async () => {
   const http = twitchHttp({ clientId: CLIENT_ID });
   const socket = await eventSocket(http.subscriptions);
   const storage = await temporaryStore();
@@ -66,16 +66,13 @@ test('device authorization starts real SDK chat/Predictions, then the saved Clie
     expect(start.statusCode).toBe(200);
     http.deviceState = 'authorized';
     await until(() => bridge.status().connected, 8000);
-    expect(bridge.status()).toMatchObject({ authenticated: true, eventSubConnected: true, canPredict: true, channel: 'host' });
+    expect(bridge.status()).toMatchObject({ authenticated: true, eventSubConnected: true, channel: 'host' });
     socket.notify('channel.chat.message', chatEvent());
     await until(() => messages.some(message => message.type === 'chat'));
     expect(messages.find(message => message.type === 'chat')).toMatchObject({ text: '!join', userId: '200' });
     expect(bridge.status().lastJoinAt).toBeGreaterThan(0);
-    const roundId = randomUUID();
-    await runtime.predictions.handle({ type: 'prediction.create', title: 'Who wins?', outcomes: ['BLUE', 'PINK'], windowSec: 30, roundId });
-    await runtime.predictions.handle({ type: 'prediction.lock', roundId });
-    await runtime.predictions.handle({ type: 'prediction.resolve', outcomeIndex: 1, roundId });
-    expect(http.prediction).toMatchObject({ status: 'RESOLVED', winning_outcome_id: 'outcome-1' });
+    expect(http.subscriptions.map(subscription => subscription.type)).toEqual(['channel.chat.message']);
+    expect(http.calls.some(call => call.url.pathname.endsWith('/predictions'))).toBe(false);
     expect(JSON.stringify(messages)).not.toMatch(/test-access|test-refresh|private-device-code/);
     show.close();
     await once(show, 'close');

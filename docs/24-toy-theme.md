@@ -1,6 +1,6 @@
 # 24 — Toy theme (latest doc, wins all conflicts on visuals)
 
-**Status: 2026-10-27. The user picked the "Toy" theme.** The reference is `docs/refs/theme-toy.png`, from `docs/refs/ui-themes.html?theme=toy`. Match it for everything **except the balls**: the user doesn't like the glossy, billiard-style balls in the mockup. The `.html` is a design mockup. Use it for colors, sizes and layout, and don't copy its code.
+**Status: 2026-10-27. The user picked the "Toy" theme.** The reference is `docs/refs/theme-toy.png`, from `docs/refs/ui-themes.html?theme=toy`. Match it for everything **except the balls**: the user doesn't like the glossy, billiard-style balls in the mockup. The `.html` is a design mockup. Use it for colors, sizes and layout, and don't copy its code. October 31 scope override: omit the reference's Prediction panel, Cup standings and persistent crown. Keep the visual tokens for the remaining round screens.
 
 ## Tokens (`apps/show/src/kit/theme/toy.ts`; every game and screen reads from here)
 
@@ -18,7 +18,7 @@
 ## Components (build once in `kit/theme/`)
 
 - **Card:** white panel, 26 px radius, 5 px ink border, a solid offset shadow of 8 px (ink at 20%) and 22–26 px padding. Labels are 20 px uppercase with letter spacing; big numbers are Lilita 44 px.
-- **Bars** (HP, Prediction, territory): 26 px tall, fully rounded, a pale track and a solid fill, animated with an ease-out. The Prediction bar uses accent A vs B.
+- **Bars** (HP, rage, territory): 26 px tall, fully rounded, a pale track and a solid fill, animated with an ease-out.
 - **Name tag:** Lilita 24 px, white fill, 6 px ink stroke under the fill. Show it only for the top 8, the crown holder, the Boss and the last 5 alive.
 - **Callout:** Lilita 110 px, yellow #ffde3b, an 8 px ink stroke, a solid 10 px ink drop, rotated −6°. It pops in with a scale overshoot. It must stay inside the arena bounds and never cover the side cards.
 - **Toast:** an ink pill, white Fredoka 26 px, at bottom center. Used for joins and short events.

@@ -91,8 +91,7 @@ export class ToySidebar {
       this.text.label('stage-label', special.label, left + pad, y + 23);
       this.text.set('stage-value', special.value, left + pad, y + 58, TOY.type.number, true);
     }
-    let rightY = 40;
-    if (!state.practice) rightY = this.prediction(state, dt) + TOY.layout.gap;
+    const rightY = 40;
     const rows = this.rows(state, side, ladder).slice(0, 5);
     if (rows.length) {
       card(g, { x: right, y: rightY, width: 380, height: 74 + rows.length * 43 });
@@ -121,30 +120,6 @@ export class ToySidebar {
     if (state.game.id === 'light-cycles') count = count.replace(/\s*still riding/i, '');
     if (count === 'FIRST TO FIVE') count = 'FIRST TO 5';
     return count;
-  }
-
-  private prediction(state: HudState, dt: number): number {
-    const x = TOY.layout.right;
-    const y = 40;
-    const prediction = state.prediction;
-    const label = state.noWagers ? 'PREDICTION · NO WAGERS'
-      : `PREDICTION · ${prediction?.status ?? 'JOINS OPEN'}`;
-    card(this.graphics, { x, y, width: 380, height: 175 });
-    this.text.label('prediction', label, x + 26, y + 24);
-    if (!prediction || state.noWagers) {
-      this.text.set('prediction-status', state.noWagers ? 'Join & watch' : 'Back your winner', x + 26, y + 66, 26);
-      this.text.set('prediction-hint', 'Viewers type !join', x + 26, y + 112, 24);
-      return y + 175;
-    }
-    const total = prediction.outcomes.reduce((sum, outcome) => sum + outcome.points, 0);
-    const first = prediction.outcomes[0];
-    const last = prediction.outcomes.length === 2 ? prediction.outcomes[1]?.title : 'FIELD';
-    this.text.set('bet-a', first?.title.slice(0, 15) ?? '', x + 26, y + 60, 24, true, TOY.color.ink, 210);
-    this.text.set('bet-b', last?.slice(0, 9) ?? '', x + 256, y + 60, 24, true, TOY.color.ink, 100);
-    this.bar('prediction').draw(this.graphics, x + 26, y + 90, CONTENT,
-      total ? first.points / total : 0, dt, TOY.color.accentA, TOY.color.accentB);
-    this.text.set('bet-total', `${total.toLocaleString()} points`, x + 26, y + 128, 24);
-    return y + 175;
   }
 
   private rows(state: HudState, side: NeonSideUpdate,

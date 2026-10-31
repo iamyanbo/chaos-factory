@@ -1,5 +1,5 @@
 import type { GameDefinition } from '../games/contract';
-import { cupGames } from '../games/registry';
+import { rotationGames } from '../games/registry';
 import { participationLabel } from './game-participation';
 import './dashboard.css';
 import { musicButton } from './music-control';
@@ -30,7 +30,7 @@ export function dashboardLayout(games: readonly GameDefinition[]): string {
         <div class="game-grid">${games.map(game => `<article class="game-card" data-game="${game.id}">
           <div class="game-art"><img class="game-preview" src="/game-previews/${game.id}.webp"
             alt="${game.title} gameplay preview" width="640" height="640" loading="lazy" decoding="async"></div>
-          <div class="game-copy"><span class="game-kind">${cupGames.includes(game) ? '' : 'Optional · '}${participationLabel(game)}</span>
+          <div class="game-copy"><span class="game-kind">${rotationGames.includes(game) ? '' : 'Optional · '}${participationLabel(game)}</span>
             <h3>${game.title}</h3><p>${game.tagline}</p>
             <div class="game-actions"><button data-add="${game.id}" class="button compact">+ Queue</button>
               <a href="/play?game=${game.id}" class="preview-link">Play offline ↗</a></div>
@@ -38,17 +38,17 @@ export function dashboardLayout(games: readonly GameDefinition[]): string {
         </article>`).join('')}</div>
       </section>
       <aside class="dashboard-sidebar">
-        <section class="card cup-card"><div class="section-heading"><h2>Show controls</h2><span class="cup-badge">5 rounds</span></div>
-          <button id="start" class="button primary">▶ Start a Cup</button>
+        <section class="card show-controls-card"><div class="section-heading"><h2>Show controls</h2><span class="join-badge">!join</span></div>
+          <button id="start" class="button primary">▶ Start show</button>
           <div class="button-row playback-controls" hidden>
             <button data-cmd="pause" class="button">Pause</button>
             <button data-cmd="resume" class="button" hidden>Resume</button>
             <button data-cmd="skip" class="button">Skip round</button>
           </div>
-          <p id="notice" class="muted small">Open the show before starting a Cup.</p>
+          <p id="notice" class="muted small">Open the show, then start a round.</p>
           <details class="more-controls"><summary>More controls</summary><div class="button-row">
-            <button data-cmd="forceVoid" class="button danger">Void + refund</button>
-            <button data-cmd="endCup" class="button">End Cup</button>
+            <button data-cmd="forceVoid" class="button danger">Cancel round</button>
+            <button data-cmd="stop" class="button">Stop show</button>
           </div></details>
         </section>
         <section class="card queue-card"><div class="section-heading"><h2>Up next</h2>
@@ -60,26 +60,16 @@ export function dashboardLayout(games: readonly GameDefinition[]): string {
       </aside>
     </main>
     <div class="dashboard-secondary">
-    <details id="cup-details" class="card dashboard-details"><summary>Cup standings</summary>
-      <div class="details-content"><p><strong id="score">—</strong> <span id="score-label" class="muted small">CUP LEADER</span></p>
-        <table><thead><tr><th>Rank</th><th>Viewer</th><th>Points</th></tr></thead><tbody id="cup-standings"></tbody></table>
-      </div>
-    </details>
     <details id="show-settings" class="card dashboard-details"><summary>Settings</summary>
       <div class="details-content settings-grid">
-        <section><h3>Cup</h3><p class="muted small">5 rounds, ending with a Grand Final.</p>
-          <label>Mode<select id="mode"><option value="auto">Automatic</option><option value="cvs">Streamer / Free for all</option><option value="faction">Faction War</option></select></label>
+        <section><h3>Rounds</h3><p class="muted small">Each round is a fresh game. Viewers type !join.</p>
+          <label>Mode<select id="mode"><option value="auto">Game default</option><option value="cvs">Chat vs streamer (when supported)</option><option value="faction">Faction War</option></select></label>
           <label>Teams<select id="teams"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select></label>
         </section>
-        <section><h3>Predictions</h3>
-          <label class="toggle"><input id="wagers" type="checkbox" checked><span>Mock predictions</span><small>Simulated points</small></label>
-          <label class="inline-range">Betting window <input id="bet-window" type="range" min="30" max="120" value="30"><output id="bet-value">30s</output></label>
-          <p id="prediction-status" class="small">No Prediction open</p><p id="prediction-pool" class="muted small"></p>
-        </section>
         <section class="rotation-settings"><h3>Rotation & player limits</h3>
-          <p class="muted small">Checked games fill the automatic rotation. You can queue any game for the next Cup.</p>
+          <p class="muted small">Checked games fill the automatic rotation. You can queue any game for the next round.</p>
           ${games.map(game => `<div class="game-options" data-options="${game.id}">
-            <label class="toggle"><input type="checkbox" data-enable="${game.id}" ${cupGames.includes(game) ? 'checked' : ''}>${game.title}</label>
+            <label class="toggle"><input type="checkbox" data-enable="${game.id}" ${rotationGames.includes(game) ? 'checked' : ''}>${game.title}</label>
           </div>`).join('')}
         </section>
       </div>

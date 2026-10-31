@@ -88,7 +88,7 @@ test('invalid IDs can be corrected without restarting, and missing permissions d
     f.http.rejectDevice = false;
     await f.login.start(OWNER, CLIENT_ID);
     f.http.deviceState = 'authorized';
-    f.http.scopes = ['user:read:chat'];
+    f.http.scopes = [];
     await vi.advanceTimersByTimeAsync(5000);
     expect(f.login.status(OWNER)).toMatchObject({ state: 'error' });
     expect(await f.storage.store.read('tokens.json', null)).toBeNull();

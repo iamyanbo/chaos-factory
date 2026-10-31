@@ -39,7 +39,7 @@ test('optional games queue for live shows and rotation preferences survive a das
       await page.locator(`[data-add="${id}"]`).click();
     }
     await expect.poll(() => runtime.hub.state?.queue).toEqual(['pong-wars', 'light-cycles', 'ring-escape']);
-    await page.getByRole('button', { name: 'Start a Cup' }).click();
+    await page.getByRole('button', { name: 'Start show' }).click();
     await expect(page.locator('#live-title')).toHaveText('PONG WARS');
     await expect(page.locator('#live-state')).toContainText('Faction supporters');
     await expect(page.getByText('SUPPORTERS', { exact: true })).toBeVisible();
@@ -62,16 +62,15 @@ test('host can keep joins open, admit viewers and start the round from the dashb
     await expect(page.locator('#round-start')).toBeEnabled();
     await page.locator('#round-start').selectOption('manual');
     await page.locator('#show-settings > summary').click();
-    await page.locator('#wagers').uncheck();
     await page.locator('#show-settings > summary').click();
     await page.locator('[data-add="blade-brawl"]').click();
-    await page.getByRole('button', { name: 'Start a Cup' }).click();
+    await page.getByRole('button', { name: 'Start show' }).click();
     await expect(page.locator('#start-round')).toBeVisible();
     await expect(page.locator('#start-round')).toBeDisabled();
     await expect(page.locator('#live-state')).toContainText('Waiting for players');
     // The ordinary 30-second lobby expires; manual mode must keep accepting joins.
     await page.waitForTimeout(31000);
-    expect(await show.evaluate(() => window.__chaos.phase)).toBe('LOBBY_BET');
+    expect(await show.evaluate(() => window.__chaos.phase)).toBe('LOBBY');
     await page.locator('#mock-testing > summary').click();
     for (const login of ['first_viewer', 'second_viewer']) {
       await page.locator('#login').fill(login);
@@ -82,7 +81,7 @@ test('host can keep joins open, admit viewers and start the round from the dashb
     await expect(page.locator('#start-round')).toBeEnabled();
     await mkdir('qa/checks', { recursive: true });
     await show.screenshot({ path: 'qa/checks/round-waiting-joins.png' });
-    await page.locator('.cup-card').screenshot({ path: 'qa/checks/round-start-control.png' });
+    await page.locator('.show-controls-card').screenshot({ path: 'qa/checks/round-start-control.png' });
     await page.locator('#start-round').click();
     await show.waitForFunction(() => window.__chaos.phase === 'LOCK_COUNTDOWN');
     await show.waitForFunction(() => (window.__chaos.show?.phaseTime ?? 0) > .5);

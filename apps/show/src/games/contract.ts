@@ -47,7 +47,6 @@ export interface GameInspection {
 }
 export interface GameDefinition {
   teamNames?: Partial<Record<import('@chaos/shared').TeamId, string>>;
-  predictionTeams?: import('@chaos/shared').TeamId[];
   takeActivities?: ('hit' | 'parry' | 'flip' | 'checkpoint' | 'birth')[];
   ending?: 'natural' | 'timed';
   formats?:('boss'|'ffa'|'faction')[];
@@ -68,7 +67,7 @@ export interface GameDefinition {
   participantNoun?:string;
   competition?:'team'|'individual'|'score';
   scoreDisplay?:{label:string;unit:string;reason:string};
-  predictionTitle(setup: RoundSetup): string; create(ctx: GameContext): GameInstance;
+  create(ctx: GameContext): GameInstance;
   scoreTake?(events:TakeEvents):number;
 }
 export function isAutomatic(game:{joinOnly?:boolean;spectator?:boolean}):boolean{return Boolean(game.joinOnly||game.spectator);}
