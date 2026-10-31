@@ -1,12 +1,12 @@
 import type { VideoSegment } from './video-plan';
 
 export const IMPACT_CAPTION_LAYOUT = {
-  x: 960, y: 510, maxTextWidth: 520, stickerSize: 112, stickerGap: 32
+  x: 960, y: 510, maxTextWidth: 520
 } as const;
 type CaptionLayout = typeof IMPACT_CAPTION_LAYOUT;
 declare global { interface Window { drawVideoImpact: typeof drawVideoImpact } }
 
-/** Centered editorial captions and authentic Twitch stickers, never a chat feed. */
+/** Centered editorial captions; reaction emotes are rendered independently. */
 export function drawVideoImpact(ctx: CanvasRenderingContext2D, segment: VideoSegment,
   time: number, layout: CaptionLayout): void {
   const ink = '#1b1b3a';
@@ -21,7 +21,6 @@ export function drawVideoImpact(ctx: CanvasRenderingContext2D, segment: VideoSeg
     ctx.font = `${baseSize}px Lilita`;
     const size = baseSize * Math.min(1, layout.maxTextWidth / ctx.measureText(cue.title).width);
     ctx.font = `${size}px Lilita`;
-    const width = ctx.measureText(cue.title).width;
     ctx.translate(layout.x, layout.y);
     ctx.scale(pop, pop);
     ctx.textAlign = 'center';
@@ -43,26 +42,6 @@ export function drawVideoImpact(ctx: CanvasRenderingContext2D, segment: VideoSeg
       ctx.fillStyle = 'white';
       ctx.fillText(cue.detail, 0, 89);
     }
-    const names = cue.kind === 'burst' ? ['TwitchLit', 'PartyHat'] : ['SeemsGood', 'PartyHat'];
-    names.forEach((name, index) => {
-      const image = window.videoEmoteImages[name];
-      if (!image) throw new Error(`Missing authentic Twitch emote: ${name}`);
-      const direction = index === 0 ? -1 : 1;
-      const x = direction * (width / 2 + layout.stickerSize / 2 + layout.stickerGap);
-      ctx.save();
-      ctx.translate(x, -5);
-      ctx.rotate(direction * .09);
-      const half = layout.stickerSize / 2;
-      ctx.fillStyle = 'white';
-      ctx.strokeStyle = ink;
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.roundRect(-half - 9, -half - 9, layout.stickerSize + 18, layout.stickerSize + 18, 22);
-      ctx.fill();
-      ctx.stroke();
-      ctx.drawImage(image, -half, -half, layout.stickerSize, layout.stickerSize);
-      ctx.restore();
-    });
     ctx.restore();
   }
 }

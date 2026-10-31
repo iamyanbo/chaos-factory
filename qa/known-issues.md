@@ -2,12 +2,10 @@
 
 ## Still open
 
-- **October 31 test-runtime recheck:** the existing 200-course Marble Race camera
-  audit completes all courses with the checked monotonicity/speed/acceleration
-  bounds satisfied, but exceeds its explicit 240 s timeout in this environment.
-  Both the concurrent-render run and the rerun without encoding report a timeout.
-  Game code, assertions and timeout limits were not changed for the video edit;
-  no current full-suite PASS is claimed. Typecheck and 18 video-specific checks pass.
+- **Validation runtime:** earlier October 31 full runs completed the existing
+  200-course camera audit but exceeded its 240 s time limit. The latest v12 full
+  run passes all 373 tests across 78 files, including that audit, without game,
+  assertion or timeout changes. The earlier timeout remains a machine-load warning.
 
 - **Blade Brawl Boss balance:** the requested rage power is implemented; the
   200-seed-per-size rerun favors the Boss (78.5%, 89.0%, 67.5% at 8/16/32

@@ -87,3 +87,11 @@ viewer reactions. No emote chat integration is added to the game. PNGs and the
 source/hash manifest remain local in qa/submission-video/twitch-emotes/ and are
 excluded from the runtime and source ZIP. Fetching uses server-side authorization;
 the renderer receives only public image bytes. See tools/fetch-video-emotes.ts.
+
+The v12 edit uses independent, unboxed Twitch reactions: PogChamp (305954156),
+Kappa (25), LUL (425618), NotLikeThis (58765) and SeemsGood (64138), fetched from
+the same official global-emote API/CDN. Images remain attributed to Twitch/their
+respective rights holders and cached outside the source/runtime package. The
+full-screen build segment uses the already selected public conversation excerpts
+and actual removed/added Git lines from commit fa65eb3; no raw session or private
+reasoning is exported. These are original editorial layouts, not native app footage.

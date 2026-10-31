@@ -15,11 +15,11 @@ test('emote cache accepts official CDN provenance and rejects altered data or lo
   expect(() => validateEmoteAsset({ ...asset, file: '../private.png' }, bytes)).toThrow();
 });
 
-test('caption and flanking stickers fit the central arena, above the finish and outside the HUDs', () => {
+test('centered caption text fits the central arena independently of reactions', () => {
   const layout = IMPACT_CAPTION_LAYOUT;
   expect(layout.x).toBe(1920 / 2);
   expect(layout.y).toBeLessThan(600);
-  const halfWidth = layout.maxTextWidth / 2 + layout.stickerSize + layout.stickerGap + 12;
+  const halfWidth = layout.maxTextWidth / 2 + 12;
   expect(layout.x - halfWidth).toBeGreaterThan(448);
   expect(layout.x + halfWidth).toBeLessThan(1472);
 });

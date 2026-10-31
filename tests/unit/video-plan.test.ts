@@ -27,7 +27,7 @@ test('populated join stays continuous; the actual Twitch test is a separately la
   const plan = submissionVideoPlan(cup(), live, crowd());
   const duration = plan.reduce((sum, row) => sum + row.seconds, 0);
   expect(duration).toBeGreaterThan(80);
-  expect(duration).toBeLessThan(120);
+  expect(duration).toBeLessThan(180);
   expect(plan[0].source).toBe('title');
   const join = plan.find(row => row.source === 'crowd')!;
   expect(join.evidence).toBe('mock');
@@ -116,14 +116,16 @@ test('missing game, standings or champion footage cannot be replaced with fabric
 });
 
 
-test('actual host workflow precedes joins and build evidence stays on the resulting race', () => {
+test('actual host workflow precedes the dedicated build clip and joins', () => {
   const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
     actions: [{ at: 2.5, action: 'queue:hot-potato' }, { at: 4, action: 'queue:multiplier-cascade' },
       { at: 5, action: 'drag-reorder' }, { at: 6, action: 'start-cup' }], media: { duration: 12 } };
   const plan = submissionVideoPlan(cup(), live, crowd(), false, host);
   expect(plan[1]).toMatchObject({ source: 'setup', evidence: 'host-ui' });
-  expect(plan[2].source).toBe('crowd');
-  expect(plan.filter(row => row.buildProof).map(row => row.gameId)).toEqual(['marble-race']);
+  expect(plan[2].source).toBe('build');
+  expect(plan[3].source).toBe('crowd');
+  expect(plan.filter(row => row.source === 'build')).toHaveLength(1);
+  expect(plan.filter(row => row.source === 'cup').every(row => !Object.hasOwn(row, 'buildProof'))).toBe(true);
   expect(() => submissionVideoPlan(cup(), live, crowd(), false, { ...host, connected: false }))
     .toThrow('Connected host workflow proof');
   expect(() => submissionVideoPlan(cup(), live, crowd(), false, { ...host, media: { duration: 7.1 } }))

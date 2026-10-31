@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
 import { command } from './drama/capture-media';
+import { buildCard } from './video-build-card';
 import { sectionCard } from './video-section-cards';
 import { gameplayOverlay } from './video-overlays';
 import { loadBuildProof } from './video-proof';
@@ -185,10 +186,11 @@ try {
   const overlay = selected < 0 ? undefined : Number(process.argv[selected + 1]);
   if (overlay !== undefined && (!Number.isInteger(overlay) || !plan[overlay])) throw new Error('Invalid overlay index');
   for (const [index, segment] of plan.entries()) {
+    if (segment.source === 'build') await buildCard(page, segment, index, proof);
     if (segment.source === 'section') await sectionCard(page, segment, index);
     if (!process.argv.includes('--cards-only') && (overlay === undefined || overlay === index)
       && (segment.source === 'cup' || segment.source === 'crowd' || segment.source === 'setup')) {
-      await gameplayOverlay(page, segment, index, crowd, proof);
+      await gameplayOverlay(page, segment, index, crowd);
     }
   }
 } finally { await browser.close(); }

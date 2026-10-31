@@ -1,4 +1,5 @@
 import { durationToBeat, INTRO_SECONDS } from './video-rhythm';
+import { eventReactions, type VideoReaction } from './video-reactions';
 import { TITLE_CREDIT } from './video-titles';
 
 export interface VideoTransition {
@@ -37,7 +38,7 @@ export interface HostVideo {
   media: { duration: number };
 }
 export interface VideoSegment {
-  source: 'cup' | 'crowd' | 'setup' | 'section' | 'title' | 'outro';
+  source: 'cup' | 'crowd' | 'setup' | 'build' | 'section' | 'title' | 'outro';
   from: number;
   seconds: number;
   title: string;
@@ -48,7 +49,7 @@ export interface VideoSegment {
   gameId?: string;
   chapter?: number;
   celebrate?: boolean;
-  buildProof?: boolean;
+  reactions?: VideoReaction[];
   cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string }[];
   evidence: 'mock' | 'project-files' | 'host-ui';
   inset?: { from: number; at: number; seconds: number; name: string; evidence: 'real-chat' };
@@ -92,6 +93,8 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   } else if (!offlinePreview) {
     throw new Error('Real Twitch join proof is missing; use --offline-preview for a labeled draft');
   }
+  segments.push({ source: 'build', from: 0, seconds: 7.5, title: 'BUILT WITH CODEX',
+    body: '', evidence: 'project-files' });
   segments.push(lobby);
   function round(game: string) {
     const play = cup.transitions.find(row => row.game === game && row.phase === 'PLAY');
@@ -124,7 +127,6 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     'Three balls each.\nEvery landing multiplies its score.');
   shot('marble-race', 68, 13.5, 'MARBLE RACE',
     'Leaders break gates.\nFollowers get an open lane.');
-  segments.at(-1)!.buildProof = true;
   const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
   if (!standings || standings.wall + 5.7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
   segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 4.5,
@@ -164,6 +166,7 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     }
     if (segment.gameId === 'peg-fever') cue(11.65, 1.2, 'score', '2,960', '1,480 x 2');
     if (segment.gameId === 'marble-race') cue(79.24, 1.15, 'finish', 'FINISH!', 'FIRST HOME');
+    segment.reactions = eventReactions(segment);
     elapsed += segment.seconds;
   }
   if (segments.reduce((sum, row) => sum + row.seconds, 0) >= 180) throw new Error('Story cut must stay under three minutes');

@@ -63,7 +63,7 @@ http://127.0.0.1:4182/show for the automatic Cup. The demo explicitly uses mock
 mode even if the host has a live `.env`. It does not need browser extensions,
 external fonts, accounts or Twitch access. Stop the process with Ctrl+C.
 
-## Current edit - about 2 minutes 2 seconds
+## Current edit - about 2 minutes 10 seconds
 
 The film opens with the animated Chaos Factory intro, then an actual connected
 Twitch dashboard capture shows queue ordering and Start Cup. Animated captions explain adding games, dragging the queue and starting a Cup.
@@ -74,9 +74,9 @@ was offline. The main audience is simulated; no real crowd is implied.
 
 Bold MINIGAMES and GRAND FINAL stingers separate the sections. Five game chapters lead through the Cup standings, final duel and actual
 champion. Titles hold still for two seconds before a slower move into the corner.
-The opening title says "Implemented with Codex"; Marble Race includes a build-record panel with edited excerpts of the real user
-feedback, Codex reply and committed camera fix. The panel is a rendered record
-viewer, not native Codex UI footage.
+The opening title says "Implemented with Codex". A separate full-screen build
+section shows selected real conversation excerpts and the full committed before/
+after code. It is an edited presentation, not native Codex UI footage.
 Short rules remain beside each game, and the standings note stays above its table.
 
 Cascade cuts from the multiplying stream to the finish race, omitting the quiet
@@ -86,11 +86,12 @@ multiplied landings; Marble Race holds through two finishes. The title lead-ins
 leave the key payoffs visible. The champion leads directly to the animated ending.
 
 One continuous music bed, beat-aligned Toy wipes and soft stereo whooshes join
-the scenes. Centered payoff captions and authentic Twitch emote stickers mark real recorded
-events. The stickers are editorial decoration, rather than actual chat messages. Gameplay stays at its
+the scenes. Centered text captions mark recorded payoffs. Iconic Twitch emotes pop separately
+in varied parts of the frame around events; they are editorial reactions, not
+actual chat messages. Gameplay stays at its
 captured speed; the old real-chat mix is muted. No voiceover is recorded.
 
-Latest local MP4: qa/submission-video/chaos-factory-demo-v11.mp4. Previous cuts
+Latest local MP4: qa/submission-video/chaos-factory-demo-v12.mp4. Previous cuts
 remain for comparison. edit.json records exact source windows and the real-test
 inset. Upload copy, contact sheet and transition review are beside the videos;
 generated media is excluded from Git.

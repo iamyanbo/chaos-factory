@@ -35,11 +35,12 @@ ${time(first(row => row.title === 'MULTIPLIER CASCADE'))} Physics games and the 
 ${time(first(row => row.title === 'TOP EIGHT'))} Standings and Grand Final
 
 MINIGAMES and GRAND FINAL title stingers introduce the game sections.
-Centered payoff captions use editorial Twitch emote stickers; these are not captured chat messages.
+Centered payoff captions remain text-only. PogChamp, Kappa, LUL and NotLikeThis
+pop independently around events; these editorial reactions are not captured chat messages.
 Each game uses its actual name and short rules over gameplay.
 The opening title credits the project: Implemented with Codex.
-During Marble Race, edited excerpts of my real Codex conversation and its verified
-Git patch show the feedback-to-fix workflow. This is a rendered build record,
+A dedicated full-screen BUILT WITH CODEX section shows selected real conversation
+excerpts and the full before/after lines from the committed camera fix. This is an edited presentation,
 not a recording of the Codex app UI.
 
 Source and offline judge setup: ${fields.repositoryUrl}
@@ -47,7 +48,7 @@ No account or tokens are needed for the mock demo: npm ci, then npm run demo.
 
 Built with TypeScript, PixiJS, Rapier, Fastify, WebSockets and Twurple, using Codex.
 Music in this edit: Juhani Junkala, Chiptune Adventures Stage 2, CC0.
-Twitch emote stickers: SeemsGood, PartyHat and TwitchLit from the official Twitch
+Twitch emote stickers: PogChamp, Kappa, LUL, NotLikeThis and SeemsGood from the official Twitch
 global emote API/CDN. Rights remain with Twitch/the respective rights holders.
 Credits and full notices: ${fields.repositoryUrl}/blob/main/ASSETS.md
 `;
@@ -131,6 +132,6 @@ The video accurately labels real API-connected Twitch chat while the channel is 
 it does not claim a public live broadcast or a native Prediction payout.
 
 Full Cup: full-cup-sfx/full-cup.webm. Real join: live-join/live-join.webm.
-edit.json records source cuts and evidence labels. contact-sheet-v11.png is the visual review.
+edit.json records source cuts and evidence labels. contact-sheet-v12.png is the visual review.
 `);
 console.log(`Upload and submission copy: ${resolve(directory)}`);

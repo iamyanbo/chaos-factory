@@ -21,7 +21,7 @@ test('cursor approaches controls without an endpoint jump or constant-speed snap
 });
 
 test('editorial camera leaves the Race record and finish stable and titles readable', () => {
-  const race = cameraKeys(shot({ gameId: 'marble-race', buildProof: true }));
+  const race = cameraKeys(shot({ gameId: 'marble-race' }));
   expect(editorialCameraFilter(race)).toBe('null');
   const hot = cameraKeys(shot({ gameId: 'hot-potato', chapter: 2,
     cues: [{ at: 3.4, seconds: .9, kind: 'burst', title: 'BOOM!' }] }));

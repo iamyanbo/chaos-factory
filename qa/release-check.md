@@ -145,3 +145,13 @@ camera assertions but exceeds the 240 s test timeout, including on the rerun
 without encoding. No game/assertion/timeout changes or full-suite PASS are claimed.
 Both completed full runs report 370 passing tests and one camera-audit timeout.
 The public repo was verified HTTP 200; the local YouTube URL remains missing.
+
+
+## Full-screen build evidence and scattered iconic reactions ? October 31
+
+The latest film is v12, 129.500 seconds. The corner build panel is replaced by
+full-screen conversation/committed-code evidence. PogChamp, Kappa, LUL and
+NotLikeThis pop independently around events; captions stay centered and text-only.
+Reviewed 25 film frames plus the instruction strip. Decode/DTS checks pass with
+zero duration drift; audio is -19.19 LUFS/-5.49 dBTP. Typecheck, all 373 tests/78
+files and twenty focused checks pass, including the unchanged camera audit.

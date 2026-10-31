@@ -1366,3 +1366,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Rechecked official submission requirements/public repository; local YouTube URL and final submission remain outstanding.
 - Validation: typecheck/18 video checks pass; full runs hit the existing camera-audit timeout despite completed courses.
 - Recorded the failed check without changing game assertions/timeouts; refreshed source ZIP and upload copy.
+
+## 2026-10-31 ? Readable build section and scattered iconic emotes
+- Removed the corner build panel; added a full-screen sequence with real feedback/reply and exact committed before/after lines.
+- Detached emotes from captions: staggered raw PogChamp/Kappa/LUL/NotLikeThis reactions now pop in varied event locations.
+- Preserved centered text captions, held framing, queue instructions, game timing and the single music bed.
+- Reviewed 25 film frames and the instruction strip; decode/DTS/audio checks pass at 129.500 s.
+- Validation: typecheck, all 373 tests/78 files and twenty focused checks pass, including the unchanged camera audit.
+- Refreshed credits, upload text, source and ZIP; external upload/submission remain manual.

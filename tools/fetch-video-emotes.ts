@@ -10,7 +10,7 @@ const store = new JsonStore(resolve(config.DATA_DIR, 'live'));
 const client = await store.read<{ clientId?: string }>('twitch-client.json', {});
 const auth = new TwitchAuth({ clientId: client.clientId || config.TWITCH_CLIENT_ID,
   clientSecret: config.TWITCH_CLIENT_SECRET, redirectUri: config.TWITCH_REDIRECT_URI, deviceFlow: true }, store);
-const wanted = ['SeemsGood', 'PartyHat', 'TwitchLit'];
+const wanted = ['PogChamp', 'Kappa', 'LUL', 'NotLikeThis', 'SeemsGood'];
 try {
   await auth.connect();
   if (!auth.user || !auth.api) throw new Error('Connect Twitch locally before fetching official global emotes.');

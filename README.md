@@ -124,7 +124,7 @@ npm run video
 
 The recorder captures the game canvas and sound effects with in-game music disabled.
 The edit adds one continuous music bed, original transition whooshes and
-source-timed comic accents, held close-up cuts and centered caption impacts with Twitch emote stickers. The
+source-timed comic accents, held close-up cuts and centered text-only captions and independently scattered Twitch event reactions. The
 dashboard capture uses timed curved pointer movement and animated queue instructions.
 MINIGAMES and GRAND FINAL title cards introduce the game sections. Major cuts use the measured music grid; gameplay
 continues at its captured speed. The older mixed-audio live inset is muted.
@@ -132,8 +132,9 @@ A guard rejects Cup footage with music enabled. The edit uses
 normal-speed clips, labels simulated viewers and real Twitch chat separately,
 and overlays each game's actual name and short rules during gameplay. The opening
 title says "Implemented with Codex". The connected dashboard shows queue ordering
-and Start Cup. Marble Race includes edited excerpts of the actual Codex conversation
-and its verified Git patch; this build-record panel is not a native Codex UI recording. Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
+and Start Cup. A separate full-screen BUILT WITH CODEX section shows selected real
+conversation excerpts and the full committed before/after code; it is an edited
+presentation rather than a native Codex UI recording. Chapter titles hold still before moving into their corner. The animated lobby feed uses actual recorded mock arrivals; a
 separate inset labels the real Twitch test. It does not start a public broadcast. The MP4, contact sheet and paste-ready YouTube/Devpost text remain
 local under `qa/submission-video/`; they are excluded from Git. Account uploads
 and final Devpost submission are not automated.
