@@ -101,3 +101,9 @@ of our own current Toy gameplay captures, exported at 640x640. The optional-game
 video section uses fresh normal-speed game captures with sound effects only.
 The refreshed dashboard tutorial is explicitly labeled as an offline demo;
 the separately labeled real Twitch join inset remains the earlier rehearsal.
+
+The v16 recut records the current join-only dashboard, a 48-viewer mock lobby and
+five independent rounds, plus a separately recorded Peg Fever take with a real
+Fever trigger. It retains the reviewed optional-game captures and historical real
+Twitch join inset. The original vector intro, captions, music and licensed emote
+sources are unchanged; no new third-party assets are introduced.

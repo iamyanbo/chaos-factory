@@ -1416,3 +1416,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed Toy gameplay/result frames, fixed winner portrait color and updated dashboard, connection and submission copy.
 - Typecheck/build, all 357 tests/75 files and 13 browser regressions pass, including six natural rounds and chat-only authorization.
 - Restarted mock/live helpers; iamyanbo chat reconnects. Existing v15 Cup video needs a recut; no new video/upload performed.
+
+## 2026-10-31 - Recut for join-only independent rounds
+- Re-recorded the host tutorial, 48 mock joins and standalone rounds; retained the labeled historical real join.
+- Built v16 at 170.8 s with all eight games, streamer duels and actual Fever, blast, rage and finish moments.
+- Kept the approved intro, held titles, stationary close-ups, centered captions, contextual emotes and single CC0 bed.
+- Removed stale Cup copy from the dashboard and tutorial badge; no gameplay or physics changes.
+- Reviewed 33 film, 42 gameplay and nine tutorial frames; decode, DTS, duration and audio checks pass.
+- Typecheck, all 351 tests/75 files and the dashboard browser regression pass after encoding finished.
+- Updated submission copy, credits and source handoff; no upload, broadcast or old-media deletion performed.

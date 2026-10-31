@@ -23,6 +23,7 @@ test('optional games queue for live shows and rotation preferences survive a das
     await show.waitForFunction(() => window.__chaos?.connected);
     await page.goto(`${origin}/dashboard`);
     await expect(page.locator('#round-start')).toBeEnabled();
+    await expect(page.locator('#notice')).toHaveText('Queue games, then start the show.');
     await page.locator('#round-start').selectOption('manual');
     await page.locator('#show-settings > summary').click();
     const rotation = page.locator('[data-enable="pong-wars"]');

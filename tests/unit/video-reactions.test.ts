@@ -2,7 +2,7 @@ import { expect, test } from 'vitest';
 import { eventReactions } from '../../tools/video-reactions';
 import type { VideoSegment } from '../../tools/video-plan';
 
-const segment: VideoSegment = { source: 'cup', from: 0, seconds: 8, title: '', body: '',
+const segment: VideoSegment = { source: 'rounds', from: 0, seconds: 8, title: '', body: '',
   evidence: 'mock', gameId: 'peg-fever', chapter: 3,
   cues: [{ at: 3.65, seconds: 1.2, kind: 'score', title: '2,960' }] };
 

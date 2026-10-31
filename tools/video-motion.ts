@@ -12,7 +12,7 @@ export function cameraKeys(segment: VideoSegment, host?: HostVideo): CameraKey[]
   if (segment.source === 'setup' && host) {
     const at = (action: string) => host.actions.find(row => row.action === action)!.at - segment.from;
     return [key(0), key(at('queue:multiplier-cascade') + .2, 1.7, 1355, 760),
-      key(at('start-cup') - 1, 1.55, 1300, 540), key(at('start-cup') + .9), key(end)];
+      key(at('start-show') - 1, 1.55, 1300, 540), key(at('start-show') + .9), key(end)];
   }
   const cue = segment.cues?.[0];
   if (cue && segment.gameId !== 'marble-race') {

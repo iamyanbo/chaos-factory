@@ -9,7 +9,12 @@ const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4180';
 const available = ['pong-wars', 'light-cycles', 'ring-escape'];
 const flag = process.argv.indexOf('--game');
 const games = flag < 0 ? available : [process.argv[flag + 1]];
-if (games.some(game => !available.includes(game))) throw new Error('Choose a supported optional game.');
+if (games.some(game => ![...available, 'peg-fever'].includes(game))) throw new Error('Choose a supported capture game.');
+const outputFlag = process.argv.indexOf('--out');
+if (outputFlag >= 0 && games.length !== 1) throw new Error('Choose one --game with a custom output directory.');
+const seedFlag = process.argv.indexOf('--seed');
+const seed = seedFlag < 0 ? 1 : Number(process.argv[seedFlag + 1]);
+if (!Number.isSafeInteger(seed) || seed < 0 || seed > 0xffffffff) throw new Error('Use an unsigned seed.');
 const health = await (await fetch(`${base}/api/health`)).json();
 if (health.mode !== 'mock') throw new Error('Optional-game capture requires an isolated mock server.');
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH
@@ -17,7 +22,8 @@ const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH
   args: ['--autoplay-policy=no-user-gesture-required'] });
 try {
   for (const game of games) {
-    const directory = resolve('qa/submission-video/optional-games', game);
+    const directory = outputFlag < 0 ? resolve('qa/submission-video/optional-games', game)
+      : resolve(process.argv[outputFlag + 1]);
     await mkdir(directory, { recursive: true });
     const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
     await page.addInitScript('globalThis.__name = fn => fn;');
@@ -25,7 +31,7 @@ try {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     try {
-      await page.goto(`${base}/play?game=${game}&seed=1&bots=24&teams=4&record=1&paused=1`);
+      await page.goto(`${base}/play?game=${game}&seed=${seed}&bots=24&teams=4&record=1&paused=1${process.argv.includes('--exact') ? '&take=seed' : ''}`);
       await page.waitForFunction(() => window.__chaos?.phase === 'PLAY' && window.__chaos.paused,
         undefined, { timeout: 60000 });
       await page.mouse.click(960, 540);

@@ -46,8 +46,8 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
 
-The historical local edit is `qa/submission-video/chaos-factory-demo-v15.mp4` (under three minutes,
-1080p H.264/AAC). It requires a recut: Cups, points and finals were removed from the app. `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
+The current local edit is `qa/submission-video/chaos-factory-demo-v16.mp4` (2:50.8,
+1080p H.264/AAC). It shows independent rounds, all eight games and chat versus streamer. `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
 contain the upload title/description, form copy and remaining account actions.
 No authenticated YouTube/Devpost API connector is available to the agent; those
 uploads/form submissions have not been performed. The video, generated media

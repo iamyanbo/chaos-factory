@@ -5,9 +5,9 @@ import { existsSync } from 'node:fs';
 import { command } from './drama/capture-media';
 import { sectionCard } from './video-section-cards';
 import { gameplayOverlay } from './video-overlays';
-import { optionalVideos } from './video-optional';
+import { loadAlternateVideo, optionalVideos } from './video-optional';
 import { TITLE_CREDIT, TITLE_SCREEN_SECONDS } from './video-titles';
-import { submissionVideoPlan, type CrowdVideo, type CupVideo, type JoinVideo, type HostVideo } from './video-plan';
+import { submissionVideoPlan, type CrowdVideo, type RoundVideo, type JoinVideo, type HostVideo } from './video-plan';
 
 const directory = resolve('qa/submission-video/edit/cards');
 await mkdir(directory, { recursive: true });
@@ -27,166 +27,170 @@ try {
     .url{display:inline-block;padding:20px 34px;border:5px solid #1b1b3a;border-radius:24px;
     background:white;box-shadow:8px 10px #1b1b3a33;font-size:38px}</style>`;
   await page.setContent(css);
-  const wipe = await page.evaluate(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 2400;
-    canvas.height = 1080;
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = '#ff4f7b';
-    ctx.fillRect(0, 0, 2400, 1080);
-    for (const [index, color] of ['#3a8ee6', '#ffde3b', 'white'].entries()) {
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(1850 + index * 150, 0);
-      ctx.lineTo(2250 + index * 150, 0);
-      ctx.lineTo(1950 + index * 150, 1080);
-      ctx.lineTo(1550 + index * 150, 1080);
-      ctx.fill();
-    }
-    for (let index = 0; index < 9; index++) {
-      ctx.beginPath();
-      ctx.arc(index * 265 + 80, 530 + Math.sin(index) * 250, 50, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff44';
-      ctx.fill();
-    }
-    return canvas.toDataURL().split(',')[1];
-  });
-  await writeFile(resolve(directory, 'wipe.png'), Buffer.from(wipe, 'base64'));
-  for (const [id, seconds] of [['title', TITLE_SCREEN_SECONDS], ['outro', 2.5]] as const) {
-    const frames = await page.evaluate(async ({ id, seconds, credit }) => {
-      await document.fonts.load('190px Lilita');
-      await document.fonts.load('38px Fredoka');
+  const overlaysOnly = process.argv.includes('--overlays-only');
+  if (!overlaysOnly) {
+    const wipe = await page.evaluate(() => {
       const canvas = document.createElement('canvas');
-      canvas.width = 1920;
+      canvas.width = 2400;
       canvas.height = 1080;
-      document.body.replaceChildren(canvas);
       const ctx = canvas.getContext('2d')!;
-      function backdrop(time: number) {
-        const gradient = ctx.createLinearGradient(0, 0, 0, 1080);
-        gradient.addColorStop(0, '#ffd56b');
-        gradient.addColorStop(1, '#ff8f6b');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 1920, 1080);
+      ctx.fillStyle = '#ff4f7b';
+      ctx.fillRect(0, 0, 2400, 1080);
+      for (const [index, color] of ['#3a8ee6', '#ffde3b', 'white'].entries()) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(1850 + index * 150, 0);
+        ctx.lineTo(2250 + index * 150, 0);
+        ctx.lineTo(1950 + index * 150, 1080);
+        ctx.lineTo(1550 + index * 150, 1080);
+        ctx.fill();
+      }
+      for (let index = 0; index < 9; index++) {
+        ctx.beginPath();
+        ctx.arc(index * 265 + 80, 530 + Math.sin(index) * 250, 50, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff44';
-        for (let x = -48; x < 1968; x += 48) for (let y = 0; y < 1100; y += 48) {
-          ctx.beginPath();
-          ctx.arc(x + time * 7, y, 5, 0, Math.PI * 2);
-          ctx.fill();
+        ctx.fill();
+      }
+      return canvas.toDataURL().split(',')[1];
+    });
+    await writeFile(resolve(directory, 'wipe.png'), Buffer.from(wipe, 'base64'));
+    for (const [id, seconds] of [['title', TITLE_SCREEN_SECONDS], ['outro', 2.5]] as const) {
+      const frames = await page.evaluate(async ({ id, seconds, credit }) => {
+        await document.fonts.load('190px Lilita');
+        await document.fonts.load('38px Fredoka');
+        const canvas = document.createElement('canvas');
+        canvas.width = 1920;
+        canvas.height = 1080;
+        document.body.replaceChildren(canvas);
+        const ctx = canvas.getContext('2d')!;
+        function backdrop(time: number) {
+          const gradient = ctx.createLinearGradient(0, 0, 0, 1080);
+          gradient.addColorStop(0, '#ffd56b');
+          gradient.addColorStop(1, '#ff8f6b');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, 1920, 1080);
+          ctx.fillStyle = '#ffffff44';
+          for (let x = -48; x < 1968; x += 48) for (let y = 0; y < 1100; y += 48) {
+            ctx.beginPath();
+            ctx.arc(x + time * 7, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
-      }
-      function lettering(text: string, x: number, y: number, size: number, angle: number) {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(angle);
-        ctx.textAlign = 'center';
-        ctx.font = `${size}px Lilita`;
-        ctx.lineJoin = 'round';
-        ctx.lineWidth = 18;
-        ctx.strokeStyle = '#1b1b3a';
-        ctx.strokeText(text, 7, 9);
-        ctx.lineWidth = 12;
-        ctx.strokeStyle = 'white';
-        ctx.strokeText(text, 0, 0);
-        ctx.fillStyle = '#1b1b3a';
-        ctx.fillText(text, 0, 0);
-        ctx.restore();
-      }
-      function draw(time: number) {
-        backdrop(time);
-        const enter = Math.exp(-time * 8);
-        const bounce = Math.sin(time * 18) * Math.exp(-time * 5);
-        if (id === 'title') {
-          const colors = ['#ff4f7b', '#3a8ee6', '#2ecc71', '#8e5cff'];
-          for (let index = 0; index < 16; index++) {
-            const angle = index * Math.PI / 8 + .07 * time;
-            const radius = 210 + 210 * (1 - enter);
-            ctx.save();
-            ctx.translate(960 + Math.cos(angle) * radius * 1.65, 500 + Math.sin(angle) * radius);
-            ctx.rotate(angle + time * .2);
-            ctx.fillStyle = colors[index % colors.length];
+        function lettering(text: string, x: number, y: number, size: number, angle: number) {
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(angle);
+          ctx.textAlign = 'center';
+          ctx.font = `${size}px Lilita`;
+          ctx.lineJoin = 'round';
+          ctx.lineWidth = 18;
+          ctx.strokeStyle = '#1b1b3a';
+          ctx.strokeText(text, 7, 9);
+          ctx.lineWidth = 12;
+          ctx.strokeStyle = 'white';
+          ctx.strokeText(text, 0, 0);
+          ctx.fillStyle = '#1b1b3a';
+          ctx.fillText(text, 0, 0);
+          ctx.restore();
+        }
+        function draw(time: number) {
+          backdrop(time);
+          const enter = Math.exp(-time * 8);
+          const bounce = Math.sin(time * 18) * Math.exp(-time * 5);
+          if (id === 'title') {
+            const colors = ['#ff4f7b', '#3a8ee6', '#2ecc71', '#8e5cff'];
+            for (let index = 0; index < 16; index++) {
+              const angle = index * Math.PI / 8 + .07 * time;
+              const radius = 210 + 210 * (1 - enter);
+              ctx.save();
+              ctx.translate(960 + Math.cos(angle) * radius * 1.65, 500 + Math.sin(angle) * radius);
+              ctx.rotate(angle + time * .2);
+              ctx.fillStyle = colors[index % colors.length];
+              ctx.strokeStyle = '#1b1b3a';
+              ctx.lineWidth = 4;
+              ctx.beginPath();
+              ctx.roundRect(-14, -8, 45, 17, 8);
+              ctx.fill();
+              ctx.stroke();
+              ctx.restore();
+            }
+            lettering('CHAOS', 960 - enter * 500, 410 + bounce * 24, 190, -.055);
+            lettering('FACTORY', 960 + enter * 500, 625 - bounce * 20, 190, -.055);
+            ctx.globalAlpha = Math.min(1, Math.max(0, (time - .3) * 4));
+            ctx.font = '38px Fredoka';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#1b1b3a';
+            ctx.fillText('YOUR CHAT IS THE CAST', 960, 760);
+            ctx.globalAlpha = Math.min(1, Math.max(0, (time - .6) * 5));
+            ctx.fillStyle = 'white';
             ctx.strokeStyle = '#1b1b3a';
             ctx.lineWidth = 4;
             ctx.beginPath();
-            ctx.roundRect(-14, -8, 45, 17, 8);
+            ctx.roundRect(675, 825, 570, 70, 22);
             ctx.fill();
             ctx.stroke();
-            ctx.restore();
+            ctx.fillStyle = '#1b1b3a';
+            ctx.font = '34px Fredoka';
+            ctx.fillText(credit, 960, 870);
+            ctx.globalAlpha = 1;
+          } else {
+            lettering('CHAOS', 960 - enter * 350, 345 + bounce * 20, 154, -.055);
+            lettering('FACTORY', 960 + enter * 350, 520 - bounce * 18, 154, -.055);
+            ctx.textAlign = 'center';
+            ctx.font = '38px Fredoka';
+            ctx.fillStyle = '#1b1b3a';
+            ctx.fillText('YOUR CHAT IS THE CAST', 960, 650);
+            const offset = Math.exp(-Math.max(0, time - .15) * 9) * 300;
+            ctx.fillStyle = '#1b1b3a33';
+            ctx.beginPath();
+            ctx.roundRect(387, 759 + offset, 1160, 110, 26);
+            ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.strokeStyle = '#1b1b3a';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.roundRect(380, 750 + offset, 1160, 110, 26);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#1b1b3a';
+            ctx.font = '40px Fredoka';
+            ctx.fillText('github.com/iamyanbo/chaos-factory', 960, 818 + offset);
           }
-          lettering('CHAOS', 960 - enter * 500, 410 + bounce * 24, 190, -.055);
-          lettering('FACTORY', 960 + enter * 500, 625 - bounce * 20, 190, -.055);
-          ctx.globalAlpha = Math.min(1, Math.max(0, (time - .3) * 4));
-          ctx.font = '38px Fredoka';
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#1b1b3a';
-          ctx.fillText('YOUR CHAT IS THE CAST', 960, 760);
-          ctx.globalAlpha = Math.min(1, Math.max(0, (time - .6) * 5));
-          ctx.fillStyle = 'white';
-          ctx.strokeStyle = '#1b1b3a';
-          ctx.lineWidth = 4;
-          ctx.beginPath();
-          ctx.roundRect(675, 825, 570, 70, 22);
-          ctx.fill();
-          ctx.stroke();
-          ctx.fillStyle = '#1b1b3a';
-          ctx.font = '34px Fredoka';
-          ctx.fillText(credit, 960, 870);
-          ctx.globalAlpha = 1;
-        } else {
-          lettering('CHAOS', 960 - enter * 350, 345 + bounce * 20, 154, -.055);
-          lettering('FACTORY', 960 + enter * 350, 520 - bounce * 18, 154, -.055);
-          ctx.textAlign = 'center';
-          ctx.font = '38px Fredoka';
-          ctx.fillStyle = '#1b1b3a';
-          ctx.fillText('YOUR CHAT IS THE CAST', 960, 650);
-          const offset = Math.exp(-Math.max(0, time - .15) * 9) * 300;
-          ctx.fillStyle = '#1b1b3a33';
-          ctx.beginPath();
-          ctx.roundRect(387, 759 + offset, 1160, 110, 26);
-          ctx.fill();
-          ctx.fillStyle = 'white';
-          ctx.strokeStyle = '#1b1b3a';
-          ctx.lineWidth = 5;
-          ctx.beginPath();
-          ctx.roundRect(380, 750 + offset, 1160, 110, 26);
-          ctx.fill();
-          ctx.stroke();
-          ctx.fillStyle = '#1b1b3a';
-          ctx.font = '40px Fredoka';
-          ctx.fillText('github.com/iamyanbo/chaos-factory', 960, 818 + offset);
         }
-      }
-      const images: string[] = [];
-      for (let frame = 0; frame < Math.round(seconds * 30); frame++) {
-        draw(frame / 30);
-        images.push(canvas.toDataURL().split(',')[1]);
-      }
-      return images;
-    }, { id, seconds, credit: TITLE_CREDIT });
-    const frameDirectory = resolve(directory, `${id}-frames`);
-    await mkdir(frameDirectory, { recursive: true });
-    await Promise.all(frames.map((data, index) => writeFile(
-      resolve(frameDirectory, `${String(index).padStart(4, '0')}.png`), Buffer.from(data, 'base64'))));
-    await writeFile(resolve(directory, `${id}.png`), Buffer.from(frames[Math.floor(frames.length / 2)], 'base64'));
-    command('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-framerate', '30',
-      '-i', resolve(frameDirectory, '%04d.png'), '-frames:v', String(frames.length),
-      '-c:v', 'libvpx', '-pix_fmt', 'yuv420p', '-deadline', 'realtime', '-cpu-used', '6', '-b:v', '8M', '-threads', '2',
-      resolve(directory, `${id}-motion.webm`)]);
-    console.log(`${id}: ${frames.length} deterministic frames / ${seconds}s`);
+        const images: string[] = [];
+        for (let frame = 0; frame < Math.round(seconds * 30); frame++) {
+          draw(frame / 30);
+          images.push(canvas.toDataURL().split(',')[1]);
+        }
+        return images;
+      }, { id, seconds, credit: TITLE_CREDIT });
+      const frameDirectory = resolve(directory, `${id}-frames`);
+      await mkdir(frameDirectory, { recursive: true });
+      await Promise.all(frames.map((data, index) => writeFile(
+        resolve(frameDirectory, `${String(index).padStart(4, '0')}.png`), Buffer.from(data, 'base64'))));
+      await writeFile(resolve(directory, `${id}.png`), Buffer.from(frames[Math.floor(frames.length / 2)], 'base64'));
+      command('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-framerate', '30',
+        '-i', resolve(frameDirectory, '%04d.png'), '-frames:v', String(frames.length),
+        '-c:v', 'libvpx', '-pix_fmt', 'yuv420p', '-deadline', 'realtime', '-cpu-used', '6', '-b:v', '8M', '-threads', '2',
+        resolve(directory, `${id}-motion.webm`)]);
+      console.log(`${id}: ${frames.length} deterministic frames / ${seconds}s`);
+    }
   }
   await page.setContent(css);
-  const cup = JSON.parse(await readFile('qa/submission-video/full-cup-sfx/capture.json', 'utf8')) as CupVideo;
+  const rounds = JSON.parse(await readFile('qa/submission-video/rounds-v16/capture.json', 'utf8')) as RoundVideo;
+  await loadAlternateVideo(rounds, 'peg-fever');
   const liveFile = 'qa/submission-video/live-join/capture.json';
   const live = existsSync(liveFile) ? JSON.parse(await readFile(liveFile, 'utf8')) as JoinVideo : undefined;
-  const crowd = JSON.parse(await readFile('qa/submission-video/join-crowd/capture.json', 'utf8')) as CrowdVideo;
-  const host = JSON.parse(await readFile('qa/submission-video/host-setup-v15/capture.json', 'utf8')) as HostVideo;
-  const plan = submissionVideoPlan(cup, live, crowd, process.argv.includes('--offline-preview'), host, await optionalVideos());
+  const crowd = JSON.parse(await readFile('qa/submission-video/join-crowd-v16/capture.json', 'utf8')) as CrowdVideo;
+  const host = JSON.parse(await readFile('qa/submission-video/host-setup-v16/capture.json', 'utf8')) as HostVideo;
+  const plan = submissionVideoPlan(rounds, live, crowd, process.argv.includes('--offline-preview'), host, await optionalVideos());
   const selected = process.argv.indexOf('--overlay');
   const overlays = selected < 0 ? undefined : process.argv[selected + 1].split(',').map(Number);
   if (overlays?.some(index => !Number.isInteger(index) || !plan[index])) throw new Error('Invalid overlay index');
   for (const [index, segment] of plan.entries()) {
-    if (segment.source === 'section') await sectionCard(page, segment, index);
+    if (segment.source === 'section' && !overlaysOnly) await sectionCard(page, segment, index);
     if (!process.argv.includes('--cards-only') && (overlays === undefined || overlays.includes(index))
-      && (segment.source === 'cup' || segment.source === 'crowd' || segment.source === 'setup' || segment.source === 'optional')) {
+      && (segment.source === 'rounds' || segment.source === 'alternate' || segment.source === 'crowd' || segment.source === 'setup' || segment.source === 'optional')) {
       await gameplayOverlay(page, segment, index, crowd);
     }
   }

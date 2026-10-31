@@ -60,7 +60,7 @@ export function dashboard(host:HTMLElement):void{
     host.querySelectorAll<HTMLInputElement>('[data-capacity]').forEach(input=>{if(document.activeElement!==input)input.value=String(m.capacities?.[input.dataset.capacity!]??games.find(g=>g.id===input.dataset.capacity)!.maxParticipants);});
     $('viewers').nextElementSibling!.textContent=event?'TEAMS':game?.participantNoun === 'supporter'?'SUPPORTERS':'PLAYERS';
     $('notice').textContent = m.waiting ? `${m.waiting} waiting for the next round.`
-      : event ? 'No joining needed.' : m.phase === 'ATTRACT' ? '5 rounds · Blade Brawl Grand Final.'
+      : event ? 'No joining needed.' : m.phase === 'ATTRACT' ? 'Queue games, then start the show.'
         : m.waitingForHost ? 'Viewers can still type !join.' : '';
     $('notice').hidden = !$('notice').textContent;
     if (m.queue) queueView.set(m.queue);

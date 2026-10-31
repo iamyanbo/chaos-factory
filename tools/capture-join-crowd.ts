@@ -4,7 +4,8 @@ import { resolve } from 'node:path';
 import { finalizeRecording } from './drama/capture-media';
 
 const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4182';
-const directory = resolve('qa/submission-video/join-crowd');
+const outputFlag = process.argv.indexOf('--out');
+const directory = resolve(outputFlag < 0 ? 'qa/submission-video/join-crowd' : process.argv[outputFlag + 1]);
 const VIEWERS = 48;
 const health = await (await fetch(`${base}/api/health`)).json();
 if (health.mode !== 'mock') throw new Error('Crowd demonstration requires the mock server.');

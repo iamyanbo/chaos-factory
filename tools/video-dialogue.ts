@@ -42,7 +42,7 @@ export function drawVideoDialogue(ctx: CanvasRenderingContext2D, segment: VideoS
   ctx.font = '32px Lilita';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('BUILD YOUR CUP', 195, 84);
+  ctx.fillText('QUEUE GAMES', 195, 84);
   ctx.restore();
   for (const caption of segment.captions ?? []) {
     if (time < caption.from || time > caption.to) continue;

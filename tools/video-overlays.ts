@@ -85,14 +85,6 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         if (alpha <= 0) return;
         ctx.save();
         ctx.globalAlpha = alpha;
-        if (segment.title === 'TOP EIGHT') {
-          const x = 1200 + (1 - ease(time)) * 720;
-          box(x, 40, 680, 190);
-          lines(segment.title, x + 24, 59, 630, 44, true);
-          lines(segment.body, x + 24, 122, 630, 30);
-          ctx.restore();
-          return;
-        }
         const scale = 1 + Math.sin(entry * 16) * Math.exp(-entry * 5) * .07;
         ctx.translate(42 - (1 - ease(entry)) * 440, 655);
         ctx.scale(scale, scale);
@@ -131,7 +123,7 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
         ctx.rotate(-.055 * (1 - leave));
         ctx.scale(pop * (1 - leave * .5), pop * (1 - leave * .5));
         const words = segment.title.split(' ');
-        display(segment.bonus ? 'OPTIONAL GAME' : segment.chapter === 5 ? 'GRAND FINAL' : `ROUND ${segment.chapter} / 5`, 0, -158, 30, 'white');
+        display(segment.category ?? 'MINIGAME', 0, -158, 30, 'white');
         words.forEach((word, index) => display(word, 0, -50 + index * 132, 128));
         ctx.restore();
       }
@@ -207,6 +199,6 @@ export async function gameplayOverlay(page: Page, segment: VideoSegment, index: 
   const output = resolve(directory, 'overlay.mov');
   command('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-framerate', String(FPS),
     '-i', resolve(directory, '%04d.png'), '-frames:v', String(frames), '-c:v', 'qtrle', '-pix_fmt', 'argb', output]);
-  console.log(`Overlay ${index}: ${segment.title || 'champion'}`);
+  console.log(`Overlay ${index}: ${segment.title || segment.gameId || 'round result'}`);
   return output;
 }

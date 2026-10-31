@@ -5,18 +5,22 @@ param([switch]$Apply)
 $ErrorActionPreference = 'Stop'
 $workspace = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $videoRoot = (Resolve-Path -LiteralPath (Join-Path $workspace 'qa/submission-video')).Path
-$latest = Join-Path $videoRoot 'chaos-factory-demo-v15.mp4'
+$latest = Join-Path $videoRoot 'chaos-factory-demo-v16.mp4'
 if (!(Test-Path -LiteralPath $latest -PathType Leaf)) {
-    throw 'The finished v15 video must exist before cleaning its older exports.'
+    throw 'The finished v16 video must exist before cleaning its older exports.'
 }
 $edit = Get-Content -LiteralPath (Join-Path $videoRoot 'edit.json') -Raw | ConvertFrom-Json
-if ($edit.edition -ne 15 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
-    throw 'Wait for the v15 export and its validated edit manifest to finish.'
+if ($edit.edition -ne 16 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
+    throw 'Wait for the v16 export and its validated edit manifest to finish.'
 }
 $protected = @(
-    'chaos-factory-demo-v15.mp4', 'chaos-factory-demo.mp4', 'edit.json',
+    'chaos-factory-demo-v16.mp4', 'chaos-factory-demo.mp4', 'edit.json',
     'full-cup-sfx/full-cup.webm', 'full-cup-sfx/capture.json',
     'join-crowd/crowd.webm', 'join-crowd/capture.json',
+    'rounds-v16/rounds.webm', 'rounds-v16/capture.json',
+    'join-crowd-v16/crowd.webm', 'join-crowd-v16/capture.json',
+    'host-setup-v16/dashboard.webm', 'host-setup-v16/capture.json',
+    'alternate-games/peg-fever/game.webm', 'alternate-games/peg-fever/capture.json',
     'live-join/live-join.webm', 'live-join/capture.json',
     'host-setup/dashboard.webm', 'host-setup/capture.json',
     'host-setup-v15/dashboard.webm', 'host-setup-v15/capture.json',
@@ -29,7 +33,7 @@ foreach ($file in $protected) {
 }
 
 $candidates = [Collections.Generic.List[string]]::new()
-foreach ($version in 1..14) {
+foreach ($version in 1..15) {
     $candidates.Add((Join-Path $videoRoot "chaos-factory-demo-v$version.mp4"))
     $candidates.Add((Join-Path $videoRoot "chaos-factory-offline-preview-v$version.mp4"))
     $candidates.Add((Join-Path $videoRoot "contact-sheet-v$version.png"))
@@ -70,7 +74,7 @@ $manifest = foreach ($candidate in ($candidates | Select-Object -Unique)) {
 }
 $manifest | Format-Table @{Name='MiB';Expression={[math]::Round($_.Bytes / 1MB, 1)}}, Path -AutoSize
 $bytes = ($manifest | Measure-Object Bytes -Sum).Sum
-Write-Host ('Total: {0:N2} GiB; originals, v15 final and v15 review are retained.' -f ($bytes / 1GB))
+Write-Host ('Total: {0:N2} GiB; originals, v16 final and v16 review are retained.' -f ($bytes / 1GB))
 if (!$Apply) { Write-Host 'Preview only. Add -Apply to remove exactly these paths.'; return }
 foreach ($entry in $manifest) {
     if ($PSCmdlet.ShouldProcess($entry.Path, 'Remove obsolete video or regenerable edit files')) {

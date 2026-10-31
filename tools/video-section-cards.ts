@@ -15,7 +15,6 @@ export async function sectionCard(page: Page, segment: VideoSegment, index: numb
     canvas.height = 1080;
     const ctx = canvas.getContext('2d')!;
     const images: string[] = [];
-    const final = segment.title === 'GRAND FINAL';
     const colors = ['#ff4f7b', '#3a8ee6', '#2ecc71', '#8e5cff', '#ffb000'];
     for (let frame = 0; frame < Math.ceil(segment.seconds * 30); frame++) {
       const time = frame / 30;
@@ -57,7 +56,9 @@ export async function sectionCard(page: Page, segment: VideoSegment, index: numb
       ctx.textBaseline = 'middle';
       ctx.font = '34px Fredoka';
       ctx.fillText('CHAOS FACTORY', 0, -197);
-      ctx.font = `${final ? 162 : 176}px Lilita`;
+      ctx.font = '176px Lilita';
+      const titleSize = Math.min(176, 176 * 1500 / Math.max(1, ctx.measureText(segment.title).width));
+      ctx.font = `${titleSize}px Lilita`;
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#1b1b3a';
       ctx.lineWidth = 20;

@@ -54,7 +54,9 @@ try {
     const chunks: Blob[] = [];
     const transitions: { wall: number; phase: string; round: number; game: string;
       entrants: string[]; stage: number }[] = [];
-    const samples: { wall: number; game: number; fps: number; musicEnabled: boolean; musicPlaying: boolean }[] = [];
+    const samples: { wall: number; game: number; gameId: string; phase: string; fps: number;
+      musicEnabled: boolean; musicPlaying: boolean; alive: number;
+      hype: Record<string, number>; details: unknown }[] = [];
     let previous = '';
     let nextSample = 0;
     recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
@@ -78,8 +80,11 @@ try {
           console.log(`ROUND ${show.round} ${current.gameId} ${current.phase} stage ${show.stageIndex + 1} / ${wall.toFixed(1)}s`);
         }
         if (wall >= nextSample) {
-          nextSample = wall + 1;
-          samples.push({ wall, game: current.inspect().time, fps: current.fps,
+          nextSample = wall + .25;
+          const inspection = current.inspect();
+          samples.push({ wall, game: inspection.time, gameId: current.gameId, phase: current.phase,
+            fps: current.fps, alive: inspection.marbles.filter(marble => marble.alive).length,
+            hype: { ...current.hype.events }, details: inspection.details,
             musicEnabled: current.audio.musicEnabled, musicPlaying: Boolean(current.audio.playing) });
         }
         if (current.phase === 'RESULT' && show.round >= 5 && show.phaseTime >= 6 || wall > 1100) {

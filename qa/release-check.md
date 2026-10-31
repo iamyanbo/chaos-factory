@@ -228,3 +228,22 @@ deferred by the user; no native payout, public broadcast or upload is claimed.
   submission readiness and generated owner notes no longer claim wagering or Cups.
 - **13 relevant browser regressions PASS** across round start/queue, six-round
   sequencing, Twitch setup, Toy gallery/previews and offline result actions.
+
+## October 31: v16 independent-round video
+
+- Current local export: qa/submission-video/chaos-factory-demo-v16.mp4, 170.8s,
+  1920x1080 H.264/AAC, captured gameplay at normal speed. All eight games appear;
+  Hot Potato and Blade Brawl show their streamer formats rather than a forced final.
+- Re-recorded host controls, 48 mock joins and five standalone rounds. The alternate
+  Peg Fever take reaches Fever at 33.777s; the 5,580 landing is an actual 1,860 x3.
+  Existing extra-game footage ends before its old result-card entrances.
+- Retained the separately labeled historical real join, original intro/credit,
+  stationary close-up cuts, centered captions, contextual emotes and one CC0 bed.
+- Reviewed 33 film frames, 42 gameplay frames and nine tutorial frames. Removed a
+  stale dashboard final hint and the old Cup label in the editorial tutorial badge.
+- Final media checks PASS: no decode errors, strict increasing video DTS, exact
+  170.8s timeline, -19.10 LUFS / -3.42 dB true peak, held-composition MAE 0.082.
+- The source movie and latest alias have the same SHA-256. No public broadcast,
+  upload or old-video deletion was performed.
+- Typecheck and all 351 tests across 75 files PASS after encoding finished;
+  the unchanged 200-course camera audit passes. The dashboard browser check also passes.

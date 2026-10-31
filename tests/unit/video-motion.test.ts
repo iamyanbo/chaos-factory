@@ -3,7 +3,7 @@ import { pointerPoint } from '../../tools/video-pointer';
 import { cameraAt, cameraKeys, editorialCameraFilter, editorialPictureFilters } from '../../tools/video-motion';
 import type { VideoSegment } from '../../tools/video-plan';
 
-const shot = (extra: Partial<VideoSegment> = {}): VideoSegment => ({ source: 'cup',
+const shot = (extra: Partial<VideoSegment> = {}): VideoSegment => ({ source: 'rounds',
   from: 0, seconds: 13.6, title: '', body: '', evidence: 'mock', ...extra });
 
 test('cursor approaches controls without an endpoint jump or constant-speed snap', () => {
@@ -34,7 +34,7 @@ test('editorial camera leaves the Race record and finish stable and titles reada
 test('setup close-ups hold still between deliberate cuts', () => {
   const host = { mode: 'live', authenticated: true, connected: true, readyAt: 1,
     actions: [{ at: 2.7, action: 'queue:hot-potato' }, { at: 4.1, action: 'queue:multiplier-cascade' },
-      { at: 6.4, action: 'drag-reorder' }, { at: 7.7, action: 'start-cup' }], media: { duration: 12 } };
+      { at: 6.4, action: 'drag-reorder' }, { at: 7.7, action: 'start-show' }], media: { duration: 12 } };
   const keys = cameraKeys(shot({ source: 'setup', from: 1, seconds: 9.4 }), host);
   expect(keys.every((row, index) => index === 0 || row.at > keys[index - 1].at)).toBe(true);
   expect(cameraAt(keys, 5.4).zoom).toBeCloseTo(1.7);

@@ -45,12 +45,23 @@ http://127.0.0.1:4182/dashboard. The demo always uses mock mode and bundled asse
 
 ## Video status
 
-The local v15 edit predates the October 31 removal of Cups, standings and the
-Grand Final. It needs a recut before upload so it describes this version accurately.
-Preserve the approved animated intro, centered captions, context-aware Twitch
-stickers and continuous CC0 music; show current queue controls and independent
-round results. Label simulated audiences separately from the actual Twitch join.
-Do not claim a public broadcast, channel-point wagering or progression.
+The local v16 film is 2:50.8 at 1080p, with all eight games shown as independent
+rounds. The dashboard tutorial explains adding games, dragging the queue and
+Start show. The simulated lobby fills with 48 actual mock joins; a separately
+labeled inset retains the real Twitch rehearsal while the channel was offline.
+
+MINIGAMES and CHAT VS STREAMER section cards introduce the gameplay. Cascade
+includes multiplication and the first-to-five win; Peg Fever includes a 5,580
+landing and doubled Fever slots; Marble Race progresses from launch to a real
+gate break and first finishes. Pong Wars, Light Cycles and Ring Run+ each have
+their own chapter. Hot Potato retains the fuse, blast and rim spill. Blade Brawl
+shows rage activation and a final duel, ending on that round's winning side.
+
+The approved animated intro, two-second game-title holds, centered event captions,
+context-aware Twitch stickers and one continuous CC0 music bed are retained.
+Gameplay stays at its captured speed, including the game's own live slow motion.
+The opening says Implemented with Codex; the closing card links the repository.
+No public broadcast, channel-point wagering or account progression is claimed.
 
 Repository: https://github.com/iamyanbo/chaos-factory
 The solo member and actual main Codex session ID are saved in submission-fields.json.

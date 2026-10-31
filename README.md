@@ -121,8 +121,9 @@ demo running, `npx tsx tools/capture-rounds.ts --sfx-only` captures five indepen
 queued rounds. `tools/capture-live-join.ts` captures an actual arriving chat join;
 it does not send chat or start a broadcast.
 
-The existing v15 edit predates the removal of Cups and Predictions. Its Cup,
-standings and Grand Final chapters are historical and must be recut before it is
-used to advertise this version. The approved artwork, transitions, music and real
-join capture remain available locally. Account uploads and the final Devpost
-submission have not been performed.
+The current local edit is `qa/submission-video/chaos-factory-demo-v16.mp4`
+(2:50.8, 1080p H.264/AAC). All eight games appear as independent rounds, with a
+separate chat-versus-streamer section. It includes the current dashboard tutorial,
+a populated simulated lobby, and the separately labeled historical real Twitch join.
+The approved intro, centered captions, scattered event emotes and continuous CC0
+music remain. Account uploads and final Devpost submission have not been performed.

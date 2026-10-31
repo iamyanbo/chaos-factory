@@ -15,6 +15,8 @@ export function eventReactions(segment: VideoSegment): VideoReaction[] {
       elimination: ['NotLikeThis'],
       score: ['PogChamp', 'SeemsGood'],
       fever: ['PogChamp', 'SeemsGood'],
+      powerup: ['PogChamp', 'SeemsGood'],
+      multiply: ['PogChamp', 'SeemsGood'],
       finish: ['SeemsGood', 'PogChamp']
     }[moment];
     const positions = [[575, 190], [1730, 760], [1340, 790]];
@@ -22,10 +24,6 @@ export function eventReactions(segment: VideoSegment): VideoReaction[] {
     names.forEach((emote, index) => reactions.push({ at: cue.at + .06 + index * .23, seconds: .95,
       emote, x: positions[index][0], y: positions[index][1], size: index === 0 ? 122 : 108,
       angle: index === 0 ? -.13 : index === 1 ? .12 : -.08 }));
-  }
-  if (segment.gameId === 'multiplier-cascade' && segment.chapter) {
-    reactions.push({ at: 6.8, seconds: 1.1, emote: 'PogChamp', x: 1730, y: 720, size: 124, angle: .1 });
-    reactions.push({ at: 7.2, seconds: 1, emote: 'SeemsGood', x: 575, y: 200, size: 106, angle: -.13 });
   }
   if (segment.celebrate) {
     reactions.push({ at: .6, seconds: 1.2, emote: 'SeemsGood', x: 1750, y: 780, size: 130, angle: .1 });

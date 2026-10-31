@@ -9,10 +9,17 @@ export interface VideoTransition {
   game: string;
   stage: number;
 }
-export interface CupVideo {
+export interface RoundVideo {
   transitions: VideoTransition[];
   wallSeconds: number;
   media: { duration: number };
+  reviewed: Record<string, ReviewedTake[]>;
+  alternate?: Record<string, OptionalGameVideo>;
+}
+export interface ReviewedTake {
+  offset: number;
+  seconds: number;
+  cues?: VideoSegment['cues'];
 }
 export interface JoinVideo {
   joinedAt?: number;
@@ -46,7 +53,7 @@ export interface OptionalGameVideo {
   media: { duration: number };
 }
 export interface VideoSegment {
-  source: 'cup' | 'crowd' | 'setup' | 'optional' | 'section' | 'title' | 'outro';
+  source: 'rounds' | 'crowd' | 'setup' | 'optional' | 'alternate' | 'section' | 'title' | 'outro';
   from: number;
   seconds: number;
   title: string;
@@ -57,18 +64,22 @@ export interface VideoSegment {
   gameId?: string;
   chapter?: number;
   bonus?: boolean;
+  category?: string;
   hostMode?: 'mock' | 'live';
   celebrate?: boolean;
   reactions?: VideoReaction[];
   cues?: { at: number; seconds: number; kind: 'burst' | 'score' | 'finish'; title: string; detail?: string;
-    reactionsOnly?: boolean; moment?: 'spill' | 'elimination' | 'score' | 'fever' | 'finish' }[];
+    reactionsOnly?: boolean; moment?: 'spill' | 'elimination' | 'score' | 'fever' | 'finish' | 'powerup' | 'multiply' }[];
   evidence: 'mock' | 'project-files' | 'host-ui';
   inset?: { from: number; at: number; seconds: number; name: string; evidence: 'real-chat' };
 }
 
 /** Keep each physical sequence intact; cover source jumps with animated Toy wipes. */
-export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: CrowdVideo,
+export function submissionVideoPlan(rounds: RoundVideo, live?: JoinVideo, crowd?: CrowdVideo,
   offlinePreview = false, host?: HostVideo, optional: readonly OptionalGameVideo[] = []): VideoSegment[] {
+  if (rounds.transitions.some(row => ['STANDINGS', 'CUP_RESULTS'].includes(row.phase))) {
+    throw new Error('Recapture independent rounds; historical tournament footage is not a current-build source.');
+  }
   if (crowd?.mode !== 'mock' || crowd.viewers < 24 || crowd.joins.length < 24
     || crowd.playAt === undefined || crowd.startedAt === undefined) {
     throw new Error('Capture a populated mock lobby first: tools/capture-join-crowd.ts');
@@ -77,19 +88,20 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     { source: 'title', from: 0, seconds: INTRO_SECONDS, title: '', body: '', subtitle: TITLE_CREDIT, evidence: 'project-files' }
   ];
   if (host) {
-    const start = host.actions.find(row => row.action === 'start-cup');
+    const start = host.actions.find(row => row.action === 'start-show');
     const validHost = host.connected && (host.mode === 'mock' || host.mode === 'live' && host.authenticated);
     if (!host.actions.some(row => row.action === 'queue:multiplier-cascade')
       || !host.actions.some(row => row.action === 'drag-reorder') || !validHost || !start
       || start.at + 1 > host.media.duration) throw new Error('Connected host workflow proof is incomplete');
-    segments.push({ source: 'setup', from: host.readyAt, seconds: 9.3,
+    const hostSeconds = Math.max(9.3, start.at - host.readyAt + 2.1);
+    segments.push({ source: 'setup', from: host.readyAt, seconds: hostSeconds,
       title: '', body: '', evidence: 'host-ui', hostMode: host.mode as 'mock' | 'live', captions: [
         { from: .35, to: host.actions.find(row => row.action === 'queue:multiplier-cascade')!.at - host.readyAt + .2,
           step: 1, label: 'ADD GAMES', text: 'Click "+ Queue" to add games.' },
         { from: host.actions.find(row => row.action === 'queue:multiplier-cascade')!.at - host.readyAt + .2,
           to: start.at - host.readyAt - 1, step: 2, label: 'CHANGE THE ORDER', text: 'Drag the grip to change the order.' },
-        { from: start.at - host.readyAt - 1, to: 9.05, step: 3, label: 'START THE SHOW',
-          text: 'Click "Start a Cup" to begin.' }
+        { from: start.at - host.readyAt - 1, to: hostSeconds - .25, step: 3, label: 'START THE SHOW',
+          text: 'Click "Start show" to begin.' }
       ] });
   }
   const from = Math.max(0, crowd.joins[0].wall - .7);
@@ -107,76 +119,73 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
   }
   segments.push(lobby);
   function round(game: string) {
-    const play = cup.transitions.find(row => row.game === game && row.phase === 'PLAY');
-    const result = cup.transitions.find(row => row.game === game && row.phase === 'RESULT');
+    const replacement = rounds.alternate?.[game];
+    if (replacement) {
+      if (replacement.game !== game || replacement.mode !== 'mock' || !replacement.normalSpeed
+        || replacement.resultAt === undefined || !replacement.result || replacement.result.winner.kind === 'void') {
+        throw new Error(`Invalid alternate ${game} recording`);
+      }
+      return { play: 0, result: replacement.resultAt };
+    }
+    const play = rounds.transitions.find(row => row.game === game && row.phase === 'PLAY');
+    const result = rounds.transitions.find(row => row.game === game && row.phase === 'RESULT');
     if (!play || !result || result.wall <= play.wall) throw new Error(`Missing completed ${game} footage`);
     return { play: play.wall, result: result.wall };
   }
-  function shot(game: string, offset: number, seconds: number, title: string, body: string) {
-    const timing = round(game);
-    const latest = Math.min(timing.result + 2, cup.media.duration) - seconds;
-    if (latest < timing.play) throw new Error(`Insufficient real ${game} footage`);
-    segments.push({ source: 'cup', from: Math.max(timing.play, Math.min(timing.play + offset, latest)),
-      seconds, title, body, gameId: game,
-      chapter: segments.some(row => row.gameId === game) ? undefined
-        : new Set(segments.filter(row => row.source === 'cup').map(row => row.gameId).filter(Boolean)).size + 1,
-      evidence: 'mock' });
-  }
-  segments.push({ source: 'section', from: 0, seconds: 2.2, title: 'MINIGAMES',
-    body: 'FIVE GAMES. ONE CUP.', evidence: 'project-files' });
-  // Reviewed source windows: the x3 volley, then the actual five-finisher win.
-  shot('multiplier-cascade', 29, 9.8, 'MULTIPLIER CASCADE',
-    'Grow your team.\nFirst to five finishers wins.');
-  shot('multiplier-cascade', 51.8, 6.2, '', '');
-  // Each bomb sequence keeps the fuse, the real blast and its aftermath.
-  // The forward cut removes the middle of the next long fuse, never a detonation.
-  shot('hot-potato', 18.8, 10, 'HOT POTATO',
-    'Pass the bomb on contact.\nLast marble standing wins.');
-  shot('hot-potato', 35.7, 7, '', '');
-  shot('peg-fever', 4.1, 9.9, 'PEG FEVER',
-    'Three balls each.\nEvery landing multiplies its score.');
-  shot('peg-fever', 31.2, 7.6, '', '');
-  shot('marble-race', 0, 7.5, 'MARBLE RACE',
-    'Leaders break gates.\nFollowers get an open lane.');
-  shot('marble-race', 58.8, 6, '', '');
-  shot('marble-race', 77.8, 4.5, '', '');
-  if (optional.length) {
-    const picks = [
-      ['pong-wars', 'PONG WARS', 'Support a faction.\nMost tiles wins.'],
-      ['light-cycles', 'LIGHT CYCLES', 'Trails become walls.\nLast cycle riding wins.'],
-      ['ring-escape', 'RING RUN+', 'Escape five rings.\nFirst out or last survivor wins.']
-    ];
-    if (optional.length !== picks.length) throw new Error('Capture all three optional games before showing them.');
-    segments.push({ source: 'section', from: 0, seconds: 2, title: 'MORE GAMES',
-      body: 'OPTIONAL CUP PICKS', evidence: 'project-files' });
-    for (const [gameId, title, body] of picks) {
-      const capture = optional.find(row => row.game === gameId);
-      if (!capture || capture.mode !== 'mock' || !capture.normalSpeed || capture.resultAt === undefined
-        || !capture.result || capture.result.winner.kind === 'void' || capture.media.duration < 10) {
-        throw new Error(`A completed normal-speed ${gameId} recording is required.`);
+  function game(gameId: string, title: string, body: string, category: string) {
+    const timing = round(gameId);
+    const takes = rounds.reviewed?.[gameId];
+    if (!takes?.length) throw new Error(`Reviewed event windows are missing for ${gameId}`);
+    for (const [index, take] of takes.entries()) {
+      const from = timing.play + take.offset;
+      if (take.offset < 0 || from + take.seconds > timing.result + 2) {
+        throw new Error(`Reviewed ${gameId} shot is outside its recorded round`);
       }
-      // Reviewed Light Cycles window: multiple crashes before the quiet final duel.
-      const from = gameId === 'light-cycles' ? 33.5 : capture.media.duration - 9;
-      segments.push({ source: 'optional', gameId, bonus: true, title, body,
-        from, seconds: 9, evidence: 'mock' });
+      segments.push({ source: rounds.alternate?.[gameId] ? 'alternate' : 'rounds', gameId, from, seconds: take.seconds,
+        title: index ? '' : title, body: index ? '' : body,
+        chapter: index ? undefined : new Set(segments.map(row => row.gameId).filter(Boolean)).size + 1,
+        category, cues: take.cues ? structuredClone(take.cues) : undefined, evidence: 'mock' });
     }
   }
-  const standings = cup.transitions.find(row => row.phase === 'STANDINGS' && row.round === 4);
-  if (!standings || standings.wall + 5.7 > cup.media.duration) throw new Error('Fourth-round Cup standings are missing');
-  segments.push({ source: 'cup', from: standings.wall + 1.2, seconds: 4.5,
-    title: 'TOP EIGHT', body: 'Four rounds earn points.\nEight finalists. One Cup.', evidence: 'mock' });
-  segments.push({ source: 'section', from: 0, seconds: 2, title: 'GRAND FINAL',
-    body: 'TOP EIGHT. ONE WINNER.', evidence: 'project-files' });
-  shot('blade-brawl', 31.7, 10.5, 'BLADE BRAWL',
-    'The arena closes.\nLast fighter takes the Cup.');
-  shot('blade-brawl', 72, 6.5, '', '');
-  const champion = cup.transitions.find(row => row.phase === 'CUP_RESULTS');
-  if (!champion || champion.wall + 4.2 > cup.media.duration) throw new Error('The actual Cup champion screen is missing');
-  segments.push({ source: 'cup', from: champion.wall + .2, seconds: 4,
+  segments.push({ source: 'section', from: 0, seconds: 2.2, title: 'MINIGAMES',
+    body: 'EIGHT GAMES. JUST !JOIN.', evidence: 'project-files' });
+  game('multiplier-cascade', 'MULTIPLIER CASCADE',
+    'Multiply your supply.\nFirst team to five finishers wins.', 'TEAM MACHINE');
+  game('peg-fever', 'PEG FEVER',
+    'Three balls each.\nEvery landing multiplies its score.', 'INDIVIDUAL');
+  game('marble-race', 'MARBLE RACE',
+    'Leaders break gates.\nFollowers get an open lane.', 'INDIVIDUAL');
+  const picks = [
+    ['pong-wars', 'PONG WARS', 'Support a faction.\nMost tiles wins.', 'TEAM BATTLE'],
+    ['light-cycles', 'LIGHT CYCLES', 'Trails become walls.\nLast cycle riding wins.', 'INDIVIDUAL'],
+    ['ring-escape', 'RING RUN+', 'Escape five rings.\nFirst out or last survivor wins.', 'INDIVIDUAL']
+  ];
+  if (optional.length !== picks.length) throw new Error('Capture all three optional games before showing them.');
+  for (const [gameId, title, body, category] of picks) {
+    const capture = optional.find(row => row.game === gameId);
+    if (!capture || capture.mode !== 'mock' || !capture.normalSpeed || capture.resultAt === undefined
+      || !capture.result || capture.result.winner.kind === 'void' || capture.media.duration < 10) {
+      throw new Error(`A completed normal-speed ${gameId} recording is required.`);
+    }
+    // Retained extras stop before their older result-card entrance.
+    const from = gameId === 'light-cycles' ? 33.5 : capture.resultAt - 9.7;
+    segments.push({ source: 'optional', gameId, category, title, body,
+      chapter: new Set(segments.map(row => row.gameId).filter(Boolean)).size + 1,
+      from, seconds: 9, evidence: 'mock' });
+  }
+  segments.push({ source: 'section', from: 0, seconds: 2.2, title: 'CHAT VS STREAMER',
+    body: 'YOUR CHAT. YOUR OPPONENTS.', evidence: 'project-files' });
+  game('hot-potato', 'HOT POTATO',
+    'Pass the bomb.\nBeat the streamer before only three chatters remain.', 'CHAT VS STREAMER');
+  game('blade-brawl', 'BLADE BRAWL',
+    'Spinning weapons.\nChat takes on the streamer.', 'CHAT VS STREAMER');
+  const winner = round('blade-brawl').result;
+  segments.push({ source: 'rounds', from: winner + .3, seconds: 3.2,
     title: '', body: '', celebrate: true, evidence: 'mock' });
   segments.push({ source: 'outro', from: 0, seconds: 2.5, title: '', body: '', evidence: 'project-files' });
   let elapsed = 0;
   for (const segment of segments) {
+    const reviewedFrom = segment.from;
     if (segment.source !== 'title' && segment.source !== 'outro') {
       segment.seconds = durationToBeat(elapsed, segment.seconds);
       if (segment.source === 'optional') {
@@ -189,24 +198,12 @@ export function submissionVideoPlan(cup: CupVideo, live?: JoinVideo, crowd?: Cro
     if (segment.source === 'setup' && segment.from + segment.seconds > host!.media.duration) {
       throw new Error('Host workflow recording ends before its reading hold');
     }
-    // These are annotations of reviewed events in the retained source, never invented events.
-    const cue = (sourceOffset: number, seconds: number, kind: 'burst' | 'score' | 'finish',
-      title: string, detail?: string, reactionsOnly = false,
-      moment?: NonNullable<VideoSegment['cues']>[number]['moment']) => {
-      const at = round(segment.gameId!).play + sourceOffset - segment.from;
-      if (at >= 0 && at + seconds <= segment.seconds - .2) {
-        (segment.cues ??= []).push({ at, seconds, kind, title, detail, reactionsOnly, moment });
+    for (const cue of segment.cues ?? []) {
+      cue.at += reviewedFrom - segment.from;
+      if (cue.at < 0 || cue.at + cue.seconds >= segment.seconds - .2) {
+        throw new Error('A reviewed event would be truncated by this cut.');
       }
-    };
-    if (segment.gameId === 'hot-potato') {
-      cue(22.28, 1.1, 'burst', 'RIM BREAK!', undefined, false, 'spill');
-      cue(38.5, 1.1, 'burst', '', undefined, true, 'elimination');
     }
-    if (segment.gameId === 'peg-fever') {
-      cue(11.65, 1.2, 'score', '2,960', '1,480 x 2', false, 'score');
-      cue(33.6, 1.2, 'score', '', undefined, true, 'fever');
-    }
-    if (segment.gameId === 'marble-race') cue(79.24, 1.15, 'finish', 'FINISH!', 'FIRST HOME', false, 'finish');
     segment.reactions = eventReactions(segment);
     elapsed += segment.seconds;
   }
