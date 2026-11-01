@@ -1475,6 +1475,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Added tools/create-thumbnail.ts for reproduction and updated the selected thumbnail's provenance in ASSETS.md.
 - Typecheck and all 347 tests/73 files pass. Runtime and final video remain unchanged; no upload performed.
 
+## 2026-11-01 - Caption the gameplay screenshot
+- Added only the requested CHAOS FACTORY caption to the real screenshot, using bundled Lilita One with a readable outline.
+- Saved chaos-factory-thumbnail-final.png at 1280x720 (570,971 bytes), preserving the plain source and source/hash metadata.
+- Typecheck and all 347 tests/73 files pass. No runtime or final-video changes; no upload performed.
+
 ## 2026-11-01 - Use a plain in-game screenshot
 - Selected the native Blade Brawl rage frame at 66.6s from the smooth game recording.
 - Exported the complete frame at 1280x720; only resizing is applied, with no added text, layout or illustration.
