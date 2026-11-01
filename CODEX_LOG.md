@@ -1474,3 +1474,9 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Cropped real arena pixels without generating or redrawing marbles; saved a 1280x720 PNG at 580,052 bytes.
 - Added tools/create-thumbnail.ts for reproduction and updated the selected thumbnail's provenance in ASSETS.md.
 - Typecheck and all 347 tests/73 files pass. Runtime and final video remain unchanged; no upload performed.
+
+## 2026-11-01 - Use a plain in-game screenshot
+- Selected the native Blade Brawl rage frame at 66.6s from the smooth game recording.
+- Exported the complete frame at 1280x720; only resizing is applied, with no added text, layout or illustration.
+- Saved chaos-factory-gameplay-screenshot.png (571,437 bytes) and source/hash metadata locally; updated the selected asset credit.
+- Typecheck and all 347 tests/73 files pass. Runtime and final video remain unchanged; no upload performed.

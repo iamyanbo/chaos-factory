@@ -93,9 +93,8 @@ renderers receive only public image bytes. See `tools/fetch-video-emotes.ts`.
 
 ### Video thumbnail
 
-The current thumbnail, `qa/submission-video/chaos-factory-thumbnail-v2.png`, is a
-code-rendered layout of actual Blade Brawl, Cascade and Peg Fever video frames,
-with the existing intro's Lilita One lettering and bundled Fredoka. Arena contents
-are cropped from gameplay without redrawing objects. See `tools/create-thumbnail.ts`.
-The earlier imagegen illustration was rejected and is not the selected thumbnail.
-Thumbnail images and source metadata remain local upload assets, excluded from Git.
+The selected thumbnail is `qa/submission-video/chaos-factory-gameplay-screenshot.png`:
+a full in-game frame from the Blade Brawl recording at 66.6 seconds, resized to
+1280x720. Its HUD and RAGE callout are native game rendering; no additional text,
+layout, illustration or objects are added. Earlier illustrated/composite drafts
+are not selected. Thumbnail files remain local upload assets, excluded from Git.
