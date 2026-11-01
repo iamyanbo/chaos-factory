@@ -277,3 +277,21 @@ deferred by the user; no native payout, public broadcast or upload is claimed.
 - Owner-authorized cleanup removed 256 superseded/intermediate MP4s (1.61 GiB).
   Exactly one MP4 remains; its SHA-256 and all 55 source WebMs were verified afterward.
 - Updated final-path copy and capture/rebuild tools. No public upload or broadcast performed.
+
+## November 1: submission repository cleanup
+
+- Removed 36 obsolete files: unreachable prototype machinery, no-op per-game bot
+  modules, unused chat vote/hazard utilities, retired Cup tooling/report and the
+  discarded build-record viewer/evidence/tests. Kept current game and profiling tools.
+- GitHub's prior failure was the obsolete build-record test loading a historical
+  commit unavailable in a shallow checkout. That retired feature no longer runs.
+- Simplified and formatted the automatic simulator. Sixteen seeded fingerprints
+  across all eight games match exactly: results, duration, body counts and positions.
+- Dependency audit has no unused application modules beyond retained tests and
+  standalone audit tools. No forbidden tracked paths or credential patterns found;
+  local Markdown links resolve. Updated current Toy/lineup/asset documentation.
+- Archived the two untracked older-theme reference PNGs locally. Cleared 11,440
+  generated cache files (1.67 GiB); all 110 source WebMs and the final movie are intact.
+  Active service logs, credentials, dependencies and local authorization were preserved.
+- Typecheck/build PASS, 347 tests/73 files PASS (195.40s), dashboard optional-queue
+  browser smoke PASS (18.8s). Existing Rapier bundle-size warning remains.

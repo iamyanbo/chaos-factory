@@ -1451,3 +1451,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Media decode/DTS/audio and frame reviews pass; typecheck and all 351 tests/75 files pass.
 - Deleted 256 owner-authorized older/intermediate MP4s, freeing 1.61 GiB; final hash and all 55 source WebMs verified intact.
 - Updated capture cadence checks, rebuild/cleanup tools and source handoff; no account upload or broadcast performed.
+
+## 2026-11-01 - Clean the submission project
+- Removed 36 obsolete prototype, bot, vote/hazard, Cup and discarded build-record files; kept current game/audit tools.
+- Removed the retired build-record test's dependency on unavailable historical Git objects, which caused GitHub CI failures.
+- Simplified/formatted the automatic simulator; all 16 seeded fingerprints across eight games remain identical.
+- Updated Toy/lineup/credits documentation and archived two older untracked theme references locally.
+- Cleared 11,440 cache files (1.67 GiB); final video hash, 110 source WebMs, credentials and active logs preserved.
+- Dependency/link/secret-path audits pass; build/typecheck, all 347 tests/73 files and the dashboard smoke test pass.
+- Committed the reviewed cleanup for GitHub and refreshed the source handoff; no account upload or broadcast performed.

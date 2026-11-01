@@ -1,12 +1,13 @@
-# Release limits — October 29, 2026
+# Release limits — November 1, 2026
 
 ## Still open
 
 - **Validation runtime:** earlier October 31 full runs completed the existing
   200-course camera audit but exceeded its 240 s time limit. The v13 full run
   during encoding passed 374 tests with that one timeout. Its unchanged three-test
-  file passed after rendering in 137.28 s. The current v18 full run passes all
-  351 tests across 75 files, including that audit, after encoding finished. An
+  file passed after rendering in 137.28 s. The cleanup full run passes all
+  347 tests across 73 files, including that audit, after encoding finished. Tests
+  for the retired build-record and unused hazard utilities were removed with those features. An
   earlier concurrent run took 268.535 s for the audit and exceeded its limit.
   Physics assertions and timeout values are unchanged; machine load affects the audit.
 

@@ -44,89 +44,49 @@ The show makes no third-party font request.
 - Dashboard previews in `apps/show/public/game-previews/` are captures of our own
   procedural renderers: the central 1024 px arena crop, resized to 640 px WebP.
   Refresh them from `npm run frames` after changing game presentation.
-- The shared winner/standings screens reuse these fonts and procedural ball
+- The shared winner and team-result screens reuse these fonts and procedural ball
   portraits with original crown/card geometry. See [qa/end-screen-review.md](qa/end-screen-review.md).
 
 Rejected prototypes, unused fonts and historical reference footage are excluded
 from this submission repository. Dependency licenses remain with their packages.
 
-The submission video uses captures of our own game canvas and original motion
-graphics describing the game rules and Codex implementation work. Its Toy title
-animation, animated arrival feed, plate wipes and gameplay overlays are original
-canvas and HTML/CSS work using the bundled fonts. The v10 film uses only Chiptune
-Adventures Stage 2 as one continuous CC0 bed over original game effects. Its new
-transition whooshes are original seeded noise synthesis in tools/video-edit-audio.ts,
-with no third-party samples. Comic accents label real recorded events. No microphone,
-desktop footage or external artwork is used. Generated media
-stays outside Git under qa/submission-video/.
 
-The host segment records our own connected dashboard in a headless browser. Its
-pointer and click rings are editorial aids. The Marble Race build-record panel
-uses only selected public user/assistant messages and the actual committed patch
-listed in docs/build-evidence.json. It is a rendered transcript/diff viewer, not
-a recording of the Codex app UI. No private reasoning, credentials or raw session
-logs are included. tools/video-proof.ts validates the code against Git.
+## Submission video
 
-The v9 edit adds original eased framing, impact rings/rays and a brief warm
-exposure accent. The headless dashboard cursor uses timed curved input rather
-than instantaneous mouse steps. These are editorial presentation effects; the
-recorded gameplay timeline and underlying physics remain unchanged.
+The final movie is `qa/submission-video/chaos-factory-demo.mp4`. It uses our own
+normal-speed game and dashboard recordings, original Toy motion graphics, bundled
+fonts and a single continuous CC0 Chiptune Adventures Stage 2 music bed. Game SFX
+and procedural transition whooshes (`tools/video-edit-audio.ts`) are original;
+there is no voiceover or third-party sound sample. Captures and generated media
+are local and excluded from Git and the source ZIP.
 
-The v10 edit replaces moving pan/zoom paths with stationary close-up cuts. Its
-numbered queue captions and MINIGAMES/GRAND FINAL stingers are original canvas
-typography and geometry using the same bundled fonts. The captions are text only;
-no speech synthesis or additional music/third-party samples are used.
+The dashboard cursor, click rings, centered event captions, stationary close-up
+cuts and section cards are editorial aids. The simulated audience and historical
+real Twitch join are labeled separately; the real join occurred while the channel
+was offline. No large real audience or public broadcast is claimed.
 
-The v11 video's editorial stickers are the authentic global Twitch emotes
-SeemsGood (64138), PartyHat (965738) and TwitchLit (166263), downloaded through
+The original doc 24 request is quoted verbatim from the owner's build thread,
+followed by four actual theme/renderer source files scrolling together. This is
+an original editorial layout, not native Codex UI footage. The GPT-6.1 Sol credit
+is the owner's supplied attribution. No private reasoning, credentials or full
+session transcript is exported. The code view uses the installed Consolas system
+font; no additional font file is redistributed.
+
+The Blade Brawl replacement records the same seed and 24-viewer streamer round,
+with identical complete per-user results, winner and champion. Encoded-frame
+cadence is checked independently of the render counter. There are no generated
+intermediate frames, speed-up or changes to physics.
+
+### Twitch editorial stickers
+
+PogChamp (305954156), LUL (425618), NotLikeThis (58765) and SeemsGood (64138) are
+authentic global Twitch emotes, fetched through
 [Twitch Get Global Emotes](https://dev.twitch.tv/docs/api/reference/#get-global-emotes)
-and its official static-cdn.jtvnw.net image URLs. These images belong to Twitch
-and/or their respective rights holders; they are not claimed as CC0 or original
-project art. They appear as editorial stickers, not captured messages or real
-viewer reactions. No emote chat integration is added to the game. PNGs and the
-source/hash manifest remain local in qa/submission-video/twitch-emotes/ and are
-excluded from the runtime and source ZIP. Fetching uses server-side authorization;
-the renderer receives only public image bytes. See tools/fetch-video-emotes.ts.
+and official static-cdn.jtvnw.net URLs. They belong to Twitch and/or their
+respective rights holders; they are not claimed as CC0 or original project art.
+They appear as editorial stickers rather than captured chat messages or real
+viewer reactions. No emote integration is added to the game.
 
-The current edit uses independent, unboxed Twitch reactions: PogChamp (305954156),
-LUL (425618), NotLikeThis (58765) and SeemsGood (64138), fetched from
-the same official global-emote API/CDN. Images remain attributed to Twitch/their
-respective rights holders and cached outside the source/runtime package. The
-earlier feedback/fix conversation and standalone build card remain removed.
-The original opening and closing repository link remain. The v17 insert below
-uses selected request text and source code in an original editorial layout;
-no full session transcript or native Codex UI footage is exported.
-
-The optional-game previews for Pong Wars, Light Cycles and Ring Run+ are crops
-of our own current Toy gameplay captures, exported at 640x640. The optional-game
-video section uses fresh normal-speed game captures with sound effects only.
-The refreshed dashboard tutorial is explicitly labeled as an offline demo;
-the separately labeled real Twitch join inset remains the earlier rehearsal.
-
-The v16 recut records the current join-only dashboard, a 48-viewer mock lobby and
-five independent rounds, plus a separately recorded Peg Fever take with a real
-Fever trigger. It retains the reviewed optional-game captures and historical real
-Twitch join inset. The original vector intro, captions, music and licensed emote
-sources are unchanged; no new third-party assets are introduced.
-
-The separate six-second Codex insert preview quotes the owner's original October 27
-doc 24 request and scrolls the actual Toy theme/ball source. The request is checked
-against the local build transcript; only the selected excerpts are rendered.
-This is an editorial layout, not a capture or recreation of the Codex app UI.
-Its GPT-6.1 Sol credit is the owner's supplied attribution. It uses the existing
-bundled Fredoka font; it introduces no new third-party graphics or audio.
-
-The approved v17 insert extends the code view to four simultaneous real source
-files: toy.ts, balls.ts, ball-textures.ts and surfaces.ts. The 6.233-second insert
-fits the existing music beat grid. All twenty later v16 segments retain their
-reviewed gameplay/source windows; a fresh continuous mix uses the same CC0 bed.
-The opening credit now reads Built with Codex / GPT-6.1 Sol. Source text is shown
-in the installed Consolas system font; no additional font file is redistributed.
-
-The final v18 Blade Brawl excerpts replace dropped-frame recordings with a fresh
-capture of the same 24-viewer streamer round and seed. The complete per-user
-results, winner and champion match the original capture. Both selected windows
-have independently checked encoded-frame timestamps; no optical-flow frames,
-speed-up or physics changes are used. Both source recordings remain saved with
-their metadata. The replacement retains its real game SFX and the same single
-continuous CC0 music bed in the final mix.
+The cached PNGs and source/hash manifest stay local in
+`qa/submission-video/twitch-emotes/`. Fetching uses server-side authorization;
+renderers receive only public image bytes. See `tools/fetch-video-emotes.ts`.

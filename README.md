@@ -76,6 +76,11 @@ rehearsal. The offline demo on **4182** uses simulated joins.
 
 ## Develop and verify
 
+Source lives in `apps/server` (Twitch bridge), `apps/show` (show and game plugins)
+and `packages/shared` (protocol and types). `tools` contains simulation, capture
+and release utilities. Generated media, caches, local credentials and archived
+prototypes are excluded from Git. Asset sources and notices are in ASSETS.md.
+
 ```sh
 npm run dev          # mock bridge + Vite on http://127.0.0.1:5173
 npm run typecheck
@@ -131,3 +136,7 @@ The approved intro, centered captions, scattered event emotes and continuous CC0
 music remain. Account uploads and final Devpost submission have not been performed.
 Blade Brawl uses a fresh, normal-speed recording of the same seed and result;
 recorded-frame checks replace reliance on the game's FPS counter.
+
+On Windows, `tools/clean-project.ps1` previews disposable render/test caches;
+`tools/clean-project.ps1 -Apply` removes them while preserving source recordings,
+the final movie and tracked files. It leaves running-service logs in place.

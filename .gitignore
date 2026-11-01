@@ -49,6 +49,3 @@ qa/frames/hot-potato/*
 !qa/frames/hot-potato/review.md
 !qa/frames/blade-brawl/perf.md
 !qa/frames/pong-wars/fairness.md
-!qa/cup/
-qa/cup/*
-!qa/cup/review.md
