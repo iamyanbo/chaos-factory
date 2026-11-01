@@ -1467,3 +1467,10 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Saved the 1672x941 RGB PNG (1,852,431 bytes), exact prompt and hash metadata under qa/submission-video/.
 - Reviewed text, composition and palette; credited the illustration separately from actual gameplay captures.
 - Typecheck and all 347 tests/73 files pass. No runtime or final-video changes; no upload performed.
+
+## 2026-11-01 - Replace the illustrated thumbnail
+- Rebuilt the thumbnail from actual Blade Brawl, Cascade and Peg Fever video frames after the user rejected the generated illustration.
+- Composed the layout in Canvas with the original intro's local Lilita One/Fredoka fonts and Toy backdrop.
+- Cropped real arena pixels without generating or redrawing marbles; saved a 1280x720 PNG at 580,052 bytes.
+- Added tools/create-thumbnail.ts for reproduction and updated the selected thumbnail's provenance in ASSETS.md.
+- Typecheck and all 347 tests/73 files pass. Runtime and final video remain unchanged; no upload performed.

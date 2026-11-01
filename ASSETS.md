@@ -93,8 +93,9 @@ renderers receive only public image bytes. See `tools/fetch-video-emotes.ts`.
 
 ### Video thumbnail
 
-`qa/submission-video/chaos-factory-thumbnail.png` is original promotional artwork
-generated with the built-in imagegen tool, using our actual Blade Brawl frame
-and supplied Toy reference for style. It is an illustration, not a gameplay
-screenshot. It adds no third-party logo, portrait or emote. The exact prompt is
-saved beside it as `thumbnail-prompt.txt`; both files remain local upload assets.
+The current thumbnail, `qa/submission-video/chaos-factory-thumbnail-v2.png`, is a
+code-rendered layout of actual Blade Brawl, Cascade and Peg Fever video frames,
+with the existing intro's Lilita One lettering and bundled Fredoka. Arena contents
+are cropped from gameplay without redrawing objects. See `tools/create-thumbnail.ts`.
+The earlier imagegen illustration was rejected and is not the selected thumbnail.
+Thumbnail images and source metadata remain local upload assets, excluded from Git.
