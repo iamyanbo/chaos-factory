@@ -107,3 +107,10 @@ five independent rounds, plus a separately recorded Peg Fever take with a real
 Fever trigger. It retains the reviewed optional-game captures and historical real
 Twitch join inset. The original vector intro, captions, music and licensed emote
 sources are unchanged; no new third-party assets are introduced.
+
+The separate six-second Codex insert preview quotes the owner's original October 27
+doc 24 request and scrolls the actual Toy theme/ball source. The request is checked
+against the local build transcript; only the selected excerpts are rendered.
+This is an editorial layout, not a capture or recreation of the Codex app UI.
+Its GPT-6.1 Sol credit is the owner's supplied attribution. It uses the existing
+bundled Fredoka font; it introduces no new third-party graphics or audio.

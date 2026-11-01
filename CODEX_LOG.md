@@ -1425,3 +1425,11 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed 33 film, 42 gameplay and nine tutorial frames; decode, DTS, duration and audio checks pass.
 - Typecheck, all 351 tests/75 files and the dashboard browser regression pass after encoding finished.
 - Updated submission copy, credits and source handoff; no upload, broadcast or old-media deletion performed.
+
+## 2026-11-01 - Preview the document-led Codex insert
+- Extracted the original October 27 doc 24 request locally and validated the displayed excerpts verbatim.
+- Rendered a separate six-second preview: three-second request hold, then fast Toy token and ball-source scrolls.
+- Added the requested Built with Codex / GPT-6.1 Sol attribution; no tests or terminal appear in the clip.
+- Used an honest editorial layout rather than representing it as native Codex UI footage.
+- Reviewed request/code stills and the scroll contact sheet; 1080p duration and full decode checks pass.
+- Typecheck and all 351 tests/75 files pass; the v16 master is unchanged pending preview review.
