@@ -261,3 +261,19 @@ deferred by the user; no native payout, public broadcast or upload is claimed.
 - Typecheck and all 351 tests/75 files PASS (197.80s). Master/latest hashes match.
 - Refreshed the public GitHub description for !join-only standalone rounds;
   no account upload, public broadcast or old-media deletion was performed.
+
+## November 1: final Blade Brawl recording repair and MP4 cleanup
+
+- Final movie: qa/submission-video/chaos-factory-demo.mp4, 177.033s, 1080p H.264/AAC.
+- Old Blade capture encoded about 13.2 fps despite its near-60 rAF counter.
+  Fresh isolated 60-fps capture uses the identical seed, winner, champion and per-user results.
+- Replacement windows encode 53.66/56.84 fps, max gaps 40/34ms, zero gaps over 100ms.
+  Four-second moving samples in the final 30-fps export have zero near repeats;
+  matching old samples had 60.5%/63.9% near repeats. No synthetic frames or speed-up.
+- Other 20 edit segments match v17. Reviewed final Blade stills; media suite
+  covers 36 film, 42 gameplay and nine queue frames. Decode/DTS/duration PASS,
+  audio -19.10 LUFS / -4.52 dB true peak, held-queue MAE 0.082.
+- Typecheck and all 351 tests/75 files PASS (251.99s); physics/gameplay unchanged.
+- Owner-authorized cleanup removed 256 superseded/intermediate MP4s (1.61 GiB).
+  Exactly one MP4 remains; its SHA-256 and all 55 source WebMs were verified afterward.
+- Updated final-path copy and capture/rebuild tools. No public upload or broadcast performed.

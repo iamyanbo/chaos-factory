@@ -122,3 +122,11 @@ fits the existing music beat grid. All twenty later v16 segments retain their
 reviewed gameplay/source windows; a fresh continuous mix uses the same CC0 bed.
 The opening credit now reads Built with Codex / GPT-6.1 Sol. Source text is shown
 in the installed Consolas system font; no additional font file is redistributed.
+
+The final v18 Blade Brawl excerpts replace dropped-frame recordings with a fresh
+capture of the same 24-viewer streamer round and seed. The complete per-user
+results, winner and champion match the original capture. Both selected windows
+have independently checked encoded-frame timestamps; no optical-flow frames,
+speed-up or physics changes are used. Both source recordings remain saved with
+their metadata. The replacement retains its real game SFX and the same single
+continuous CC0 music bed in the final mix.

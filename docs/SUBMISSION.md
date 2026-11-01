@@ -45,7 +45,7 @@ http://127.0.0.1:4182/dashboard. The demo always uses mock mode and bundled asse
 
 ## Video status
 
-The local v17 film is 2:57.0 at 1080p, with all eight games shown as independent
+The final local film is 2:57.0 at 1080p, with all eight games shown as independent
 rounds. The dashboard tutorial explains adding games, dragging the queue and
 Start show. The simulated lobby fills with 48 actual mock joins; a separately
 labeled inset retains the real Twitch rehearsal while the channel was offline.

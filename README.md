@@ -121,7 +121,7 @@ demo running, `npx tsx tools/capture-rounds.ts --sfx-only` captures five indepen
 queued rounds. `tools/capture-live-join.ts` captures an actual arriving chat join;
 it does not send chat or start a broadcast.
 
-The current local edit is `qa/submission-video/chaos-factory-demo-v17.mp4`
+The final local edit is `qa/submission-video/chaos-factory-demo.mp4`
 (2:57.0, 1080p H.264/AAC). All eight games appear as independent rounds, with a
 separate chat-versus-streamer section. It includes the current dashboard tutorial,
 a populated simulated lobby, and the separately labeled historical real Twitch join.
@@ -129,3 +129,5 @@ The opening credits Codex / GPT-6.1 Sol; a short original doc 24 request excerpt
 leads into four actual source files scrolling together, then the dashboard tutorial.
 The approved intro, centered captions, scattered event emotes and continuous CC0
 music remain. Account uploads and final Devpost submission have not been performed.
+Blade Brawl uses a fresh, normal-speed recording of the same seed and result;
+recorded-frame checks replace reliance on the game's FPS counter.

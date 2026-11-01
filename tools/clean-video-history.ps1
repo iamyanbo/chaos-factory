@@ -1,84 +1,58 @@
 [CmdletBinding(SupportsShouldProcess = $true)]
 param([switch]$Apply)
 
-# Preview by default. Run with -Apply after reviewing the printed manifest.
+# The owner authorized removing other MP4s. Keep the verified final and all source WebMs.
 $ErrorActionPreference = 'Stop'
 $workspace = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $videoRoot = (Resolve-Path -LiteralPath (Join-Path $workspace 'qa/submission-video')).Path
-$latest = Join-Path $videoRoot 'chaos-factory-demo-v17.mp4'
-if (!(Test-Path -LiteralPath $latest -PathType Leaf)) {
-    throw 'The finished v17 video must exist before cleaning its older exports.'
-}
+$expectedRoot = [IO.Path]::GetFullPath((Join-Path $workspace 'qa/submission-video'))
+if ($videoRoot -ne $expectedRoot) { throw 'Unexpected video workspace' }
+$final = [IO.Path]::GetFullPath((Join-Path $videoRoot 'chaos-factory-demo.mp4'))
 $edit = Get-Content -LiteralPath (Join-Path $videoRoot 'edit.json') -Raw | ConvertFrom-Json
-if ($edit.edition -ne 17 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
-    throw 'Wait for the v17 export and its validated edit manifest to finish.'
+$review = Get-Content -LiteralPath (Join-Path $videoRoot 'v18-review/technical.json') -Raw | ConvertFrom-Json
+if ($edit.edition -ne 18 -or [IO.Path]::GetFullPath($edit.output) -ne $final -or
+    $edit.duration -le 0 -or $edit.duration -ge 180 -or !(Test-Path -LiteralPath $final -PathType Leaf)) {
+    throw 'The final Blade-repaired video must be complete before cleanup'
 }
-$protected = @(
-    'chaos-factory-demo-v17.mp4', 'chaos-factory-demo-v16.mp4', 'chaos-factory-demo.mp4', 'edit.json', 'edit-v16.json',
-    'codex-preview/request-source.json', 'codex-grid/codex-insert-preview.mp4', 'codex-grid/manifest.json',
-    'full-cup-sfx/full-cup.webm', 'full-cup-sfx/capture.json',
-    'join-crowd/crowd.webm', 'join-crowd/capture.json',
-    'rounds-v16/rounds.webm', 'rounds-v16/capture.json',
-    'join-crowd-v16/crowd.webm', 'join-crowd-v16/capture.json',
-    'host-setup-v16/dashboard.webm', 'host-setup-v16/capture.json',
-    'alternate-games/peg-fever/game.webm', 'alternate-games/peg-fever/capture.json',
-    'live-join/live-join.webm', 'live-join/capture.json',
-    'host-setup/dashboard.webm', 'host-setup/capture.json',
-    'host-setup-v15/dashboard.webm', 'host-setup-v15/capture.json',
-    'optional-games/pong-wars/game.webm', 'optional-games/pong-wars/capture.json',
-    'optional-games/light-cycles/game.webm', 'optional-games/light-cycles/capture.json',
-    'optional-games/ring-escape/game.webm', 'optional-games/ring-escape/capture.json'
-) | ForEach-Object { [IO.Path]::GetFullPath((Join-Path $videoRoot $_)) }
-foreach ($file in $protected) {
-    if (!(Test-Path -LiteralPath $file -PathType Leaf)) { throw "Missing protected source: $file" }
+if ($review.edition -ne 18 -or $review.decodeErrors -ne 0 -or !$review.strictVideoDts -or
+    [math]::Abs($review.duration - $edit.duration) -gt 0.034) {
+    throw 'Final media review must pass before cleanup'
 }
-
-$candidates = [Collections.Generic.List[string]]::new()
-foreach ($version in 1..15) {
-    $candidates.Add((Join-Path $videoRoot "chaos-factory-demo-v$version.mp4"))
-    $candidates.Add((Join-Path $videoRoot "chaos-factory-offline-preview-v$version.mp4"))
-    $candidates.Add((Join-Path $videoRoot "contact-sheet-v$version.png"))
-    $candidates.Add((Join-Path $videoRoot "edit-v$version.json"))
-    $candidates.Add((Join-Path $videoRoot "v$version-review"))
+if (@($edit.bladeRepair.cadence).Count -ne 2 -or
+    @($edit.bladeRepair.cadence | Where-Object { $_.framesPerSecond -lt 45 -or $_.gapsOver100Ms -gt 0 }).Count) {
+    throw 'Both replacement Blade excerpts must pass recorded-frame cadence checks'
 }
-# Regenerable edit frames/segments, superseded music-mixed Cup, redundant raw captures.
-foreach ($relative in @('edit', 'full-cup', 'host-setup-v8', 'selection-v13', 'selection-v14', 'selection-v15',
-    'full-cup-sfx/full-cup-raw.webm', 'live-join/live-join-raw.webm',
-    'join-crowd/crowd-raw.webm', 'host-setup/dashboard-raw.webm', 'host-setup-v15/dashboard-raw.webm',
-    'optional-games/pong-wars/raw.webm', 'optional-games/light-cycles/raw.webm',
-    'optional-games/ring-escape/raw.webm')) {
-    $candidates.Add((Join-Path $videoRoot $relative))
-}
-foreach ($folder in @('host-setup', 'join-crowd', 'live-join')) {
-    Get-ChildItem -LiteralPath (Join-Path $videoRoot $folder) -File |
-        Where-Object { $_.Extension -in '.webm', '.mp4' -and $_.FullName -notin $protected } |
-        ForEach-Object { $candidates.Add($_.FullName) }
-}
-
-$manifest = foreach ($candidate in ($candidates | Select-Object -Unique)) {
-    if (!(Test-Path -LiteralPath $candidate)) { continue }
-    $absolute = (Resolve-Path -LiteralPath $candidate).Path
+$links = @(Get-ChildItem -LiteralPath $videoRoot -Force -Recurse |
+    Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint })
+if ($links.Count) { throw 'Refusing cleanup through filesystem links' }
+$sourcesBefore = @(Get-ChildItem -LiteralPath $videoRoot -File -Recurse -Filter '*.webm' |
+    Select-Object -ExpandProperty FullName)
+$candidates = @(Get-ChildItem -LiteralPath $videoRoot -File -Recurse -Filter '*.mp4' |
+    Where-Object { $_.FullName -ne $final })
+$manifest = foreach ($item in $candidates) {
+    $absolute = (Resolve-Path -LiteralPath $item.FullName).Path
     if (!$absolute.StartsWith($videoRoot + [IO.Path]::DirectorySeparatorChar,
-        [StringComparison]::OrdinalIgnoreCase)) { throw "Outside video workspace: $absolute" }
-    foreach ($source in $protected) {
-        if ($source -eq $absolute -or $source.StartsWith($absolute + [IO.Path]::DirectorySeparatorChar,
-            [StringComparison]::OrdinalIgnoreCase)) { throw "Protected source: $absolute" }
-    }
-    $item = Get-Item -LiteralPath $absolute
-    $items = if ($item.PSIsContainer) { @(Get-ChildItem -LiteralPath $absolute -File -Recurse) } else { @($item) }
-    $links = @(Get-ChildItem -LiteralPath $absolute -Force -Recurse |
-        Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint })
-    if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -or $links.Count) {
-        throw "Refusing recursive cleanup through links: $absolute"
-    }
-    [pscustomobject]@{ Path = $absolute; Bytes = ($items | Measure-Object Length -Sum).Sum }
+        [StringComparison]::OrdinalIgnoreCase) -or $absolute -eq $final -or
+        [IO.Path]::GetExtension($absolute) -ne '.mp4') { throw "Unsafe cleanup target: $absolute" }
+    [pscustomobject]@{ Path = $absolute; Bytes = $item.Length }
 }
-$manifest | Format-Table @{Name='MiB';Expression={[math]::Round($_.Bytes / 1MB, 1)}}, Path -AutoSize
+$finalHash = (Get-FileHash -LiteralPath $final -Algorithm SHA256).Hash
 $bytes = ($manifest | Measure-Object Bytes -Sum).Sum
-Write-Host ('Total: {0:N2} GiB; originals, v16/v17 masters and current reviews are retained.' -f ($bytes / 1GB))
-if (!$Apply) { Write-Host 'Preview only. Add -Apply to remove exactly these paths.'; return }
+$report = [pscustomobject]@{ Final = $final; FinalSha256 = $finalHash;
+    Files = @($manifest); Count = $candidates.Count; Bytes = $bytes; Applied = $false }
+$report | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $videoRoot 'mp4-cleanup.json') -Encoding UTF8
+Write-Host ('{0} older/intermediate MP4s, {1:N2} GiB. Final and {2} source WebMs retained.' -f
+    $candidates.Count, ($bytes / 1GB), $sourcesBefore.Count)
+if (!$Apply) { Write-Host 'Preview only. Run with -Apply to remove these MP4 files.'; return }
 foreach ($entry in $manifest) {
-    if ($PSCmdlet.ShouldProcess($entry.Path, 'Remove obsolete video or regenerable edit files')) {
-        Remove-Item -LiteralPath $entry.Path -Recurse -Force
+    if ($PSCmdlet.ShouldProcess($entry.Path, 'Remove superseded MP4')) {
+        Remove-Item -LiteralPath $entry.Path -Force
     }
 }
+if ((Get-FileHash -LiteralPath $final -Algorithm SHA256).Hash -ne $finalHash) { throw 'Final file changed' }
+foreach ($source in $sourcesBefore) {
+    if (!(Test-Path -LiteralPath $source -PathType Leaf)) { throw "Source WebM missing: $source" }
+}
+$report.Applied = $true
+$report | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $videoRoot 'mp4-cleanup.json') -Encoding UTF8
+Write-Host 'MP4 cleanup complete. The final movie and all source WebMs are intact.'

@@ -5,7 +5,7 @@
 - **Validation runtime:** earlier October 31 full runs completed the existing
   200-course camera audit but exceeded its 240 s time limit. The v13 full run
   during encoding passed 374 tests with that one timeout. Its unchanged three-test
-  file passed after rendering in 137.28 s. The current v17 full run passes all
+  file passed after rendering in 137.28 s. The current v18 full run passes all
   351 tests across 75 files, including that audit, after encoding finished. An
   earlier concurrent run took 268.535 s for the audit and exceeded its limit.
   Physics assertions and timeout values are unchanged; machine load affects the audit.
@@ -18,10 +18,13 @@
   edits during/after the long audit also prevent its source-hash acceptance;
   no balance PASS is claimed. See qa/blade-boss-balance.md and JSON provenance.
   Do not add an undisclosed population curve or select takes by who wins.
-- **Current video:** v17 keeps independent rounds, all eight games and chat versus
+- **Current video:** v18 keeps independent rounds, all eight games and chat versus
   streamer, adding the original doc 24 request and four-file code scroll with the
   requested GPT-6.1 Sol credit. The local 2:57.0 MP4 is ready for owner
-  review and upload. It labels simulated audiences and the historical real join.
+  review and upload at qa/submission-video/chaos-factory-demo.mp4. Blade Brawl
+  was recaptured with the same seed and identical result after recorded-frame
+  checks found stutters missed by the game's FPS counter. Simulated audiences
+  and the historical real join remain labeled.
 - **Twitch rehearsal:** the real EventSub !join admitted iamyanbo to Peg Fever
   on October 29. The October 31 design requests chat-read permission only and
   removes Predictions entirely. No native payout rehearsal remains.

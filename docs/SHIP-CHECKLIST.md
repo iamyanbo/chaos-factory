@@ -46,7 +46,7 @@ not submitted. [Official rules](https://twitchcon-codex.devpost.com/rules),
    does not populate or submit that form. Add the video when ready, then click
    Submit and confirm the project is listed as Submitted before the deadline.
 
-The current local edit is `qa/submission-video/chaos-factory-demo-v17.mp4` (2:57.0,
+The final local edit is `qa/submission-video/chaos-factory-demo.mp4` (2:57.0,
 1080p H.264/AAC). It shows independent rounds, all eight games and chat versus streamer. `youtube.txt`, `devpost-copy.md` and `FINISH.md` in that folder
 contain the upload title/description, form copy and remaining account actions.
 The opening credits Codex / GPT-6.1 Sol and includes the original doc 24 request

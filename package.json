@@ -19,7 +19,7 @@
     "audit:ship": "tsx tools/ship-audit.ts",
     "submission": "tsx tools/submission.ts",
     "submission:check": "tsx tools/submission.ts --check",
-    "video": "tsx tools/video-cards.ts && tsx tools/submission-video.ts && tsx tools/video-codex-preview.ts && tsx tools/video-build-final.ts && tsx tools/submission-copy.ts",
+    "video": "tsx tools/video-cards.ts && tsx tools/submission-video.ts && tsx tools/video-codex-preview.ts && tsx tools/video-build-final.ts && tsx tools/video-blade-repair.ts && tsx tools/submission-copy.ts",
     "play": "npm run dev -w @chaos/show -- --open /play",
     "start": "tsx apps/server/src/index.ts",
     "build": "npm run typecheck && vite build --config apps/show/vite.config.ts",

@@ -9,17 +9,25 @@ const base = process.env.CHAOS_TEST_URL ?? 'http://127.0.0.1:4180';
 const available = ['pong-wars', 'light-cycles', 'ring-escape'];
 const flag = process.argv.indexOf('--game');
 const games = flag < 0 ? available : [process.argv[flag + 1]];
-if (games.some(game => ![...available, 'peg-fever'].includes(game))) throw new Error('Choose a supported capture game.');
+if (games.some(game => ![...available, 'peg-fever', 'blade-brawl'].includes(game))) throw new Error('Choose a supported capture game.');
 const outputFlag = process.argv.indexOf('--out');
 if (outputFlag >= 0 && games.length !== 1) throw new Error('Choose one --game with a custom output directory.');
 const seedFlag = process.argv.indexOf('--seed');
 const seed = seedFlag < 0 ? 1 : Number(process.argv[seedFlag + 1]);
 if (!Number.isSafeInteger(seed) || seed < 0 || seed > 0xffffffff) throw new Error('Use an unsigned seed.');
+const formatFlag = process.argv.indexOf('--format');
+const format = formatFlag < 0 ? '' : process.argv[formatFlag + 1];
+if (format && !['boss', 'ffa', 'faction'].includes(format)) throw new Error('Unsupported capture format');
+const fpsFlag = process.argv.indexOf('--fps');
+const fps = fpsFlag < 0 ? 30 : Number(process.argv[fpsFlag + 1]);
+if (![30, 60].includes(fps)) throw new Error('Capture at 30 or 60 fps');
 const health = await (await fetch(`${base}/api/health`)).json();
 if (health.mode !== 'mock') throw new Error('Optional-game capture requires an isolated mock server.');
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH
   ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  args: ['--autoplay-policy=no-user-gesture-required'] });
+  args: ['--autoplay-policy=no-user-gesture-required', '--disable-background-timer-throttling',
+    '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows',
+    '--disable-features=CalculateNativeWinOcclusion'] });
 try {
   for (const game of games) {
     const directory = outputFlag < 0 ? resolve('qa/submission-video/optional-games', game)
@@ -31,16 +39,16 @@ try {
     const errors: string[] = [];
     page.on('pageerror', error => errors.push(error.message));
     try {
-      await page.goto(`${base}/play?game=${game}&seed=${seed}&bots=24&teams=4&record=1&paused=1${process.argv.includes('--exact') ? '&take=seed' : ''}`);
+      await page.goto(`${base}/play?game=${game}&seed=${seed}&bots=24&teams=4&record=1&paused=1${format ? `&format=${format}` : ''}${process.argv.includes('--exact') ? '&take=seed' : ''}`);
       await page.waitForFunction(() => window.__chaos?.phase === 'PLAY' && window.__chaos.paused,
         undefined, { timeout: 60000 });
       await page.mouse.click(960, 540);
       await page.evaluate(() => window.__chaos.command('music', false));
       await page.waitForFunction(() => !window.__chaos.audio.musicEnabled && !window.__chaos.audio.playing);
       const download = page.waitForEvent('download', { timeout: 240000 });
-      const capture = await page.evaluate(async () => {
+      const capture = await page.evaluate(async (fps) => {
         const api = window.__chaos;
-        const stream = await api.captureStream(30);
+        const stream = await api.captureStream(fps);
         const recorder = new MediaRecorder(stream, {
           mimeType: 'video/webm;codecs=vp8,opus', videoBitsPerSecond: 8_000_000
         });
@@ -76,10 +84,10 @@ try {
         anchor.click();
         stream.getVideoTracks().forEach(track => track.stop());
         const current = window.__chaos;
-        return { mode: 'mock', audioMode: 'sfx-only', normalSpeed: true, resultAt,
+        return { mode: 'mock', audioMode: 'sfx-only', normalSpeed: true, requestedFps: fps, resultAt,
           selectedSeed: current.seed, bestTake: current.bestTake, samples,
           result: current.result as RoundResult | undefined, wallSeconds: (performance.now() - started) / 1000 };
-      });
+      }, fps);
       await (await download).saveAs(resolve(directory, 'raw.webm'));
       const media = finalizeRecording(resolve(directory, 'raw.webm'), resolve(directory, 'game.webm'));
       assertEffectsOnly(capture);

@@ -1442,3 +1442,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Reviewed 36 film, 42 gameplay and nine queue frames; decode, DTS, duration and audio checks pass.
 - Typecheck and all 351 tests/75 files pass. Updated copy, credits, render pipeline and protected cleanup manifest.
 - Refreshed GitHub description and source handoff; no upload, broadcast or old-media deletion performed.
+
+## 2026-11-01 - Repair Blade Brawl footage and clean old MP4s
+- Diagnosed encoded-frame drops missed by the render FPS counter; old selected Blade footage averaged about 13 fps.
+- Recaptured the same streamer round/seed with identical complete results, at 53.66/56.84 encoded fps in selected windows.
+- Replaced both excerpts; final moving-frame samples have zero near repeats. No synthetic frames, physics changes or speed-up.
+- Kept the 177.033s edit, source timing, continuous music and other 20 segments; final-path copy now uses chaos-factory-demo.mp4.
+- Media decode/DTS/audio and frame reviews pass; typecheck and all 351 tests/75 files pass.
+- Deleted 256 owner-authorized older/intermediate MP4s, freeing 1.61 GiB; final hash and all 55 source WebMs verified intact.
+- Updated capture cadence checks, rebuild/cleanup tools and source handoff; no account upload or broadcast performed.
