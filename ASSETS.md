@@ -93,9 +93,10 @@ renderers receive only public image bytes. See `tools/fetch-video-emotes.ts`.
 
 ### Video thumbnail
 
-The selected thumbnail is `qa/submission-video/chaos-factory-thumbnail-final.png`:
-a full in-game frame from the Blade Brawl recording at 66.6 seconds, resized to
-1280x720, with the requested CHAOS FACTORY caption in bundled Lilita One. Its HUD,
-RAGE callout and arena objects are native game rendering. The plain source frame
-is preserved as `chaos-factory-gameplay-screenshot.png`. Earlier illustrated and
-multi-image drafts are not selected. Thumbnail files remain local upload assets.
+The selected thumbnail is `qa/submission-video/chaos-factory-thumbnail-action.png`:
+a close-up from the Blade Brawl recording at 82.2 seconds, with CHAOS FACTORY and
+YOU vs CHAT captions in bundled Lilita One. The RAGE callout, weapons and marbles
+are one continuous gameplay crop; no game objects are generated or rearranged.
+The source frame and crop/hash metadata remain local beside the thumbnail.
+`tools/create-thumbnail.ts` reproduces the 1280x720 composition. Earlier
+illustrated, collage and full-HUD drafts are not selected. These are local upload assets.

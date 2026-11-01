@@ -1485,3 +1485,9 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Exported the complete frame at 1280x720; only resizing is applied, with no added text, layout or illustration.
 - Saved chaos-factory-gameplay-screenshot.png (571,437 bytes) and source/hash metadata locally; updated the selected asset credit.
 - Typecheck and all 347 tests/73 files pass. Runtime and final video remain unchanged; no upload performed.
+
+## 2026-11-01 - Action-focused thumbnail
+- Replaced the full-HUD thumbnail with a single Blade Brawl close-up from 82.2s, keeping the native Rage callout and weapons.
+- Added larger CHAOS FACTORY branding and YOU vs CHAT using local Lilita One; checked the composition at 1280x720 and 320x180.
+- Updated the existing thumbnail renderer and asset provenance; preserved the raw frame, crop/hash metadata and earlier drafts locally.
+- Typecheck and all 347 tests/73 files pass. Final video hash remains unchanged.
