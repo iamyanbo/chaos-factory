@@ -4,14 +4,17 @@ import { execFileSync } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { command, probe } from './drama/capture-media';
+import { TITLE_CREDIT } from './video-titles';
+import { durationToBeat, INTRO_SECONDS } from './video-rhythm';
 
 // Editorial excerpts of genuine inputs/source, not a replica of the Codex app.
-const OUTPUT = resolve('qa/submission-video/codex-preview');
+const OUTPUT = resolve('qa/submission-video/codex-grid');
 const FPS = 30;
-const SECONDS = 6;
-const CREDIT = 'Built with Codex · GPT-6.1 Sol';
-const FILES = ['apps/show/src/kit/theme/toy.ts', 'apps/show/src/kit/theme/balls.ts'];
-const request = JSON.parse(await readFile(resolve(OUTPUT, 'request-source.json'), 'utf8')) as {
+const SECONDS = durationToBeat(INTRO_SECONDS, 6);
+const CREDIT = TITLE_CREDIT;
+const FILES = ['toy.ts', 'balls.ts', 'ball-textures.ts', 'surfaces.ts']
+  .map(file => `apps/show/src/kit/theme/${file}`);
+const request = JSON.parse(await readFile(resolve('qa/submission-video/codex-preview/request-source.json'), 'utf8')) as {
   at: string; text: string; sha256: string;
 };
 if (createHash('sha256').update(request.text).digest('hex') !== request.sha256) {
@@ -64,15 +67,20 @@ try {
     .text{flex:1}.comment{color:#7b8190}.keyword{color:#7b42b4}.string{color:#21664b}.number{color:#b65a24}
     .credit{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);padding:16px 36px;
       border:4px solid #1b1b3a;background:white;border-radius:22px;font:34px Fredoka;white-space:nowrap;
-      box-shadow:7px 8px #1b1b3a33}.progress{position:absolute;left:0;bottom:0;height:7px;background:#ff4f7b}
+      box-shadow:7px 8px #1b1b3a33}.progress{position:absolute;left:0;bottom:0;height:5px;background:#ff4f7b}
+    .grid{position:absolute;inset:140px 110px 176px;display:none;grid-template-columns:1fr 1fr;
+      grid-template-rows:1fr 1fr;gap:20px}.grid .panel{position:relative;inset:auto;min-width:0;border-radius:20px}
+    .grid .filebar{height:48px;padding:0 20px;font-size:23px}.grid .filebar span{font-size:18px}
+    .grid .viewport{height:314px}.grid .code{font-size:17px;line-height:25px;padding-top:14px}
+    .grid .line{min-height:25px}.grid .ln{flex-basis:48px;padding-right:13px}
   </style><div class="label" id="label">ORIGINAL BUILD REQUEST</div>
   <section class="panel request" id="request"><p class="lead">${escape(excerpts[0])}</p>
     <p class="step">${escape(excerpts[1])}…</p><p class="step">${escape(excerpts[2])}…</p></section>
-  ${sources.map((source, index) => `<section class="panel source" id="source${index}" style="display:none">
-    <div class="filebar"><b>${escape(source.file)}</b><span>TypeScript</span></div>
+  <div class="grid" id="grid">${sources.map((source, index) => `<section class="panel source" id="source${index}">
+    <div class="filebar"><b>kit/theme/${escape(source.file.split('/').at(-1)!)}</b><span>TypeScript</span></div>
     <div class="viewport"><div class="code" id="code${index}">${source.content.split(/\r?\n/).map((line, number) =>
       `<div class="line"><span class="ln">${number + 1}</span><span class="text">${highlight(line)}</span></div>`).join('')}</div></div>
-    <div class="progress" id="progress${index}"></div></section>`).join('')}
+    <div class="progress" id="progress${index}"></div></section>`).join('')}</div>
   <div class="credit">${CREDIT}</div>`);
   await page.evaluate(async () => { await document.fonts.ready; });
   for (let frame = 0; frame < FPS * SECONDS; frame++) {
@@ -82,18 +90,17 @@ try {
       const requestVisible = time < codeAt;
       document.getElementById('request')!.style.display = requestVisible ? 'flex' : 'none';
       document.getElementById('label')!.textContent = requestVisible ? 'ORIGINAL BUILD REQUEST' : 'IMPLEMENTATION';
-      const index = time < 4.5 ? 0 : 1;
-      for (let file = 0; file < 2; file++) {
-        document.getElementById(`source${file}`)!.style.display = !requestVisible && index === file ? 'block' : 'none';
-      }
+      document.getElementById('grid')!.style.display = requestVisible ? 'none' : 'grid';
       if (requestVisible) return;
-      const age = time - (index === 0 ? 3 : 4.5);
-      const progress = Math.max(0, Math.min(1, (age - .17) / 1.17));
-      const ease = progress * progress * (3 - 2 * progress);
-      const code = document.getElementById(`code${index}`)!;
-      const total = Math.min(code.scrollHeight - 660, index === 0 ? 48 * 43 : 76 * 43);
-      code.style.transform = `translateY(${-total * ease}px)`;
-      document.getElementById(`progress${index}`)!.style.width = `${progress * 100}%`;
+      for (let index = 0; index < 4; index++) {
+        const age = time - codeAt;
+        const progress = Math.max(0, Math.min(1, (age - .16 - index * .035) / 2.7));
+        const ease = progress * progress * (3 - 2 * progress);
+        const code = document.getElementById(`code${index}`)!;
+        const total = Math.min(code.scrollHeight - 310, [72, 134, 92, 100][index] * 25);
+        code.style.transform = `translateY(${-total * ease}px)`;
+        document.getElementById(`progress${index}`)!.style.width = `${progress * 100}%`;
+      }
     }, { time });
     await page.screenshot({ path: resolve(frames, `${String(frame).padStart(4, '0')}.png`) });
   }
@@ -110,9 +117,9 @@ const manifest = {
   request: { at: request.at, sha256: request.sha256, excerpts },
   files: sources.map(source => ({ file: source.file,
     sha256: createHash('sha256').update(source.content).digest('hex') })),
-  credit: CREDIT, modelCreditSource: 'User supplied model attribution', seconds: SECONDS,
+  credit: CREDIT, modelCreditSource: 'User supplied model attribution', seconds: SECONDS, simultaneousFiles: 4,
   presentation: 'Editorial layout of verbatim build-thread excerpts and real source; no native app UI is represented.',
   media: probe(insert),
 };
 await writeFile(resolve(OUTPUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-console.log(`Six-second preview: ${insert}`);
+console.log(`Four-file build insert: ${insert}`);

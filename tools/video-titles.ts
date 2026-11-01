@@ -1,4 +1,4 @@
-export const TITLE_CREDIT = 'Implemented with Codex';
+export const TITLE_CREDIT = 'Built with Codex · GPT-6.1 Sol';
 export const TITLE_SCREEN_SECONDS = 3.5;
 
 /** A steady two-second reading hold before the title moves to its rule card. */

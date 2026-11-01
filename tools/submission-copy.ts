@@ -25,7 +25,7 @@ Games: Hot Potato, Blade Brawl, Multiplier Cascade, Peg Fever, Marble Race,
 Pong Wars, Light Cycles and Ring Run+. Each game's own objective score still
 counts for that game, including Peg Fever multiplied landings and Pong territory.
 
-Codex implemented the entire project. I directed design and reviewed builds.
+Codex (GPT-6.1 Sol) implemented the entire project. I directed design and reviewed builds.
 The video labels simulated audiences separately from the real Twitch join.
 The recorded real join happened while the channel was offline; no public
 broadcast is claimed. Twitch authorization reads chat only.

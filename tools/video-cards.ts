@@ -55,6 +55,7 @@ try {
     });
     await writeFile(resolve(directory, 'wipe.png'), Buffer.from(wipe, 'base64'));
     for (const [id, seconds] of [['title', TITLE_SCREEN_SECONDS], ['outro', 2.5]] as const) {
+      if (process.argv.includes('--title-only') && id !== 'title') continue;
       const frames = await page.evaluate(async ({ id, seconds, credit }) => {
         await document.fonts.load('190px Lilita');
         await document.fonts.load('38px Fredoka');
@@ -175,6 +176,10 @@ try {
         resolve(directory, `${id}-motion.webm`)]);
       console.log(`${id}: ${frames.length} deterministic frames / ${seconds}s`);
     }
+  }
+  if (process.argv.includes('--title-only')) {
+    await browser.close();
+    process.exit(0);
   }
   await page.setContent(css);
   const rounds = JSON.parse(await readFile('qa/submission-video/rounds-v16/capture.json', 'utf8')) as RoundVideo;

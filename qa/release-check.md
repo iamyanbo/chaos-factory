@@ -247,3 +247,17 @@ deferred by the user; no native payout, public broadcast or upload is claimed.
   upload or old-video deletion was performed.
 - Typecheck and all 351 tests across 75 files PASS after encoding finished;
   the unchanged 200-course camera audit passes. The dashboard browser check also passes.
+
+## November 1: v17 approved document-led Codex insert
+
+- Final MP4: qa/submission-video/chaos-factory-demo-v17.mp4, 177.033s at 1080p.
+- Original doc 24 request excerpt, then four real theme/renderer source files
+  scrolling together. Opening credit: Built with Codex / GPT-6.1 Sol.
+- Editorial layout, not native Codex UI footage. No tests or terminal appear.
+- All 20 later segments retain v16 source windows, event cues and camera settings;
+  the 6.233s insert preserves the music grid. One continuous CC0 bed is remixed.
+- Reviewed 36 film, 42 gameplay and nine queue frames. Final decode/DTS/duration
+  checks PASS, held-queue MAE 0.082, audio -19.11 LUFS / -4.52 dB true peak.
+- Typecheck and all 351 tests/75 files PASS (197.80s). Master/latest hashes match.
+- Refreshed the public GitHub description for !join-only standalone rounds;
+  no account upload, public broadcast or old-media deletion was performed.

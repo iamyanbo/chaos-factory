@@ -1433,3 +1433,12 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Used an honest editorial layout rather than representing it as native Codex UI footage.
 - Reviewed request/code stills and the scroll contact sheet; 1080p duration and full decode checks pass.
 - Typecheck and all 351 tests/75 files pass; the v16 master is unchanged pending preview review.
+
+## 2026-11-01 - Add the approved four-file build insert
+- Expanded the code view to a simultaneous 2x2 grid of Toy tokens, balls, ball textures and surfaces.
+- Added the original doc 24 request and grid after the intro; opening credits Codex / GPT-6.1 Sol.
+- Exported v17 at 177.033s, retaining every later v16 source window, cue and camera setting.
+- Kept one continuous CC0 bed and beat-aligned the 6.233s insert; no tests/terminal enter the video.
+- Reviewed 36 film, 42 gameplay and nine queue frames; decode, DTS, duration and audio checks pass.
+- Typecheck and all 351 tests/75 files pass. Updated copy, credits, render pipeline and protected cleanup manifest.
+- Refreshed GitHub description and source handoff; no upload, broadcast or old-media deletion performed.

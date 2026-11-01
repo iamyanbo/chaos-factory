@@ -29,7 +29,7 @@ without a Twitch account or real audience. A real EventSub !join from iamyanbo
 was captured on October 29 while the channel was offline; no public broadcast
 or large real crowd is claimed.
 
-Codex implemented the entire project: engine, games, art, audio, connector,
+Codex (GPT-6.1 Sol) implemented the entire project: engine, games, art, audio, connector,
 dashboard, tests and recording/editing tools. I directed the design, played and
 reviewed builds, and gave feedback. Repeated review removed rejected prototypes,
 replaced neon with the Toy theme, improved physical multipliers and race tracking,
@@ -45,7 +45,7 @@ http://127.0.0.1:4182/dashboard. The demo always uses mock mode and bundled asse
 
 ## Video status
 
-The local v16 film is 2:50.8 at 1080p, with all eight games shown as independent
+The local v17 film is 2:57.0 at 1080p, with all eight games shown as independent
 rounds. The dashboard tutorial explains adding games, dragging the queue and
 Start show. The simulated lobby fills with 48 actual mock joins; a separately
 labeled inset retains the real Twitch rehearsal while the channel was offline.
@@ -60,7 +60,10 @@ shows rage activation and a final duel, ending on that round's winning side.
 The approved animated intro, two-second game-title holds, centered event captions,
 context-aware Twitch stickers and one continuous CC0 music bed are retained.
 Gameplay stays at its captured speed, including the game's own live slow motion.
-The opening says Implemented with Codex; the closing card links the repository.
+The opening says Built with Codex / GPT-6.1 Sol. The owner's original doc 24
+request leads into four actual source files scrolling together. This brief
+editorial excerpt precedes the dashboard; it does not imitate native Codex UI.
+The closing card links the repository.
 No public broadcast, channel-point wagering or account progression is claimed.
 
 Repository: https://github.com/iamyanbo/chaos-factory

@@ -92,9 +92,10 @@ The current edit uses independent, unboxed Twitch reactions: PogChamp (305954156
 LUL (425618), NotLikeThis (58765) and SeemsGood (64138), fetched from
 the same official global-emote API/CDN. Images remain attributed to Twitch/their
 respective rights holders and cached outside the source/runtime package. The
-standalone build excerpt and earlier feedback/fix conversation are removed from
-the current cut. The original opening credit and closing repository link remain.
-These are original editorial layouts; no raw session or native Codex footage is exported.
+earlier feedback/fix conversation and standalone build card remain removed.
+The original opening and closing repository link remain. The v17 insert below
+uses selected request text and source code in an original editorial layout;
+no full session transcript or native Codex UI footage is exported.
 
 The optional-game previews for Pong Wars, Light Cycles and Ring Run+ are crops
 of our own current Toy gameplay captures, exported at 640x640. The optional-game
@@ -114,3 +115,10 @@ against the local build transcript; only the selected excerpts are rendered.
 This is an editorial layout, not a capture or recreation of the Codex app UI.
 Its GPT-6.1 Sol credit is the owner's supplied attribution. It uses the existing
 bundled Fredoka font; it introduces no new third-party graphics or audio.
+
+The approved v17 insert extends the code view to four simultaneous real source
+files: toy.ts, balls.ts, ball-textures.ts and surfaces.ts. The 6.233-second insert
+fits the existing music beat grid. All twenty later v16 segments retain their
+reviewed gameplay/source windows; a fresh continuous mix uses the same CC0 bed.
+The opening credit now reads Built with Codex / GPT-6.1 Sol. Source text is shown
+in the installed Consolas system font; no additional font file is redistributed.

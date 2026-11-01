@@ -5,16 +5,17 @@ param([switch]$Apply)
 $ErrorActionPreference = 'Stop'
 $workspace = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $videoRoot = (Resolve-Path -LiteralPath (Join-Path $workspace 'qa/submission-video')).Path
-$latest = Join-Path $videoRoot 'chaos-factory-demo-v16.mp4'
+$latest = Join-Path $videoRoot 'chaos-factory-demo-v17.mp4'
 if (!(Test-Path -LiteralPath $latest -PathType Leaf)) {
-    throw 'The finished v16 video must exist before cleaning its older exports.'
+    throw 'The finished v17 video must exist before cleaning its older exports.'
 }
 $edit = Get-Content -LiteralPath (Join-Path $videoRoot 'edit.json') -Raw | ConvertFrom-Json
-if ($edit.edition -ne 16 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
-    throw 'Wait for the v16 export and its validated edit manifest to finish.'
+if ($edit.edition -ne 17 -or $edit.duration -le 0 -or $edit.duration -ge 180) {
+    throw 'Wait for the v17 export and its validated edit manifest to finish.'
 }
 $protected = @(
-    'chaos-factory-demo-v16.mp4', 'chaos-factory-demo.mp4', 'edit.json',
+    'chaos-factory-demo-v17.mp4', 'chaos-factory-demo-v16.mp4', 'chaos-factory-demo.mp4', 'edit.json', 'edit-v16.json',
+    'codex-preview/request-source.json', 'codex-grid/codex-insert-preview.mp4', 'codex-grid/manifest.json',
     'full-cup-sfx/full-cup.webm', 'full-cup-sfx/capture.json',
     'join-crowd/crowd.webm', 'join-crowd/capture.json',
     'rounds-v16/rounds.webm', 'rounds-v16/capture.json',
@@ -74,7 +75,7 @@ $manifest = foreach ($candidate in ($candidates | Select-Object -Unique)) {
 }
 $manifest | Format-Table @{Name='MiB';Expression={[math]::Round($_.Bytes / 1MB, 1)}}, Path -AutoSize
 $bytes = ($manifest | Measure-Object Bytes -Sum).Sum
-Write-Host ('Total: {0:N2} GiB; originals, v16 final and v16 review are retained.' -f ($bytes / 1GB))
+Write-Host ('Total: {0:N2} GiB; originals, v16/v17 masters and current reviews are retained.' -f ($bytes / 1GB))
 if (!$Apply) { Write-Host 'Preview only. Add -Apply to remove exactly these paths.'; return }
 foreach ($entry in $manifest) {
     if ($PSCmdlet.ShouldProcess($entry.Path, 'Remove obsolete video or regenerable edit files')) {
