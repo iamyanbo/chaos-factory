@@ -1460,3 +1460,10 @@ Boss actual600-run gate passes50/48/50%; Pong900-run fairness passes. All5normal
 - Cleared 11,440 cache files (1.67 GiB); final video hash, 110 source WebMs, credentials and active logs preserved.
 - Dependency/link/secret-path audits pass; build/typecheck, all 347 tests/73 files and the dashboard smoke test pass.
 - Committed the reviewed cleanup for GitHub and refreshed the source handoff; no account upload or broadcast performed.
+
+## 2026-11-01 - Create the video thumbnail
+- Generated original Toy-themed promotional artwork with built-in imagegen, referenced to actual Blade Brawl and the supplied Toy design.
+- Used large Chaos Factory lettering, matte marbles, a streamer-versus-chat clash and a single !JOIN bubble.
+- Saved the 1672x941 RGB PNG (1,852,431 bytes), exact prompt and hash metadata under qa/submission-video/.
+- Reviewed text, composition and palette; credited the illustration separately from actual gameplay captures.
+- Typecheck and all 347 tests/73 files pass. No runtime or final-video changes; no upload performed.

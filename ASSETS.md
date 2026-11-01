@@ -90,3 +90,11 @@ viewer reactions. No emote integration is added to the game.
 The cached PNGs and source/hash manifest stay local in
 `qa/submission-video/twitch-emotes/`. Fetching uses server-side authorization;
 renderers receive only public image bytes. See `tools/fetch-video-emotes.ts`.
+
+### Video thumbnail
+
+`qa/submission-video/chaos-factory-thumbnail.png` is original promotional artwork
+generated with the built-in imagegen tool, using our actual Blade Brawl frame
+and supplied Toy reference for style. It is an illustration, not a gameplay
+screenshot. It adds no third-party logo, portrait or emote. The exact prompt is
+saved beside it as `thumbnail-prompt.txt`; both files remain local upload assets.
